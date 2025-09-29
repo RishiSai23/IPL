@@ -1,0 +1,146 @@
+/* file: src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* IPL Cricket Analytics Design System - All colors MUST be HSL */
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 5%;
+
+    /* IPL Brand Colors */
+    --ipl-orange: 25 95% 53%;
+    --ipl-orange-light: 25 95% 65%;
+    --ipl-orange-dark: 25 95% 45%;
+    
+    --cricket-green: 120 40% 35%;
+    --cricket-green-light: 120 40% 50%;
+    --cricket-green-dark: 120 40% 25%;
+    
+    --royal-blue: 240 100% 50%;
+    --royal-blue-light: 240 100% 65%;
+    --royal-blue-dark: 240 100% 35%;
+
+    /* Analytics Colors */
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --danger: 0 84% 60%;
+    --info: 201 96% 32%;
+
+    /* Semantic tokens */
+    --primary: var(--ipl-orange);
+    --primary-foreground: 0 0% 98%;
+    --primary-light: var(--ipl-orange-light);
+    --primary-dark: var(--ipl-orange-dark);
+
+    --secondary: var(--cricket-green);
+    --secondary-foreground: 0 0% 98%;
+    --secondary-light: var(--cricket-green-light);
+    --secondary-dark: var(--cricket-green-dark);
+
+    --accent: var(--royal-blue);
+    --accent-foreground: 0 0% 98%;
+    --accent-light: var(--royal-blue-light);
+    --accent-dark: var(--royal-blue-dark);
+
+    /* Card and surface colors */
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 5%;
+    --card-hover: 210 40% 98%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 5%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --destructive: var(--danger);
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: var(--primary);
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-stats: linear-gradient(90deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px -2px hsl(var(--primary) / 0.1);
+    --shadow-hero: 0 20px 60px -10px hsl(var(--primary) / 0.3);
+    --shadow-stat: 0 8px 32px -8px hsl(var(--accent) / 0.2);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    --background: 222 84% 5%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 84% 5%;
+    --card-foreground: 210 40% 98%;
+    --card-hover: 217 33% 17%;
+
+    --popover: 222 84% 5%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: var(--ipl-orange-light);
+    --primary-foreground: 222 47% 11%;
+
+    --secondary: var(--cricket-green-light);
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: var(--royal-blue-light);
+    --accent-foreground: 0 0% 98%;
+
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: var(--primary);
+
+    --gradient-card: linear-gradient(145deg, hsl(222 84% 5%), hsl(217 33% 17%));
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Extra utilities used in components */
+@layer utilities {
+  .transition-smooth { transition: var(--transition-smooth); }
+  .transition-bounce { transition: var(--transition-bounce); }
+
+  .bg-gradient-primary\/10 {
+    background-image: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary-light) / 0.1));
+  }
+  .bg-gradient-secondary\/10 {
+    background-image: linear-gradient(135deg, hsl(var(--secondary) / 0.1), hsl(var(--secondary-light) / 0.1));
+  }
+  .bg-gradient-accent\/10 {
+    background-image: linear-gradient(135deg, hsl(var(--accent) / 0.1), hsl(var(--accent-light) / 0.1));
+  }
+}
