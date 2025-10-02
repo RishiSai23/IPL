@@ -50,13 +50,9 @@ const Navigation = () => {
               return (
                 <Link key={item.path} to={item.path}>
                   <Button
-                    variant={isActive ? "default" : "ghost"}
+                    variant={isActive ? "gradient" : "ghost"}
                     size="sm"
-                    className={`flex items-center space-x-2 transition-smooth ${
-                      isActive
-                        ? "bg-gradient-primary text-primary-foreground shadow-stat"
-                        : "hover:bg-card-hover"
-                    }`}
+                    className="flex items-center space-x-2 transition-smooth"
                   >
                     <Icon className="w-4 h-4" />
                     <span>{item.label}</span>
@@ -97,13 +93,9 @@ const Navigation = () => {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Button
-                      variant={isActive ? "default" : "ghost"}
+                      variant={isActive ? "gradient" : "ghost"}
                       size="sm"
-                      className={`w-full justify-start space-x-3 transition-smooth ${
-                        isActive
-                          ? "bg-gradient-primary text-primary-foreground"
-                          : "hover:bg-card-hover"
-                      }`}
+                      className="w-full justify-start space-x-3 transition-smooth"
                     >
                       <Icon className="w-4 h-4" />
                       <span>{item.label}</span>

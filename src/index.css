@@ -1,4 +1,3 @@
-/* file: src/index.css */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -33,7 +32,7 @@
 
     /* Semantic tokens */
     --primary: var(--ipl-orange);
-    --primary-foreground: 0 0% 98%;
+    --primary-foreground: 0 0% 98%; /* white text */
     --primary-light: var(--ipl-orange-light);
     --primary-dark: var(--ipl-orange-dark);
 
@@ -96,8 +95,9 @@
     --popover: 222 84% 5%;
     --popover-foreground: 210 40% 98%;
 
+    /* FIXED HERE ✅ ensured white text on buttons in dark mode */
     --primary: var(--ipl-orange-light);
-    --primary-foreground: 222 47% 11%;
+    --primary-foreground: 0 0% 98%;
 
     --secondary: var(--cricket-green-light);
     --secondary-foreground: 0 0% 98%;

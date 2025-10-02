@@ -1,4 +1,3 @@
-// file: src/pages/Index.tsx
 import Navigation from "@/components/Navigation";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
@@ -26,7 +25,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      {/* Hero Section (gradient only, image optional later) */}
+      {/* Hero Section */}
       <div className="relative h-64 md:h-80 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-hero opacity-90" />
         <div className="relative h-full flex items-center justify-center text-center px-4">
@@ -38,14 +37,20 @@ const Index = () => {
               Advanced IPL Player Analysis & Recommendation System
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-primary hover:bg-white/90 shadow-hero">
-                <BarChart3 className="w-5 h-5 mr-2" />
-                Explore Analytics
-              </Button>
+              {/* ✅ Fixed Explore button */}
+              <Button
+  size="lg"
+  className="bg-white !text-black hover:bg-white/90 shadow-hero"
+>
+  <BarChart3 className="w-5 h-5 mr-2" />
+  Explore Analytics
+</Button>
+
+              {/* ✅ Fixed Auction Predictor button */}
               <Button
                 size="lg"
                 variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary"
+                className="border-white text-white hover:bg-white hover:text-[hsl(var(--primary))]"
               >
                 <Trophy className="w-5 h-5 mr-2" />
                 Auction Predictor
@@ -55,6 +60,7 @@ const Index = () => {
         </div>
       </div>
 
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Key Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
