@@ -9,8 +9,9 @@ import {
   Target,
   TrendingUp,
   Menu,
-  X
+  X,
 } from "lucide-react";
+import favicon from "../assets/favicon.png";
 
 const Navigation = () => {
   const location = useLocation();
@@ -31,13 +32,14 @@ const Navigation = () => {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-              <Trophy className="w-6 h-6 text-primary-foreground" />
+              {/* <Trophy className="w-6 h-6 text-primary-foreground" /> */}
+              <img src={favicon} alt="logo" />
             </div>
             <div className="hidden sm:block">
               <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 CricScout AI
               </h1>
-              <p className="text-xs text-muted-foreground">IPL Analytics Platform</p>
+              {/* <p className="text-xs text-muted-foreground">IPL Analytics Platform</p> */}
             </div>
           </div>
 
@@ -52,10 +54,12 @@ const Navigation = () => {
                   <Button
                     variant={isActive ? "gradient" : "ghost"}
                     size="sm"
-                    className="flex items-center space-x-2 transition-smooth"
+                    className="btn-ghost flex items-center space-x-2 transition-smooth"
                   >
                     <Icon className="w-4 h-4" />
-                    <span>{item.label}</span>
+                    <span className="hover-text-gold-gradient">
+                      {item.label}
+                    </span>
                   </Button>
                 </Link>
               );
@@ -98,7 +102,9 @@ const Navigation = () => {
                       className="w-full justify-start space-x-3 transition-smooth"
                     >
                       <Icon className="w-4 h-4" />
-                      <span>{item.label}</span>
+                      <span className="hover-text-gold-gradient">
+                        {item.label}
+                      </span>
                     </Button>
                   </Link>
                 );
