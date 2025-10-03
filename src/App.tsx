@@ -7,8 +7,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index";
 import Players from "./pages/Players";
 import Analysis from "./pages/Analysis";
-import Comparison from "./pages/Comparison";
+// import Comparison from "./pages/Comparison.tsx";
 import Auction from "./pages/Auction";
+import Comparison from "./pages/Comparison.tsx";
 
 const queryClient = new QueryClient();
 
