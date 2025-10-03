@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Gold gradient hover for link text */
+.hover-text-gold-gradient:hover {
+  background-image: linear-gradient(90deg, #f59e0b, #facc15, #f59e0b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
 /* IPL Cricket Analytics Design System - All colors MUST be HSL */
 @layer base {
@@ -15,11 +23,11 @@
     --ipl-orange: 25 95% 53%;
     --ipl-orange-light: 25 95% 65%;
     --ipl-orange-dark: 25 95% 45%;
-    
+
     --cricket-green: 120 40% 35%;
     --cricket-green-light: 120 40% 50%;
     --cricket-green-dark: 120 40% 25%;
-    
+
     --royal-blue: 240 100% 50%;
     --royal-blue-light: 240 100% 65%;
     --royal-blue-dark: 240 100% 35%;
@@ -67,12 +75,32 @@
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary-light)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--primary-light))
+    );
+    --gradient-secondary: linear-gradient(
+      135deg,
+      hsl(var(--secondary)),
+      hsl(var(--secondary-light))
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(var(--accent)),
+      hsl(var(--accent-light))
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(var(--primary)),
+      hsl(var(--accent))
+    );
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 40% 98%));
-    --gradient-stats: linear-gradient(90deg, hsl(var(--primary) / 0.1), hsl(var(--secondary) / 0.1));
+    --gradient-stats: linear-gradient(
+      90deg,
+      hsl(var(--primary) / 0.1),
+      hsl(var(--secondary) / 0.1)
+    );
 
     /* Shadows */
     --shadow-card: 0 4px 20px -2px hsl(var(--primary) / 0.1);
@@ -131,16 +159,32 @@
 
 /* Extra utilities used in components */
 @layer utilities {
-  .transition-smooth { transition: var(--transition-smooth); }
-  .transition-bounce { transition: var(--transition-bounce); }
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
 
   .bg-gradient-primary\/10 {
-    background-image: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--primary-light) / 0.1));
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--primary) / 0.1),
+      hsl(var(--primary-light) / 0.1)
+    );
   }
   .bg-gradient-secondary\/10 {
-    background-image: linear-gradient(135deg, hsl(var(--secondary) / 0.1), hsl(var(--secondary-light) / 0.1));
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--secondary) / 0.1),
+      hsl(var(--secondary-light) / 0.1)
+    );
   }
   .bg-gradient-accent\/10 {
-    background-image: linear-gradient(135deg, hsl(var(--accent) / 0.1), hsl(var(--accent-light) / 0.1));
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--accent) / 0.1),
+      hsl(var(--accent-light) / 0.1)
+    );
   }
 }
