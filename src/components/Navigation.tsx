@@ -53,10 +53,10 @@ const Navigation = () => {
                 <Link key={item.path} to={item.path}>
                   <Button
                     variant={isActive ? "gradient" : "ghost"}
-                    size="sm"
-                    className="btn-ghost flex items-center space-x-2 transition-smooth"
+                    size="default"
+                    className="btn-ghost flex items-center space-x-2 transition-smooth text-base"
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5" />
                     <span className="hover-text-gold-gradient">
                       {item.label}
                     </span>
@@ -98,10 +98,10 @@ const Navigation = () => {
                   >
                     <Button
                       variant={isActive ? "gradient" : "ghost"}
-                      size="sm"
-                      className="w-full justify-start space-x-3 transition-smooth"
+                      size="default"
+                      className="w-full justify-start space-x-3 transition-smooth text-base"
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5" />
                       <span className="hover-text-gold-gradient">
                         {item.label}
                       </span>

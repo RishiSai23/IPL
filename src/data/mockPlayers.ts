@@ -1,4 +1,3 @@
-// file: src/data/mockPlayers.ts
 import type { Player } from "@/types/player";
 
 export const mockPlayers: Player[] = [
