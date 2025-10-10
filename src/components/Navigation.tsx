@@ -22,7 +22,7 @@ const Navigation = () => {
     { path: "/players", label: "Players", icon: Users },
     { path: "/analysis", label: "SWOT Analysis", icon: Target },
     { path: "/comparison", label: "Compare", icon: TrendingUp },
-    { path: "/auction", label: "Auction Predictor", icon: Trophy },
+    { path: "/auction", label: "Sports Scout", icon: Trophy },
   ];
 
   return (
