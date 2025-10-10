@@ -1,4 +1,3 @@
-// file: src/data/mockPlayers.ts
 import type { Player } from "@/types/player";
 
 export const mockPlayers: Player[] = [
@@ -19,7 +18,7 @@ export const mockPlayers: Player[] = [
     id: 2,
     name: "Rashid Khan",
     age: 25,
-    team: "SUN",
+    team: "SRH",
     position: "Bowler",
     stats: { runs: 300, wickets: 120, matches: 90, strikeRate: 120, economy: 6.5 },
     auctionValue: { predicted: 15000000, confidence: 85 },
@@ -37,7 +36,7 @@ export const mockPlayers: Player[] = [
     stats: { runs: 4800, wickets: 0, matches: 220, strikeRate: 135, economy: 0 },
     auctionValue: { predicted: 18000000, confidence: 92 },
     form: { trend: "down", recentPerformance: "good" },
-    role: { primary: "batsman", fitment: { batsman: 9, wicketkeeper: 10, bowler: 2 } },
+    role: { primary: "wicketkeeper", fitment: { batsman: 9, wicketkeeper: 10, bowler: 2 } },
     leadership: 10,
     injuryRisk: "low",
   },
@@ -89,7 +88,7 @@ export const mockPlayers: Player[] = [
     stats: { runs: 1500, wickets: 90, matches: 120, strikeRate: 135, economy: 7 },
     auctionValue: { predicted: 17000000, confidence: 88 },
     form: { trend: "up", recentPerformance: "good" },
-    role: { primary: "all-rounder", fitment: { allrounder: 10, batsman: 7, bowler: 6 } },
+    role: { primary: "allrounder", fitment: { allrounder: 10, batsman: 7, bowler: 6 } },
     leadership: 8,
     injuryRisk: "medium",
   },
@@ -141,7 +140,7 @@ export const mockPlayers: Player[] = [
     stats: { runs: 2000, wickets: 85, matches: 110, strikeRate: 145, economy: 7 },
     auctionValue: { predicted: 17500000, confidence: 85 },
     form: { trend: "up", recentPerformance: "good" },
-    role: { primary: "all-rounder", fitment: { allrounder: 10, batsman: 6, bowler: 7 } },
+    role: { primary: "allrounder", fitment: { allrounder: 10, batsman: 6, bowler: 7 } },
     leadership: 7,
     injuryRisk: "medium",
   },
@@ -162,7 +161,7 @@ export const mockPlayers: Player[] = [
     id: 13,
     name: "Trent Boult",
     age: 32,
-    team: "KKR",
+    team: "RR",
     position: "Bowler",
     stats: { runs: 100, wickets: 105, matches: 90, strikeRate: 110, economy: 6.5 },
     auctionValue: { predicted: 14000000, confidence: 80 },

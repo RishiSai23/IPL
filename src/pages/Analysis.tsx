@@ -1,12 +1,12 @@
 // file: src/pages/Analysis.tsx
-import { useState } from "react";
 import Navigation from "@/components/Navigation";
-import { mockPlayers } from "@/data/mockPlayers";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Target, TrendingUp, AlertTriangle, Lightbulb, Shield, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { mockPlayers } from "@/data/mockPlayers";
+import { AlertTriangle, ChevronRight, Lightbulb, Shield, Target, TrendingUp } from "lucide-react";
+import { useState } from "react";
 
 const Analysis = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(mockPlayers[0]);
