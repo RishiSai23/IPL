@@ -1,22 +1,10 @@
-"use client";
-
+// file: src/pages/Comparison.tsx
 import Navigation from "@/components/Navigation";
 import PerformanceChart from "@/components/PerformanceChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Target, BarChart3, Trophy } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { TrendingUp, Target, BarChart3, Trophy, Search } from "lucide-react";
 import { mockPlayers } from "@/data/mockPlayers";
-import { motion } from "framer-motion";
-import { BarChart3, Search, Target, TrendingUp, Trophy } from "lucide-react";
 import { useEffect, useState } from "react";
-import Confetti from "react-confetti";
 
 const Comparison = () => {
   const [player1, setPlayer1] = useState<any | null>(null);
@@ -54,17 +42,34 @@ const Comparison = () => {
   const radarData =
     player1 && player2
       ? [
-          { metric: "Batting", player1: Math.min(10, (player1.stats.runs / 1000) * 2), player2: Math.min(10, (player2.stats.runs / 1000) * 2) },
-          { metric: "Bowling", player1: Math.min(10, (player1.stats.wickets / 20) * 10), player2: Math.min(10, (player2.stats.wickets / 20) * 10) },
-          { metric: "Experience", player1: Math.min(10, (player1.stats.matches / 50) * 10), player2: Math.min(10, (player2.stats.matches / 50) * 10) },
+          {
+            metric: "Batting",
+            player1: Math.min(10, (player1.stats.runs / 1000) * 2),
+            player2: Math.min(10, (player2.stats.runs / 1000) * 2),
+          },
+          {
+            metric: "Bowling",
+            player1: Math.min(10, (player1.stats.wickets / 20) * 10),
+            player2: Math.min(10, (player2.stats.wickets / 20) * 10),
+          },
+          {
+            metric: "Experience",
+            player1: Math.min(10, (player1.stats.matches / 50) * 10),
+            player2: Math.min(10, (player2.stats.matches / 50) * 10),
+          },
           { metric: "Leadership", player1: player1.leadership, player2: player2.leadership },
-          { metric: "Value", player1: Math.min(10, (player1.auctionValue.predicted / 20000000) * 10), player2: Math.min(10, (player2.auctionValue.predicted / 20000000) * 10) },
+          {
+            metric: "Value",
+            player1: Math.min(10, (player1.auctionValue.predicted / 20000000) * 10),
+            player2: Math.min(10, (player2.auctionValue.predicted / 20000000) * 10),
+          },
         ]
       : [];
 
   const getBetterPlayer = () => {
     if (!player1 || !player2) return null;
-    let p1Wins = 0, p2Wins = 0;
+    let p1Wins = 0,
+      p2Wins = 0;
     comparisonMetrics.forEach((metric) => {
       const winner = getWinner(metric.player1, metric.player2);
       if (winner === "player1") p1Wins++;
@@ -88,54 +93,58 @@ const Comparison = () => {
             <TrendingUp className="w-8 h-8 text-primary" />
             <span>Compare Cricketers</span>
           </h1>
-          <p className="text-muted-foreground">
-            Select two players to analyze head-to-head performance.
-          </p>
+          <p className="text-muted-foreground">Select two players to analyze head-to-head performance.</p>
         </div>
 
         {/* VS Section */}
         <div className="flex justify-center items-center space-x-6">
           {/* Player 1 */}
-          <motion.div
-            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600"
-            whileHover={{ scale: 1.05 }}
+          <div
+            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600 transition-transform hover:scale-105"
             onClick={() => {}}
           >
             {player1 ? (
               <>
-                <img src={player1.image} alt={player1.name} className="w-full h-full object-cover" />
+                {player1.image ? (
+                  <img src={player1.image} alt={player1.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white/70 text-sm">No Image</div>
+                )}
                 <span className="absolute bottom-2 bg-primary/70 px-2 rounded text-xs">{player1.role}</span>
               </>
             ) : (
               <img
-                src="/human-placeholder.png" // 👈 replace with your snipped human logo
+                src="/human-placeholder.png"
                 alt="Default Human"
                 className="w-20 h-20 opacity-60"
               />
             )}
-          </motion.div>
+          </div>
 
           <span className="text-2xl font-bold">VS</span>
 
           {/* Player 2 */}
-          <motion.div
-            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600"
-            whileHover={{ scale: 1.05 }}
+          <div
+            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600 transition-transform hover:scale-105"
             onClick={() => {}}
           >
             {player2 ? (
               <>
-                <img src={player2.image} alt={player2.name} className="w-full h-full object-cover" />
+                {player2.image ? (
+                  <img src={player2.image} alt={player2.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white/70 text-sm">No Image</div>
+                )}
                 <span className="absolute bottom-2 bg-secondary/70 px-2 rounded text-xs">{player2.role}</span>
               </>
             ) : (
               <img
-                src="/human-placeholder.png" // 👈 replace with your snipped human logo
+                src="/human-placeholder.png"
                 alt="Default Human"
                 className="w-20 h-20 opacity-60"
               />
             )}
-          </motion.div>
+          </div>
         </div>
 
         {/* Search & Player List */}
@@ -152,19 +161,22 @@ const Comparison = () => {
           </div>
           <div className="flex flex-wrap gap-2">
             {filteredPlayers.map((player) => (
-              <motion.button
+              <button
                 key={player.id}
-                whileHover={{ scale: 1.05 }}
                 className="flex items-center gap-2 px-3 py-1 bg-gray-700 rounded-full text-sm text-white hover:bg-primary transition"
                 onClick={() => {
                   if (!player1) setPlayer1(player);
                   else if (!player2 && player.id !== player1.id) setPlayer2(player);
                 }}
               >
-                <img src={player.image} alt={player.name} className="w-6 h-6 rounded-full" />
+                {player.image ? (
+                  <img src={player.image} alt={player.name} className="w-6 h-6 rounded-full" />
+                ) : (
+                  <div className="w-6 h-6 rounded-full bg-gray-600" />
+                )}
                 {player.name}
                 <span className="font-bold">+</span>
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -182,21 +194,29 @@ const Comparison = () => {
               <CardContent className="space-y-3">
                 {comparisonMetrics.map((metric) => {
                   const winner = getWinner(metric.player1, metric.player2);
+                  const max = Math.max(metric.player1, metric.player2) || 1;
                   return (
-                    <div key={metric.key} className="flex items-center justify-between bg-gray-800 p-3 rounded-lg">
+                    <div
+                      key={metric.key}
+                      className="flex items-center justify-between bg-gray-800 p-3 rounded-lg"
+                    >
                       <span className="font-medium w-32">{metric.label}</span>
                       <div className="w-20 h-3 bg-gray-600 rounded-full overflow-hidden">
                         <div
-                          className={`h-3 rounded-full transition-all duration-500 ${winner === "player1" ? "bg-primary" : "bg-gray-400"}`}
-                          style={{ width: `${(metric.player1 / Math.max(metric.player1, metric.player2)) * 100}%` }}
-                        ></div>
+                          className={`h-3 rounded-full transition-all duration-500 ${
+                            winner === "player1" ? "bg-primary" : "bg-gray-400"
+                          }`}
+                          style={{ width: `${(metric.player1 / max) * 100}%` }}
+                        />
                       </div>
                       <span className="w-8 text-center">VS</span>
                       <div className="w-20 h-3 bg-gray-600 rounded-full overflow-hidden">
                         <div
-                          className={`h-3 rounded-full transition-all duration-500 ${winner === "player2" ? "bg-secondary" : "bg-gray-400"}`}
-                          style={{ width: `${(metric.player2 / Math.max(metric.player1, metric.player2)) * 100}%` }}
-                        ></div>
+                          className={`h-3 rounded-full transition-all duration-500 ${
+                            winner === "player2" ? "bg-secondary" : "bg-gray-400"
+                          }`}
+                          style={{ width: `${(metric.player2 / max) * 100}%` }}
+                        />
                       </div>
                     </div>
                   );
@@ -213,22 +233,25 @@ const Comparison = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <PerformanceChart type="radar" data={radarData} dataKey="player1" xAxisKey="metric" height={400} />
+                <PerformanceChart
+                  type="radar"
+                  data={radarData}
+                  dataKey="player1"
+                  xAxisKey="metric"
+                  height={400}
+                />
               </CardContent>
             </Card>
 
             {/* Overall Winner */}
             {result?.winner && (
-              <>
-                <Confetti numberOfPieces={300} recycle={false} />
-                <Card className="shadow-card bg-primary/10 border-primary/20">
-                  <CardContent className="text-center py-6">
-                    <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-                    <h2 className="text-2xl font-bold">Overall Winner: {result.winner.name}</h2>
-                    <p className="text-muted-foreground">Wins {result.score} across key metrics</p>
-                  </CardContent>
-                </Card>
-              </>
+              <Card className="shadow-card bg-primary/10 border-primary/20">
+                <CardContent className="text-center py-6">
+                  <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
+                  <h2 className="text-2xl font-bold">Overall Winner: {result.winner.name}</h2>
+                  <p className="text-muted-foreground">Wins {result.score} across key metrics</p>
+                </CardContent>
+              </Card>
             )}
           </div>
         )}
