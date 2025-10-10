@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Award } from "lucide-react";
+
+
 import {
   BarChart3,
   Users,
@@ -9,7 +12,9 @@ import {
   Target,
   TrendingUp,
   Menu,
-  X
+  X,
+  Calendar
+
 } from "lucide-react";
 
 const Navigation = () => {
@@ -22,6 +27,9 @@ const Navigation = () => {
     { path: "/analysis", label: "SWOT Analysis", icon: Target },
     { path: "/comparison", label: "Compare", icon: TrendingUp },
     { path: "/auction", label: "Auction Predictor", icon: Trophy },
+    { path: "/matches", label: "My Matches", icon: Calendar }, // new
+    { path: "/leaderboard", label: "Leaderboard", icon: Award }, // new
+
   ];
 
   return (

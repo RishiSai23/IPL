@@ -5,16 +5,7 @@ import PerformanceChart from "@/components/PerformanceChart";
 import { mockPlayers } from "@/data/mockPlayers";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  TrendingUp,
-  Users,
-  Target,
-  Award,
-  Activity,
-  BarChart3,
-  Zap,
-  Trophy,
-} from "lucide-react";
+import { TrendingUp, Target, BarChart3, Trophy } from "lucide-react";
 import {
   Select,
   SelectContent,

@@ -10,6 +10,14 @@ import Players from "./pages/Players";
 import Analysis from "./pages/Analysis";
 import Comparison from "./pages/Comparison";
 import Auction from "./pages/Auction";
+import AddMatch from "./pages/AddMatch";
+import Matches from "./pages/Matches";
+import MatchDetails from "./pages/MatchDetails";
+import Leaderboard from "./pages/Leaderboard";
+import PlayerScorecard from "./pages/PlayerScorecard";
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -25,6 +33,15 @@ export default function App() {
             <Route path="/analysis" element={<Analysis />} />
             <Route path="/comparison" element={<Comparison />} />
             <Route path="/auction" element={<Auction />} />
+            <Route path="/add-match" element={<AddMatch />} />
+            <Route path="/matches" element={<Matches />} /> {/* new */}
+            <Route path="/matches/:id" element={<MatchDetails />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/scorecard/:playerKey" element={<PlayerScorecard />} />
+
+
+
+
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
