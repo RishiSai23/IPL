@@ -1,17 +1,10 @@
+// file: src/pages/Index.tsx
 import Navigation from "@/components/Navigation";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
 import PerformanceChart from "@/components/PerformanceChart";
 import { mockPlayers } from "@/data/mockPlayers";
-import {
-  Users,
-  TrendingUp,
-  Trophy,
-  Target,
-  BarChart3,
-  Award,
-  Zap,
-} from "lucide-react";
+import { Users, TrendingUp, Trophy, Target, BarChart3, Award, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -26,9 +19,12 @@ const Index = () => {
 
   const topPerformers = mockPlayers.slice(0, 3);
   const totalPlayers = mockPlayers.length;
-  const avgAuctionValue =
-    mockPlayers.reduce((sum, p) => sum + p.auctionValue.predicted, 0) /
-    mockPlayers.length;
+
+  // Safely compute average auction value (guards missing fields and divide-by-zero)
+  const playersWithAV = mockPlayers.filter((p) => typeof p?.auctionValue?.predicted === "number");
+  const avgAuctionValue = playersWithAV.length
+    ? playersWithAV.reduce((sum, p) => sum + (p.auctionValue?.predicted ?? 0), 0) / playersWithAV.length
+    : 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,22 +42,11 @@ const Index = () => {
               Advanced IPL Player Analysis & Recommendation System
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              {/* ✅ Fixed Explore button */}
-              <Button
-                size="lg"
-                variant="gradient"
-                className=" text-orange-500 hover:bg-black/90 shadow-hero"
-              >
+              <Button size="lg" variant="gradient" className="text-orange-500 hover:bg-black/90 shadow-hero">
                 <BarChart3 className="w-5 h-5 mr-2" />
                 Explore Analytics
               </Button>
-
-              {/* ✅ Fixed Auction Predictor button */}
-              <Button
-                size="lg"
-                variant="gradient"
-                className=" bold text-orange-500 hover:bg-blue/90 shadow-hero"
-              >
+              <Button size="lg" variant="gradient" className="text-orange-500 hover:bg-blue/90 shadow-hero">
                 <Trophy className="w-5 h-5 mr-2" />
                 Auction Predictor
               </Button>
@@ -186,25 +171,19 @@ const Index = () => {
               <Button className="flex flex-col items-center p-6 h-auto bg-gradient-primary text-primary-foreground hover:shadow-stat">
                 <Target className="w-8 h-8 mb-2" />
                 <span className="font-medium">SWOT Analysis</span>
-                <span className="text-xs opacity-80">
-                  Analyze player strengths
-                </span>
+                <span className="text-xs opacity-80">Analyze player strengths</span>
               </Button>
 
               <Button className="flex flex-col items-center p-6 h-auto bg-gradient-secondary text-secondary-foreground hover:shadow-stat">
                 <Users className="w-8 h-8 mb-2" />
                 <span className="font-medium">Compare Players</span>
-                <span className="text-xs opacity-80">
-                  Head-to-head analysis
-                </span>
+                <span className="text-xs opacity-80">Head-to-head analysis</span>
               </Button>
 
               <Button className="flex flex-col items-center p-6 h-auto bg-gradient-accent text-accent-foreground hover:shadow-stat">
                 <Trophy className="w-8 h-8 mb-2" />
                 <span className="font-medium">Auction Predictor</span>
-                <span className="text-xs opacity-80">
-                  Predict player values
-                </span>
+                <span className="text-xs opacity-80">Predict player values</span>
               </Button>
             </div>
           </CardContent>
