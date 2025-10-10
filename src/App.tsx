@@ -1,18 +1,18 @@
 // file: src/App.tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // Use relative imports to avoid alias issues for now
-import Index from "./pages/Index";
-import Players from "./pages/Players";
-import Analysis from "./pages/Analysis";
-import Comparison from "./pages/Comparison";
-import Auction from "./pages/Auction";
 import AddMatch from "./pages/AddMatch";
-import Matches from "./pages/Matches";
-import MatchDetails from "./pages/MatchDetails";
+import Analysis from "./pages/Analysis";
+import Auction from "./pages/Auction";
+import Comparison from "./pages/Comparison";
+import Index from "./pages/Index";
 import Leaderboard from "./pages/Leaderboard";
+import MatchDetails from "./pages/MatchDetails";
+import Matches from "./pages/Matches";
+import Players from "./pages/Players";
 import PlayerScorecard from "./pages/PlayerScorecard";
 
 
