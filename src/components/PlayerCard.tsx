@@ -1,13 +1,13 @@
 // file: src/components/PlayerCard.tsx
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Player } from "@/types/player";
 import {
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  Award,
   Activity,
+  Award,
+  Minus,
+  TrendingDown,
+  TrendingUp,
 } from "lucide-react";
 
 interface PlayerCardProps {
