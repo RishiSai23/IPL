@@ -10,7 +10,6 @@ import { Input } from "@/components/ui/input";
 import {
   Trophy,
   TrendingUp,
-  DollarSign,
   Target,
   BarChart3,
   Calculator,

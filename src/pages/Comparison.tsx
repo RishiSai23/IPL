@@ -3,6 +3,15 @@
 import Navigation from "@/components/Navigation";
 import PerformanceChart from "@/components/PerformanceChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { TrendingUp, Target, BarChart3, Trophy } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { mockPlayers } from "@/data/mockPlayers";
 import { motion } from "framer-motion";
 import { BarChart3, Search, Target, TrendingUp, Trophy } from "lucide-react";
