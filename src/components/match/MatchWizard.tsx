@@ -1,7 +1,14 @@
-import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "react-router-dom";
-import { Input } from "@/components/ui/input";
+import PlayerContributions, {
+  type PlayerContribution,
+} from "@/components/match/PlayerContributions";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -9,10 +16,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import PlayerContributions, {
-  type PlayerContribution,
-} from "@/components/match/PlayerContributions";
-import { saveNewMatch, listMatches } from "@/lib/localStore";
+import { listMatches, saveNewMatch } from "@/lib/localStore";
+import { useEffect, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 
 type Pitch = "flat" | "green" | "dry_turning" | "slow_low" | "two_paced";
@@ -46,12 +52,13 @@ const pitchOptions: { value: Pitch; label: string }[] = [
 
 const resultOptions: Result[] = ["win", "loss", "tie", "nr"];
 
-// ✅ Helpers
+// ID Helper
 const genId = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
     ? crypto.randomUUID()
     : `p_${Math.random().toString(36).slice(2)}_${Date.now()}`;
 
+// Clone player data when duplicating
 function clonePlayers(players: PlayerContribution[]) {
   return players.map((p) => ({
     ...p,
@@ -62,6 +69,7 @@ function clonePlayers(players: PlayerContribution[]) {
   }));
 }
 
+// Geolocation fetch helper
 const getGeo = (): Promise<{ lat: number; lng: number } | null> =>
   new Promise((resolve) => {
     if (!("geolocation" in navigator)) return resolve(null);
@@ -72,6 +80,7 @@ const getGeo = (): Promise<{ lat: number; lng: number } | null> =>
     );
   });
 
+// Default states
 const initialMatchInfo: MatchInfo = {
   date: "",
   venue: "",
@@ -93,13 +102,16 @@ const initialInnings: InningsSummary = {
 export default function MatchWizard() {
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
   const [matchInfo, setMatchInfo] = useState<MatchInfo>(initialMatchInfo);
-  const [innings, setInnings] = useState<InningsSummary>(initialInnings);
+  const [innings1, setInnings1] = useState<InningsSummary>(initialInnings);
+  const [innings2, setInnings2] = useState<InningsSummary>(initialInnings);
   const [players, setPlayers] = useState<PlayerContribution[]>([]);
+  const [openInnings, setOpenInnings] = useState<string>("1");
+  const [playerType, setPlayerType] = useState<"all" | "batsman" | "bowler">("all");
 
-  // ✅ Prefill logic
   const [searchParams] = useSearchParams();
   const prefilledRef = useRef(false);
 
+  // Prefill logic
   useEffect(() => {
     const dupId = searchParams.get("duplicateFrom");
     if (!dupId || prefilledRef.current) return;
@@ -108,7 +120,8 @@ export default function MatchWizard() {
     if (!src) return;
 
     setMatchInfo(src.matchInfo);
-    setInnings(src.innings);
+    setInnings1(src.innings1 ?? initialInnings);
+    setInnings2(src.innings2 ?? initialInnings);
     setPlayers(clonePlayers(src.players));
 
     prefilledRef.current = true;
@@ -119,6 +132,7 @@ export default function MatchWizard() {
 
   const hasPlayers = players.length > 0;
 
+  // Step validation
   const canGoNext = (() => {
     if (step === 1) {
       return (
@@ -131,13 +145,13 @@ export default function MatchWizard() {
       );
     }
     if (step === 2) {
-      return (
-        !!innings.battingTeam &&
-        !!innings.bowlingTeam &&
-        innings.runs !== "" &&
-        innings.wickets !== "" &&
-        innings.overs !== ""
-      );
+      const validInnings = (inn: InningsSummary) =>
+        !!inn.battingTeam &&
+        !!inn.bowlingTeam &&
+        inn.runs !== "" &&
+        inn.wickets !== "" &&
+        inn.overs !== "";
+      return validInnings(innings1) || validInnings(innings2);
     }
     if (step === 3) {
       return hasPlayers;
@@ -148,11 +162,13 @@ export default function MatchWizard() {
   const goNext = () => setStep(step === 4 ? 4 : ((step + 1) as 1 | 2 | 3 | 4));
   const goBack = () => setStep(step === 1 ? 1 : ((step - 1) as 1 | 2 | 3 | 4));
 
+  // Save logic
   const handleSave = async () => {
     const geo = await getGeo();
     const saved = saveNewMatch({
       matchInfo,
-      innings,
+      innings1,
+      innings2,
       players,
       geo: geo ?? { lat: null, lng: null },
     });
@@ -163,16 +179,117 @@ export default function MatchWizard() {
       }`,
     });
 
-    // Reset wizard
+    // Reset form
     setStep(1);
     setMatchInfo(initialMatchInfo);
-    setInnings(initialInnings);
+    setInnings1(initialInnings);
+    setInnings2(initialInnings);
     setPlayers([]);
   };
 
+  const today = new Date().toISOString().split("T")[0];
+
+  // Innings Input
+  const renderInningsFields = (
+    innings: InningsSummary,
+    setInnings: (fn: (p: InningsSummary) => InningsSummary) => void
+  ) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+      <div>
+        <label className="text-sm font-medium text-muted-foreground mb-2 block">
+          Batting Team
+        </label>
+        <Input
+          placeholder="e.g., My Club"
+          value={innings.battingTeam}
+          onChange={(e) =>
+            setInnings((p) => ({ ...p, battingTeam: e.target.value }))
+          }
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground mb-2 block">
+          Bowling Team
+        </label>
+        <Input
+          placeholder="e.g., Opponent Club"
+          value={innings.bowlingTeam}
+          onChange={(e) =>
+            setInnings((p) => ({ ...p, bowlingTeam: e.target.value }))
+          }
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground mb-2 block">
+          Runs
+        </label>
+        <Input
+          type="number"
+          min={0}
+          value={innings.runs}
+          onChange={(e) =>
+            setInnings((p) => ({
+              ...p,
+              runs: e.target.value === "" ? "" : Math.max(0, +e.target.value),
+            }))
+          }
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground mb-2 block">
+          Wickets
+        </label>
+        <Input
+          type="number"
+          min={0}
+          max={10}
+          value={innings.wickets}
+          onChange={(e) =>
+            setInnings((p) => ({
+              ...p,
+              wickets:
+                e.target.value === ""
+                  ? ""
+                  : Math.max(0, Math.min(10, +e.target.value)),
+            }))
+          }
+        />
+      </div>
+      <div>
+        <label className="text-sm font-medium text-muted-foreground mb-2 block">
+          Overs (e.g., 20 or 19.4)
+        </label>
+        <Input
+          type="number"
+          step="0.1"
+          min={0}
+          max={20}
+          value={innings.overs}
+          onChange={(e) =>
+            setInnings((p) => ({
+              ...p,
+              overs:
+                e.target.value === ""
+                  ? ""
+                  : Math.max(0, Math.min(20, +e.target.value)),
+            }))
+          }
+        />
+      </div>
+    </div>
+  );
+
+  // Filtered players based on dropdown
+  const filteredPlayers = players.filter((p) => {
+    if (playerType === "all") return true;
+    if (playerType === "batsman") return !!p.batting;
+    if (playerType === "bowler") return !!p.bowling;
+    return true;
+  });
+
   return (
     <div className="rounded-lg border border-border bg-card p-6">
-      {/* Step header */}
+      {/* Step Header */}
       <div className="mb-6 flex items-center gap-2 text-sm">
         <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-primary font-semibold">
           {step}
@@ -185,11 +302,10 @@ export default function MatchWizard() {
         </span>
       </div>
 
-      {/* Step content */}
       <div className="space-y-6">
+        {/* Step 1 */}
         {step === 1 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Date */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Date
@@ -197,13 +313,15 @@ export default function MatchWizard() {
               <Input
                 type="date"
                 value={matchInfo.date}
+                max={today}
                 onChange={(e) =>
                   setMatchInfo((p) => ({ ...p, date: e.target.value }))
                 }
               />
+              <p className="text-xs text-muted-foreground mt-1">
+                You can select only today or past dates.
+              </p>
             </div>
-
-            {/* Venue */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Venue
@@ -216,8 +334,6 @@ export default function MatchWizard() {
                 }
               />
             </div>
-
-            {/* Pitch */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Pitch Type
@@ -240,8 +356,6 @@ export default function MatchWizard() {
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Opposition */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Opposition Strength (1–5)
@@ -268,52 +382,6 @@ export default function MatchWizard() {
                 </SelectContent>
               </Select>
             </div>
-
-            {/* Innings */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Innings
-              </label>
-              <Select
-                value={matchInfo.inningsNo}
-                onValueChange={(value) =>
-                  setMatchInfo((p) => ({ ...p, inningsNo: value as "1" | "2" }))
-                }
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="1st or 2nd innings" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="1">1st Innings</SelectItem>
-                  <SelectItem value="2">2nd Innings (Chase)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Target */}
-            {matchInfo.inningsNo === "2" && (
-              <div>
-                <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                  Target Runs
-                </label>
-                <Input
-                  type="number"
-                  min={1}
-                  value={matchInfo.targetRuns}
-                  onChange={(e) =>
-                    setMatchInfo((p) => ({
-                      ...p,
-                      targetRuns:
-                        e.target.value === ""
-                          ? ""
-                          : Math.max(1, Number(e.target.value)),
-                    }))
-                  }
-                />
-              </div>
-            )}
-
-            {/* Result */}
             <div className="md:col-span-2">
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Result
@@ -339,105 +407,57 @@ export default function MatchWizard() {
           </div>
         )}
 
+        {/* Step 2 - Innings */}
         {step === 2 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Teams */}
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Batting Team
-              </label>
-              <Input
-                placeholder="e.g., My Club"
-                value={innings.battingTeam}
-                onChange={(e) =>
-                  setInnings((p) => ({ ...p, battingTeam: e.target.value }))
-                }
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Bowling Team
-              </label>
-              <Input
-                placeholder="e.g., Opponent Club"
-                value={innings.bowlingTeam}
-                onChange={(e) =>
-                  setInnings((p) => ({ ...p, bowlingTeam: e.target.value }))
-                }
-              />
-            </div>
+          <Accordion
+            type="single"
+            collapsible
+            value={openInnings}
+            onValueChange={setOpenInnings}
+          >
+            <AccordionItem value="1">
+              <AccordionTrigger>Innings 1 Summary</AccordionTrigger>
+              <AccordionContent>
+                {renderInningsFields(innings1, setInnings1)}
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="2">
+              <AccordionTrigger>Innings 2 Summary</AccordionTrigger>
+              <AccordionContent>
+                {renderInningsFields(innings2, setInnings2)}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
 
-            {/* Score summary */}
-            <div>
+        {/* Step 3 - Player Contributions */}
+        {step === 3 && (
+          <div>
+            <div className="mb-4">
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Runs
+                Filter Player Type
               </label>
-              <Input
-                type="number"
-                min={0}
-                value={innings.runs}
-                onChange={(e) =>
-                  setInnings((p) => ({
-                    ...p,
-                    runs:
-                      e.target.value === ""
-                        ? ""
-                        : Math.max(0, Number(e.target.value)),
-                  }))
+              <Select
+                value={playerType}
+                onValueChange={(value) =>
+                  setPlayerType(value as "all" | "batsman" | "bowler")
                 }
-              />
+              >
+                <SelectTrigger className="w-64">
+                  <SelectValue placeholder="Select player type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="batsman">Batsman</SelectItem>
+                  <SelectItem value="bowler">Bowler</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Wickets
-              </label>
-              <Input
-                type="number"
-                min={0}
-                max={10}
-                value={innings.wickets}
-                onChange={(e) =>
-                  setInnings((p) => ({
-                    ...p,
-                    wickets:
-                      e.target.value === ""
-                        ? ""
-                        : Math.max(
-                            0,
-                            Math.min(10, Number(e.target.value))
-                          ),
-                  }))
-                }
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-muted-foreground mb-2 block">
-                Overs (e.g., 20 or 19.4)
-              </label>
-              <Input
-                type="number"
-                step="0.1"
-                min={0}
-                max={20}
-                value={innings.overs}
-                onChange={(e) =>
-                  setInnings((p) => ({
-                    ...p,
-                    overs:
-                      e.target.value === ""
-                        ? ""
-                        : Math.max(0, Math.min(20, Number(e.target.value))),
-                  }))
-                }
-              />
-            </div>
+            <PlayerContributions value={filteredPlayers} onChange={setPlayers} />
           </div>
         )}
 
-        {step === 3 && (
-          <PlayerContributions value={players} onChange={setPlayers} />
-        )}
-
+        {/* Step 4 - Review */}
         {step === 4 && (
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
@@ -453,7 +473,7 @@ export default function MatchWizard() {
               <div className="rounded-lg border border-border bg-card p-4">
                 <h3 className="font-semibold mb-2">Innings Summary</h3>
                 <pre className="text-xs whitespace-pre-wrap">
-                  {JSON.stringify(innings, null, 2)}
+                  {JSON.stringify({ innings1, innings2 }, null, 2)}
                 </pre>
               </div>
               <div className="rounded-lg border border-border bg-card p-4">
@@ -467,7 +487,7 @@ export default function MatchWizard() {
         )}
       </div>
 
-      {/* Nav controls */}
+      {/* Navigation Buttons */}
       <div className="mt-6 flex items-center justify-between">
         <Button variant="outline" onClick={goBack} disabled={step === 1}>
           Back
