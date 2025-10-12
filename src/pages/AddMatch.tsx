@@ -1,7 +1,6 @@
-// file: src/pages/AddMatch.tsx
+import MatchWizard from "@/components/match/MatchWizard";
 import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import MatchWizard from "@/components/match/MatchWizard";
 
 const AddMatch = () => {
   const steps = [

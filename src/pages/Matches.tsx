@@ -1,13 +1,13 @@
 // file: src/pages/Matches.tsx
-import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { listMatches, deleteMatch, type SavedMatch } from "@/lib/localStore";
-import { toast } from "sonner";
-import { Calendar, MapPin, Target, Trophy, RefreshCw, Trash2, Plus, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { deleteMatch, listMatches, type SavedMatch } from "@/lib/localStore";
+import { Calendar, Download, MapPin, Plus, RefreshCw, Target, Trash2, Trophy } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const pitchLabel: Record<string, string> = {
   flat: "Flat",

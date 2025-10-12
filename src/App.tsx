@@ -16,8 +16,6 @@ import Players from "./pages/Players";
 import PlayerScorecard from "./pages/PlayerScorecard";
 
 
-
-
 const queryClient = new QueryClient();
 
 export default function App() {
