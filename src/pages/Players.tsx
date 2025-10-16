@@ -1,3 +1,4 @@
+// file: src/pages/Players.tsx
 import Navigation from "@/components/Navigation";
 import PlayerCard from "@/components/PlayerCard";
 import { Button } from "@/components/ui/button";
@@ -41,6 +42,7 @@ const Players = () => {
     .sort((a, b) => {
       let aValue: string | number = a.name;
       let bValue: string | number = b.name;
+
       if (sortBy === "age") {
         aValue = a.age;
         bValue = b.age;
@@ -57,9 +59,15 @@ const Players = () => {
         aValue = a.stats.wickets;
         bValue = b.stats.wickets;
       }
+
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return sortOrder === "asc"
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
       return sortOrder === "asc"
-        ? (aValue as any) - (bValue as any)
-        : (bValue as any) - (aValue as any);
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
     });
 
   return (
@@ -94,6 +102,7 @@ const Players = () => {
         </div>
       </div>
 
+      {/* Filters & Sorting */}
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Filters */}
         <motion.div
@@ -101,7 +110,7 @@ const Players = () => {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <div className="relative flex-1">
+          <div className="relative flex-1 min-w-[200px]">
             <Search className="w-5 h-5 absolute left-3 top-3 text-muted-foreground" />
             <Input
               placeholder="Search players..."
@@ -134,6 +143,18 @@ const Players = () => {
                   {pos}
                 </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Sort By" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="age">Age</SelectItem>
+              <SelectItem value="runs">Runs</SelectItem>
+              <SelectItem value="wickets">Wickets</SelectItem>
+              <SelectItem value="auctionValue">Auction Value</SelectItem>
             </SelectContent>
           </Select>
           <Button

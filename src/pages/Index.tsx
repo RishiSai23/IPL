@@ -75,9 +75,17 @@ const Index = () => {
 
   const topPerformers = mockPlayers.slice(0, 3);
   const totalPlayers = mockPlayers.length;
-  const avgAuctionValue =
-    mockPlayers.reduce((sum, p) => sum + p.auctionValue.predicted, 0) /
-    mockPlayers.length;
+
+  // Safely compute average auction value (guards missing fields and divide-by-zero)
+  const playersWithAV = mockPlayers.filter(
+    (p) => typeof p?.auctionValue?.predicted === "number"
+  );
+  const avgAuctionValue = playersWithAV.length
+    ? playersWithAV.reduce(
+        (sum, p) => sum + (p.auctionValue?.predicted ?? 0),
+        0
+      ) / playersWithAV.length
+    : 0;
 
   return (
     <div className="min-h-screen bg-background">

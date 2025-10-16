@@ -1,6 +1,11 @@
 import { UserCircle, Plus } from "lucide-react";
-import type { Player } from "@/types/player";
+// import type { Player } from "@/types/player";
 import PlayerSelectionDialog from "./PlayerSelectionDialog";
+// file: src/components/PlayerCard.tsx
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import type { Player } from "@/types/player";
+import { Activity, Award, Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 interface PlayerCardProps {
   player?: Player;

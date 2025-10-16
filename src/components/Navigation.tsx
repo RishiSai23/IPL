@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Award } from "lucide-react";
+
 import {
   BarChart3,
   Users,
@@ -10,6 +12,7 @@ import {
   TrendingUp,
   Menu,
   X,
+  Calendar,
 } from "lucide-react";
 import favicon from "../assets/favicon.png";
 
@@ -22,7 +25,9 @@ const Navigation = () => {
     { path: "/players", label: "Players", icon: Users },
     { path: "/analysis", label: "SWOT Analysis", icon: Target },
     { path: "/comparison", label: "Compare", icon: TrendingUp },
-    { path: "/auction", label: "Sports Scout", icon: Trophy },
+    { path: "/auction", label: "Auction Predictor", icon: Trophy },
+    { path: "/matches", label: "My Matches", icon: Calendar }, // new
+    { path: "/leaderboard", label: "Leaderboard", icon: Award }, // new
   ];
 
   return (
