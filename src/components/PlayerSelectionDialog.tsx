@@ -24,8 +24,8 @@ const PlayerSelectionDialog = ({
   trigger,
   title,
 }: PlayerSelectionDialogProps) => {
+  const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
 
   const filteredPlayers = mockPlayers.filter(
     (player) =>
@@ -35,19 +35,13 @@ const PlayerSelectionDialog = ({
   );
 
   const handleSelectPlayer = (player: Player) => {
-    setSelectedPlayer(player);
-  };
-
-  const handleConfirmSelection = () => {
-    if (selectedPlayer) {
-      onSelectPlayer(selectedPlayer);
-      setSelectedPlayer(null);
-      setSearchTerm("");
-    }
+    onSelectPlayer(player);
+    setSearchTerm("");
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
         <DialogHeader>
@@ -69,11 +63,9 @@ const PlayerSelectionDialog = ({
             {filteredPlayers.map((player) => (
               <div
                 key={player.id}
-                className={`p-4 rounded-lg border cursor-pointer transition-colors ${
-                  selectedPlayer?.id === player.id
-                    ? "border-primary bg-primary/10"
-                    : "border-border hover:border-primary/50 hover:bg-muted/50"
-                }`}
+                className={
+                  "p-4 rounded-lg border cursor-pointer transition-colors border-border hover:border-primary/50 hover:bg-muted/50"
+                }
                 onClick={() => handleSelectPlayer(player)}
               >
                 <div className="flex items-center space-x-4">
@@ -120,15 +112,6 @@ const PlayerSelectionDialog = ({
               No players found matching your search.
             </div>
           )}
-
-          <div className="flex justify-end space-x-2 pt-4 border-t">
-            <Button variant="outline" onClick={() => setSelectedPlayer(null)}>
-              Cancel
-            </Button>
-            <Button onClick={handleConfirmSelection} disabled={!selectedPlayer}>
-              Select Player
-            </Button>
-          </div>
         </div>
       </DialogContent>
     </Dialog>
