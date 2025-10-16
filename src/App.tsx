@@ -10,6 +10,7 @@ import Analysis from "./pages/Analysis";
 import PhysicalAnalysis from "./pages/PhysicalAnalysis.tsx";
 
 // import Auction from "./pages/Auction";
+import PlayerScore from "./pages/PlayerScore";
 import Comparison from "./pages/Comparison";
 import Index from "./pages/Index";
 import Leaderboard from "./pages/Leaderboard";
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/comparison" element={<Comparison />} />
             <Route path="/physical" element={<PhysicalAnalysis />} />
             {/* <Route path="/auction" element={<Auction />} /> */}
+            <Route path="/player-score" element={<PlayerScore />} />
             <Route path="/add-match" element={<AddMatch />} />
             <Route path="/matches" element={<Matches />} /> {/* new */}
             <Route path="/matches/:id" element={<MatchDetails />} />
