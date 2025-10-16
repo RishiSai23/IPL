@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import Navigation from "@/components/Navigation";
 const PlayerScore = () => {
   const [formData, setFormData] = useState({
     player_name: "",
@@ -30,11 +30,22 @@ const PlayerScore = () => {
   const [predictedScore, setPredictedScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const target = e.target as HTMLInputElement;
+    const name = target.name as keyof typeof formData;
+    let newValue: string | number | boolean = target.value;
+
+    if (target.type === "checkbox") {
+      newValue = target.checked;
+    } else if (target.type === "number") {
+      newValue = Number(target.value);
+    }
+
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: newValue as never,
     });
   };
 
@@ -61,57 +72,64 @@ const PlayerScore = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center p-8">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-3xl">
-        <h1 className="text-2xl font-semibold text-center mb-6">
-          🏏 Player Performance Score Predictor
-        </h1>
+    <>
+      <Navigation />
+      <div className="min-h-screen bg-gray-100 flex justify-center items-center p-8">
+        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-3xl">
+          <h1 className="text-2xl font-semibold text-center mb-6">
+            🏏 Player Performance Score Predictor
+          </h1>
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-          {Object.keys(formData).map((key) => (
-            <div key={key} className="flex flex-col">
-              <label className="capitalize mb-1 text-sm font-medium text-gray-700">
-                {key.replaceAll("_", " ")}
-              </label>
-              {typeof formData[key as keyof typeof formData] === "boolean" ? (
-                <input
-                  type="checkbox"
-                  name={key}
-                  checked={formData[key as keyof typeof formData] as boolean}
-                  onChange={handleChange}
-                />
-              ) : (
-                <input
-                  type={
-                    typeof formData[key as keyof typeof formData] === "number"
-                      ? "number"
-                      : "text"
-                  }
-                  name={key}
-                  value={formData[key as keyof typeof formData]}
-                  onChange={handleChange}
-                  className="border rounded-lg p-2"
-                />
-              )}
+          <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+            {Object.keys(formData).map((key) => (
+              <div key={key} className="flex flex-col">
+                <label className="capitalize mb-1 text-sm font-medium text-gray-700">
+                  {key.replaceAll("_", " ")}
+                </label>
+                {typeof formData[key as keyof typeof formData] === "boolean" ? (
+                  <input
+                    type="checkbox"
+                    name={key}
+                    checked={formData[key as keyof typeof formData] as boolean}
+                    onChange={handleChange}
+                  />
+                ) : (
+                  <input
+                    type={
+                      typeof formData[key as keyof typeof formData] === "number"
+                        ? "number"
+                        : "text"
+                    }
+                    name={key}
+                    value={
+                      typeof formData[key as keyof typeof formData] === "number"
+                        ? (formData[key as keyof typeof formData] as number)
+                        : (formData[key as keyof typeof formData] as string)
+                    }
+                    onChange={handleChange}
+                    className="border rounded-lg p-2"
+                  />
+                )}
+              </div>
+            ))}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="col-span-2 bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
+            >
+              {loading ? "Predicting..." : "Get Performance Score"}
+            </button>
+          </form>
+
+          {predictedScore !== null && (
+            <div className="mt-6 text-center text-xl font-bold text-green-600">
+              Predicted Performance Score: {predictedScore.toFixed(2)}
             </div>
-          ))}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="col-span-2 bg-blue-600 text-white py-2 rounded-lg mt-4 hover:bg-blue-700 transition"
-          >
-            {loading ? "Predicting..." : "Get Performance Score"}
-          </button>
-        </form>
-
-        {predictedScore !== null && (
-          <div className="mt-6 text-center text-xl font-bold text-green-600">
-            Predicted Performance Score: {predictedScore.toFixed(2)}
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
