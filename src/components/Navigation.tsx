@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Award } from "lucide-react";
 
-
 import {
   BarChart3,
   Users,
@@ -13,8 +12,7 @@ import {
   TrendingUp,
   Menu,
   X,
-  Calendar
-
+  Calendar,
 } from "lucide-react";
 import favicon from "../assets/favicon.png";
 
@@ -27,10 +25,11 @@ const Navigation = () => {
     { path: "/players", label: "Players", icon: Users },
     { path: "/analysis", label: "SWOT Analysis", icon: Target },
     { path: "/comparison", label: "Compare", icon: TrendingUp },
+    { path: "/physical", label: "Physical test", icon: Trophy },
+    // { path: "/auction", label: "Auction Predictor", icon: Trophy },
     { path: "/player-score", label: "Player Score", icon: Trophy },
     { path: "/matches", label: "My Matches", icon: Calendar }, // new
     { path: "/leaderboard", label: "Leaderboard", icon: Award }, // new
-
   ];
 
   return (
@@ -61,10 +60,10 @@ const Navigation = () => {
                 <Link key={item.path} to={item.path}>
                   <Button
                     variant={isActive ? "gradient" : "ghost"}
-                    size="sm"
-                    className="btn-ghost flex items-center space-x-2 transition-smooth"
+                    size="default"
+                    className="btn-ghost flex items-center space-x-2 transition-smooth text-base"
                   >
-                    <Icon className="w-4 h-4" />
+                    <Icon className="w-5 h-5" />
                     <span className="hover-text-gold-gradient">
                       {item.label}
                     </span>
@@ -106,10 +105,10 @@ const Navigation = () => {
                   >
                     <Button
                       variant={isActive ? "gradient" : "ghost"}
-                      size="sm"
-                      className="w-full justify-start space-x-3 transition-smooth"
+                      size="default"
+                      className="w-full justify-start space-x-3 transition-smooth text-base"
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-5 h-5" />
                       <span className="hover-text-gold-gradient">
                         {item.label}
                       </span>

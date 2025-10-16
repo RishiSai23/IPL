@@ -1,195 +1,82 @@
+import { UserCircle, Plus } from "lucide-react";
+// import type { Player } from "@/types/player";
+import PlayerSelectionDialog from "./PlayerSelectionDialog";
 // file: src/components/PlayerCard.tsx
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Player } from "@/types/player";
-import {
-  Activity,
-  Award,
-  Minus,
-  TrendingDown,
-  TrendingUp,
-} from "lucide-react";
+import { Activity, Award, Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 interface PlayerCardProps {
-  player: Player;
-  showDetails?: boolean;
-  onClick?: () => void;
+  player?: Player;
+  onSelectPlayer?: (player: Player) => void;
+  title: string;
 }
 
-const PlayerCard = ({ player, onClick }: PlayerCardProps) => {
-  const getTrendIcon = () => {
-    switch (player.form.trend) {
-      case "up":
-        return <TrendingUp className="w-4 h-4 text-success" />;
-      case "down":
-        return <TrendingDown className="w-4 h-4 text-danger" />;
-      default:
-        return <Minus className="w-4 h-4 text-warning" />;
-    }
-  };
-
-  const getPerformanceColor = () => {
-    switch (player.form.recentPerformance) {
-      case "excellent":
-        return "bg-success/10 text-success border-success/20";
-      case "good":
-        return "bg-info/10 text-info border-info/20";
-      case "average":
-        return "bg-warning/10 text-warning border-warning/20";
-      case "poor":
-        return "bg-danger/10 text-danger border-danger/20";
-      default:
-        return "bg-muted/10 text-muted-foreground border-muted/20";
-    }
-  };
-
-  const getRiskColor = () => {
-    switch (player.injuryRisk) {
-      case "low":
-        return "text-success";
-      case "medium":
-        return "text-warning";
-      case "high":
-        return "text-danger";
-      default:
-        return "text-muted-foreground";
-    }
-  };
-
-  // Ensure strongly-typed entries so a, b, and score are numbers (not unknown)
-  const fitmentEntries = Object.entries(player.role.fitment) as Array<[string, number]>;
+const PlayerCard = ({ player, onSelectPlayer, title }: PlayerCardProps) => {
+  if (!player) {
+    return (
+      <PlayerSelectionDialog
+        onSelectPlayer={onSelectPlayer!}
+        title={`Select ${title}`}
+        trigger={
+          <div className="bg-card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border hover:shadow-[var(--shadow-elevated)] transition-all duration-300 cursor-pointer hover:border-orange-300 hover:bg-orange-50/50 group">
+            <div className="flex flex-col items-center space-y-4">
+              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center border-2 border-dashed border-orange-300 group-hover:border-orange-400 group-hover:from-orange-200 group-hover:to-orange-300 transition-all duration-300">
+                <Plus className="w-16 h-16 text-orange-500 group-hover:text-orange-600 transition-colors duration-300" />
+              </div>
+              <div className="text-center space-y-2">
+                <h3 className="text-xl font-semibold text-orange-600 group-hover:text-orange-700 transition-colors duration-300">
+                  {title}
+                </h3>
+                <p className="text-orange-500 text-sm group-hover:text-orange-600 transition-colors duration-300">
+                  Click to add a player
+                </p>
+              </div>
+            </div>
+          </div>
+        }
+      />
+    );
+  }
 
   return (
-    <Card
-      className="shadow-card hover:shadow-stat transition-smooth cursor-pointer group"
-      onClick={onClick}
-    >
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-smooth">
-              {player.name}
-            </h3>
-            <p className="text-sm text-muted-foreground">{player.team}</p>
-            <div className="flex items-center space-x-2 mt-2">
-              <Badge variant="outline" className="text-xs">
-                {player.position}
-              </Badge>
-              <Badge variant="outline" className="text-xs">
-                Age {player.age}
-              </Badge>
+    <PlayerSelectionDialog
+      onSelectPlayer={onSelectPlayer!}
+      title={`Change ${title}`}
+      trigger={
+        <div className="bg-card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border hover:shadow-[var(--shadow-elevated)] transition-all duration-300 cursor-pointer hover:border-orange-300 hover:bg-orange-50/20 group">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-orange-200 transition-all duration-300">
+              {player.image ? (
+                <img
+                  src={player.image}
+                  alt={player.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <UserCircle className="w-20 h-20 text-muted-foreground" />
+              )}
             </div>
-          </div>
-
-          <div className="flex flex-col items-end space-y-2">
-            <div className="flex items-center space-x-1">
-              {getTrendIcon()}
-              <span className="text-xs text-muted-foreground">Form</span>
-            </div>
-            <Badge className={`text-xs ${getPerformanceColor()}`}>
-              {player.form.recentPerformance}
-            </Badge>
-          </div>
-        </div>
-      </CardHeader>
-
-      <CardContent className="pt-0">
-        {/* Key Stats */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="space-y-2">
-            {player.role.primary === "batsman" || player.role.primary === "all-rounder" ? (
-              <>
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Runs</span>
-                  <span className="text-sm font-medium">{player.stats.runs}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Strike Rate</span>
-                  <span className="text-sm font-medium">{player.stats.strikeRate}</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Wickets</span>
-                  <span className="text-sm font-medium">{player.stats.wickets}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-xs text-muted-foreground">Economy</span>
-                  <span className="text-sm font-medium">{player.stats.economy}</span>
-                </div>
-              </>
-            )}
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <span className="text-xs text-muted-foreground">Matches</span>
-              <span className="text-sm font-medium">{player.stats.matches}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-xs text-muted-foreground">Leadership</span>
-              <span className="text-sm font-medium">{player.leadership}/10</span>
+            <div className="text-center space-y-2">
+              <h3 className="text-2xl font-bold text-foreground group-hover:text-orange-700 transition-colors duration-300">
+                {player.name}
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                {player.nationality}
+              </p>
+              <p className="text-muted-foreground text-sm font-medium">
+                {player.role.primary}
+              </p>
+              <p className="text-muted-foreground text-xs">{player.team}</p>
+              <p className="text-orange-500 text-xs font-medium group-hover:text-orange-600 transition-colors duration-300">
+                Click to change player
+              </p>
             </div>
           </div>
         </div>
-
-        {/* Auction Value */}
-        <div className="flex items-center justify-between p-3 bg-gradient-stats rounded-lg mb-3">
-          <div className="flex items-center space-x-2">
-            <Award className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium">Auction Value</span>
-          </div>
-          <div className="text-right">
-            <div className="text-sm font-bold text-primary">
-              ₹{(player.auctionValue.predicted / 10000000).toFixed(1)}Cr
-            </div>
-            <div className="text-xs text-muted-foreground">
-              {player.auctionValue.confidence}% confidence
-            </div>
-          </div>
-        </div>
-
-        {/* Role Fitment - Top 2 */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Top Roles</span>
-            <span className="text-muted-foreground">Fit Score</span>
-          </div>
-
-          {fitmentEntries
-            .sort(([, a], [, b]) => b - a)
-            .slice(0, 2)
-            .map(([role, score]) => (
-              <div key={role} className="flex items-center justify-between">
-                <span className="text-xs capitalize font-medium">
-                  {role.replace(/([A-Z])/g, " $1").trim()}
-                </span>
-                <div className="flex items-center space-x-2">
-                  <div className="w-16 h-2 bg-muted rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-primary rounded-full"
-                      style={{ width: `${score * 10}%` }}
-                    />
-                  </div>
-                  <span className="text-xs font-medium w-6">{score}</span>
-                </div>
-              </div>
-            ))}
-        </div>
-
-        {/* Risk Indicator */}
-        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-          <div className="flex items-center space-x-2">
-            <Activity className="w-3 h-3" />
-            <span className="text-xs text-muted-foreground">Injury Risk</span>
-          </div>
-          <span className={`text-xs font-medium capitalize ${getRiskColor()}`}>
-            {player.injuryRisk}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+      }
+    />
   );
 };
 
