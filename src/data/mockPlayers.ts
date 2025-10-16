@@ -222,50 +222,124 @@ const positionFromRole = (r: Player["role"]["primary"]) =>
 
 const toPlayer = (b: BasicPlayer): Player => {
   const primary = roleMap[b.name] ?? "batsman";
+
+  // Deterministic pseudo-random helper so values are static but varied per id
+  const pick = (min: number, max: number) => {
+    const span = max - min;
+    const k = (b.id * 37 + 17) % 1000; // 0-999
+    return Math.round(min + (k / 999) * span);
+  };
+
+  // Base stats by role
+  const matches = pick(40, 120);
+  let runs = 0,
+    wickets = 0,
+    strikeRate = 0,
+    average = 0,
+    economy = 0,
+    catches = 0,
+    fifties = 0,
+    hundreds = 0,
+    bestBowling = "1/10";
+
+  if (primary === "batsman") {
+    runs = pick(1200, 5500);
+    wickets = pick(0, 10);
+    strikeRate = pick(120, 165);
+    average = pick(28, 52);
+    economy = 0;
+    catches = pick(8, 35);
+    fifties = pick(8, 30);
+    hundreds = pick(1, 8);
+    bestBowling = `${pick(0, 2)}/${pick(8, 30)}`;
+  } else if (primary === "bowler") {
+    runs = pick(150, 900);
+    wickets = pick(40, 140);
+    strikeRate = pick(85, 120);
+    average = pick(10, 22);
+    economy = pick(6, 9);
+    catches = pick(6, 28);
+    fifties = pick(0, 5);
+    hundreds = 0;
+    bestBowling = `${pick(3, 6)}/${pick(8, 25)}`;
+  } else if (primary === "all-rounder") {
+    runs = pick(700, 3000);
+    wickets = pick(25, 100);
+    strikeRate = pick(115, 155);
+    average = pick(22, 38);
+    economy = pick(6.5, 8.8);
+    catches = pick(8, 32);
+    fifties = pick(3, 18);
+    hundreds = pick(0, 4);
+    bestBowling = `${pick(2, 5)}/${pick(10, 28)}`;
+  } else {
+    // wicket-keeper
+    runs = pick(1000, 4500);
+    wickets = 0;
+    strikeRate = pick(120, 160);
+    average = pick(25, 45);
+    economy = 0;
+    catches = pick(20, 70);
+    fifties = pick(6, 24);
+    hundreds = pick(0, 5);
+    bestBowling = `0/${pick(10, 25)}`;
+  }
+
+  const last5 = Array.from({ length: 5 }, (_, i) =>
+    pick(20 + i * 2, 80 + i * 3)
+  );
+  const trend = last5[last5.length - 1] > last5[0] ? "up" : "down";
+  const recentPerformance =
+    last5.reduce((a, b) => a + b, 0) / last5.length > 50 ? "good" : "average";
+
+  const current = pick(30000000, 180000000); // ₹3–18 Cr
+  const predicted = pick(40000000, 220000000); // ₹4–22 Cr
+  const confidence = pick(60, 95);
+
   return {
     id: String(b.id),
     name: b.name,
     team: b.team,
-    age: 28,
+    age: pick(22, 36),
     nationality: nationalityMap[b.name] ?? "India",
     position: positionFromRole(primary),
     stats: {
-      matches: 0,
-      runs: 0,
-      wickets: 0,
-      strikeRate: 0,
-      average: 0,
-      economy: 0,
-      catches: 0,
-      fifties: 0,
-      hundreds: 0,
-      bestBowling: "0/0",
+      matches,
+      runs,
+      wickets,
+      strikeRate,
+      average,
+      economy,
+      catches,
+      fifties,
+      hundreds,
+      bestBowling,
     },
     form: {
-      last5Matches: [0, 0, 0, 0, 0],
-      trend: "stable",
-      recentPerformance: "average",
+      last5Matches: last5,
+      trend,
+      recentPerformance,
     },
     swot: b.swot,
     role: {
       primary,
       secondary: [],
       fitment: {
-        powerHitter: 0,
-        anchor: 0,
-        finisher: 0,
-        deathBowler: 0,
-        impactSub: 0,
+        powerHitter: pick(10, 90),
+        anchor: pick(10, 90),
+        finisher: pick(10, 90),
+        deathBowler: pick(10, 90),
+        impactSub: pick(10, 90),
       },
     },
     auctionValue: {
-      current: 0,
-      predicted: 0,
-      confidence: 0,
+      current,
+      predicted,
+      confidence,
     },
     image: undefined,
-    injuryRisk: "medium",
-    leadership: 5,
+    injuryRisk: ["low", "medium", "high"][pick(0, 2)] as Player["injuryRisk"],
+    leadership: pick(3, 9),
   };
 };
 

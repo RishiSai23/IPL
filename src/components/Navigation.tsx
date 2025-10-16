@@ -25,7 +25,8 @@ const Navigation = () => {
     { path: "/players", label: "Players", icon: Users },
     { path: "/analysis", label: "SWOT Analysis", icon: Target },
     { path: "/comparison", label: "Compare", icon: TrendingUp },
-    { path: "/auction", label: "Auction Predictor", icon: Trophy },
+    { path: "/physical", label: "Physical test", icon: Trophy },
+    // { path: "/auction", label: "Auction Predictor", icon: Trophy },
     { path: "/matches", label: "My Matches", icon: Calendar }, // new
     { path: "/leaderboard", label: "Leaderboard", icon: Award }, // new
   ];

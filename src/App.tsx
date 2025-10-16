@@ -30,7 +30,7 @@ export default function App() {
             <Route path="/players" element={<Players />} />
             <Route path="/analysis" element={<Analysis />} />
             <Route path="/comparison" element={<Comparison />} />
-            <Route path="/auction" element={<PhysicalAnalysis />} />
+            <Route path="/physical" element={<PhysicalAnalysis />} />
             {/* <Route path="/auction" element={<Auction />} /> */}
             <Route path="/add-match" element={<AddMatch />} />
             <Route path="/matches" element={<Matches />} /> {/* new */}

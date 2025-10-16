@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
@@ -23,22 +23,7 @@ import ChartPlaceholder from "@/components/ChartPlaceholder";
 
 const Index = () => {
   // ---------------- Compare Players Data ----------------
-  const [players] = useState([
-    {
-      name: "Virat Kohli",
-      country: "India",
-      role: "Batsman",
-      team: "Royal Challengers Bangalore",
-      image: "",
-    },
-    {
-      name: "Jasprit Bumrah",
-      country: "India",
-      role: "Bowler",
-      team: "Mumbai Indians",
-      image: "",
-    },
-  ]);
+  const players = mockPlayers.slice(0, 2);
 
   const statsData = [
     { label: "Matches Played", player1: "294", player2: "120", icon: Target },
@@ -221,16 +206,7 @@ const Index = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {topPerformers.map((p) => (
-              <PlayerCard
-                key={p.id}
-                player={{
-                  name: p.name,
-                  country: p.nationality,
-                  role: p.position,
-                  team: p.team,
-                  image: p.image,
-                }}
-              />
+              <PlayerCard key={p.id} player={p} title="Player" />
             ))}
           </div>
         </div>
@@ -261,7 +237,7 @@ const Index = () => {
           {/* Player Cards */}
           <div className="grid md:grid-cols-2 gap-6">
             {players.map((player, index) => (
-              <PlayerCard key={index} player={player} />
+              <PlayerCard key={index} player={player} title="Player" />
             ))}
           </div>
 

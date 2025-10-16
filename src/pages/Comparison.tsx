@@ -1,91 +1,69 @@
-<<<<<<< HEAD
-import { useState } from "react";
+// import { useState } from "react";
 import Navigation from "@/components/Navigation";
 // import HeaderSection from "@/components/HeaderSection";
-import CompareSection from "@/components/CompareSection";
-import PerformanceComparison from "@/components/PerformanceComparison";
-import TrendingPlayers from "@/components/TrendingPlayers";
 import type { Player } from "@/types/player";
-import { mockPlayers } from "@/data/mockPlayers";
-=======
+import PlayerCard from "@/components/PlayerCard";
+// import { mockPlayers } from "@/data/mockPlayers";
 // file: src/pages/Comparison.tsx
-import Navigation from "@/components/Navigation";
+// import Navigation from "@/components/Navigation";
 import PerformanceChart from "@/components/PerformanceChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, Target, BarChart3, Trophy, Search } from "lucide-react";
-import { mockPlayers } from "@/data/mockPlayers";
-import { useEffect, useState } from "react";
->>>>>>> main
+import { TrendingUp, Target, Trophy } from "lucide-react";
+import { useState } from "react";
+import PerformanceComparison from "@/components/PerformanceComparison";
 
-const mockStats = [
-  {
-    label: "Matches",
-    player1Value: 254,
-    player2Value: 150,
-    player1Display: "254",
-    player2Display: "150",
-  },
-  {
-    label: "Runs",
-    player1Value: 12040,
-    player2Value: 7540,
-    player1Display: "12,040",
-    player2Display: "7,540",
-  },
-  {
-    label: "Average",
-    player1Value: 59.3,
-    player2Value: 61.2,
-    player1Display: "59.3",
-    player2Display: "61.2",
-  },
-  {
-    label: "Strike Rate",
-    player1Value: 93.2,
-    player2Value: 88.4,
-    player1Display: "93.2",
-    player2Display: "88.4",
-  },
-  {
-    label: "Centuries",
-    player1Value: 43,
-    player2Value: 29,
-    player1Display: "43",
-    player2Display: "29",
-  },
-  {
-    label: "Half Centuries",
-    player1Value: 64,
-    player2Value: 36,
-    player1Display: "64",
-    player2Display: "36",
-  },
-];
-
-const trendingPlayers = [
-  { id: "3", name: "Andre Russell" },
-  { id: "4", name: "Rashid Khan" },
-  { id: "2", name: "Jasprit Bumrah" },
-  { id: "1", name: "Virat Kohli" },
-];
+// Removed unused mock blocks to avoid linter errors
 
 const CompareCricketersPage = () => {
   const [player1, setPlayer1] = useState<Player | undefined>(undefined);
   const [player2, setPlayer2] = useState<Player | undefined>(undefined);
 
-  const handleSelectPlayer1 = (player: Player) => {
-    setPlayer1(player);
+  // Simple winner helper
+  const getWinner = (a: number, b: number): "player1" | "player2" | "tie" => {
+    if (a > b) return "player1";
+    if (b > a) return "player2";
+    return "tie";
   };
 
   const comparisonMetrics =
     player1 && player2
       ? [
-          { key: "runs", label: "Runs", player1: player1.stats.runs, player2: player2.stats.runs },
-          { key: "wickets", label: "Wickets", player1: player1.stats.wickets, player2: player2.stats.wickets },
-          { key: "strikeRate", label: "Strike Rate", player1: player1.stats.strikeRate, player2: player2.stats.strikeRate },
-          { key: "average", label: "Average", player1: player1.stats.average, player2: player2.stats.average },
-          { key: "matches", label: "Matches", player1: player1.stats.matches, player2: player2.stats.matches },
-          { key: "leadership", label: "Leadership", player1: player1.leadership, player2: player2.leadership },
+          {
+            key: "runs",
+            label: "Runs",
+            player1: player1.stats.runs,
+            player2: player2.stats.runs,
+          },
+          {
+            key: "wickets",
+            label: "Wickets",
+            player1: player1.stats.wickets,
+            player2: player2.stats.wickets,
+          },
+          {
+            key: "strikeRate",
+            label: "Strike Rate",
+            player1: player1.stats.strikeRate,
+            player2: player2.stats.strikeRate,
+          },
+          {
+            key: "average",
+            label: "Average",
+            player1: player1.stats.average,
+            player2: player2.stats.average,
+          },
+          {
+            key: "matches",
+            label: "Matches",
+            player1: player1.stats.matches,
+            player2: player2.stats.matches,
+          },
+          {
+            key: "leadership",
+            label: "Leadership",
+            player1: player1.leadership,
+            player2: player2.leadership,
+          },
         ]
       : [];
 
@@ -107,11 +85,21 @@ const CompareCricketersPage = () => {
             player1: Math.min(10, (player1.stats.matches / 50) * 10),
             player2: Math.min(10, (player2.stats.matches / 50) * 10),
           },
-          { metric: "Leadership", player1: player1.leadership, player2: player2.leadership },
+          {
+            metric: "Leadership",
+            player1: player1.leadership,
+            player2: player2.leadership,
+          },
           {
             metric: "Value",
-            player1: Math.min(10, (player1.auctionValue.predicted / 20000000) * 10),
-            player2: Math.min(10, (player2.auctionValue.predicted / 20000000) * 10),
+            player1: Math.min(
+              10,
+              (player1.auctionValue.predicted / 20000000) * 10
+            ),
+            player2: Math.min(
+              10,
+              (player2.auctionValue.predicted / 20000000) * 10
+            ),
           },
         ]
       : [];
@@ -125,26 +113,26 @@ const CompareCricketersPage = () => {
       if (winner === "player1") p1Wins++;
       if (winner === "player2") p2Wins++;
     });
-    if (p1Wins > p2Wins) return { winner: player1, score: `${p1Wins}-${p2Wins}` };
-    if (p2Wins > p1Wins) return { winner: player2, score: `${p2Wins}-${p1Wins}` };
+    if (p1Wins > p2Wins)
+      return { winner: player1, score: `${p1Wins}-${p2Wins}` };
+    if (p2Wins > p1Wins)
+      return { winner: player2, score: `${p2Wins}-${p1Wins}` };
     return { winner: null, score: `${p1Wins}-${p2Wins}` };
   };
 
-  const handleSelectTrendingPlayer = (player: { id: string; name: string }) => {
-    console.log("Selected trending player:", player.name);
-    // Find the player in mockPlayers array
-    const selectedPlayer = mockPlayers.find((p) => p.id === player.id);
-    if (selectedPlayer) {
-      // Set as player 1 if empty, otherwise player 2
-      if (!player1) {
-        setPlayer1(selectedPlayer);
-      } else if (!player2) {
-        setPlayer2(selectedPlayer);
-      } else {
-        setPlayer2(selectedPlayer);
-      }
-    }
-  };
+  const result = getBetterPlayer();
+
+  // Player selection happens via PlayerCard's dialog
+
+  // const handleSelectTrendingPlayer = (player: { id: string; name: string }) => {
+  //   console.log("Selected trending player:", player.name);
+  //   const selectedPlayer = mockPlayers.find((p) => p.id === player.id);
+  //   if (selectedPlayer) {
+  //     if (!player1) setPlayer1(selectedPlayer);
+  //     else if (!player2) setPlayer2(selectedPlayer);
+  //     else setPlayer2(selectedPlayer);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-background">
@@ -158,136 +146,58 @@ const CompareCricketersPage = () => {
             <TrendingUp className="w-8 h-8 text-primary" />
             <span>Compare Cricketers</span>
           </h1>
-          <p className="text-muted-foreground">Select two players to analyze head-to-head performance.</p>
+          <p className="text-muted-foreground">
+            Select two players to analyze head-to-head performance.
+          </p>
         </div>
 
-        {/* VS Section */}
-        <div className="flex justify-center items-center space-x-6">
-          {/* Player 1 */}
-          <div
-            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600 transition-transform hover:scale-105"
-            onClick={() => {}}
-          >
-            {player1 ? (
-              <>
-                {player1.image ? (
-                  <img src={player1.image} alt={player1.name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white/70 text-sm">No Image</div>
-                )}
-                <span className="absolute bottom-2 bg-primary/70 px-2 rounded text-xs">{player1.role}</span>
-              </>
-            ) : (
-              <img
-                src="/human-placeholder.png"
-                alt="Default Human"
-                className="w-20 h-20 opacity-60"
-              />
-            )}
-          </div>
-
-          <span className="text-2xl font-bold">VS</span>
-
-          {/* Player 2 */}
-          <div
-            className="relative w-36 h-36 bg-gray-800 rounded-full flex items-center justify-center cursor-pointer overflow-hidden border-4 border-gray-600 transition-transform hover:scale-105"
-            onClick={() => {}}
-          >
-            {player2 ? (
-              <>
-                {player2.image ? (
-                  <img src={player2.image} alt={player2.name} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white/70 text-sm">No Image</div>
-                )}
-                <span className="absolute bottom-2 bg-secondary/70 px-2 rounded text-xs">{player2.role}</span>
-              </>
-            ) : (
-              <img
-                src="/human-placeholder.png"
-                alt="Default Human"
-                className="w-20 h-20 opacity-60"
-              />
-            )}
-          </div>
-        </div>
-
-        {/* Search & Player List */}
-        <div className="space-y-2">
-          <div className="flex items-center space-x-2 mb-2">
-            <Search className="w-5 h-5 text-primary" />
-            <input
-              type="text"
-              placeholder="Search players..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-3 py-2 rounded bg-gray-700 text-white outline-none"
+        {/* VS Section using PlayerCard with search dialog */}
+        <div className="flex justify-center items-start gap-6">
+          <div className="w-72">
+            <PlayerCard
+              title="Player 1"
+              player={player1}
+              onSelectPlayer={(p) => setPlayer1(p)}
             />
           </div>
-          <div className="flex flex-wrap gap-2">
-            {filteredPlayers.map((player) => (
-              <button
-                key={player.id}
-                className="flex items-center gap-2 px-3 py-1 bg-gray-700 rounded-full text-sm text-white hover:bg-primary transition"
-                onClick={() => {
-                  if (!player1) setPlayer1(player);
-                  else if (!player2 && player.id !== player1.id) setPlayer2(player);
-                }}
-              >
-                {player.image ? (
-                  <img src={player.image} alt={player.name} className="w-6 h-6 rounded-full" />
-                ) : (
-                  <div className="w-6 h-6 rounded-full bg-gray-600" />
-                )}
-                {player.name}
-                <span className="font-bold">+</span>
-              </button>
-            ))}
+          <div className="flex items-center h-full pt-10">
+            <span className="text-2xl font-bold">VS</span>
+          </div>
+          <div className="w-72">
+            <PlayerCard
+              title="Player 2"
+              player={player2}
+              onSelectPlayer={(p) => setPlayer2(p)}
+            />
           </div>
         </div>
+
+        {/* Player selection moved into PlayerCard dialogs */}
 
         {/* Metrics Comparison */}
         {player1 && player2 && (
           <div className="space-y-6">
-            <Card className="shadow-card">
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <BarChart3 className="w-5 h-5 text-primary" />
-                  <span>Metrics Comparison</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {comparisonMetrics.map((metric) => {
-                  const winner = getWinner(metric.player1, metric.player2);
-                  const max = Math.max(metric.player1, metric.player2) || 1;
-                  return (
-                    <div
-                      key={metric.key}
-                      className="flex items-center justify-between bg-gray-800 p-3 rounded-lg"
-                    >
-                      <span className="font-medium w-32">{metric.label}</span>
-                      <div className="w-20 h-3 bg-gray-600 rounded-full overflow-hidden">
-                        <div
-                          className={`h-3 rounded-full transition-all duration-500 ${
-                            winner === "player1" ? "bg-primary" : "bg-gray-400"
-                          }`}
-                          style={{ width: `${(metric.player1 / max) * 100}%` }}
-                        />
-                      </div>
-                      <span className="w-8 text-center">VS</span>
-                      <div className="w-20 h-3 bg-gray-600 rounded-full overflow-hidden">
-                        <div
-                          className={`h-3 rounded-full transition-all duration-500 ${
-                            winner === "player2" ? "bg-secondary" : "bg-gray-400"
-                          }`}
-                          style={{ width: `${(metric.player2 / max) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </CardContent>
-            </Card>
+            {/* Themed Performance Comparison (replaces previous metrics block) */}
+            <PerformanceComparison
+              player1Name={player1.name}
+              player2Name={player2.name}
+              stats={comparisonMetrics.map((m) => {
+                const format = (key: string, val: number) => {
+                  if (key === "strikeRate" || key === "average")
+                    return val.toFixed(1);
+                  return Number.isFinite(val)
+                    ? val.toLocaleString()
+                    : String(val);
+                };
+                return {
+                  label: m.label,
+                  player1Value: m.player1,
+                  player2Value: m.player2,
+                  player1Display: format(m.key, m.player1),
+                  player2Display: format(m.key, m.player2),
+                };
+              })}
+            />
 
             {/* Radar Chart */}
             <Card className="shadow-card">
@@ -313,8 +223,12 @@ const CompareCricketersPage = () => {
               <Card className="shadow-card bg-primary/10 border-primary/20">
                 <CardContent className="text-center py-6">
                   <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold">Overall Winner: {result.winner.name}</h2>
-                  <p className="text-muted-foreground">Wins {result.score} across key metrics</p>
+                  <h2 className="text-2xl font-bold">
+                    Overall Winner: {result.winner.name}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Wins {result.score} across key metrics
+                  </p>
                 </CardContent>
               </Card>
             )}
