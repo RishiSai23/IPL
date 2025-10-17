@@ -1,4 +1,3 @@
-// file: src/data/mockPlayers.ts
 import type { Player } from "@/types/player";
 
 type BasicPlayer = {
@@ -15,21 +14,179 @@ type BasicPlayer = {
 
 // Your basic dataset (unchanged)
 const BASIC: BasicPlayer[] = [
-  { id: 1,  name: "Rohit Sharma",       team: "MI",  swot: { strengths: ["Explosive opening batsman", "Calm under pressure", "Leadership experience"], weaknesses: ["Inconsistency in T20s"], opportunities: ["Can mentor young batters", "Strong captain material"], threats: ["Injury risk due to workload"] } },
-  { id: 2,  name: "Virat Kohli",        team: "RCB", swot: { strengths: ["Fitness and consistency", "Aggressive leader", "High strike rate"], weaknesses: ["Struggles with spin at times"], opportunities: ["Experience benefits team culture"], threats: ["Overexposure to media pressure"] } },
-  { id: 3,  name: "Suryakumar Yadav",   team: "MI",  swot: { strengths: ["360° shot-making", "Fearless batting"], weaknesses: ["Occasional risky shots"], opportunities: ["Can stabilize middle order"], threats: ["Form fluctuation"] } },
-  { id: 4,  name: "Jasprit Bumrah",     team: "MI",  swot: { strengths: ["Deadly yorkers", "Death overs specialist"], weaknesses: ["Prone to back injury"], opportunities: ["Match-winning potential"], threats: ["Injury recurrence"] } },
-  { id: 5,  name: "Hardik Pandya",      team: "GT",  swot: { strengths: ["All-rounder", "Leadership", "Finisher"], weaknesses: ["Fitness issues"], opportunities: ["Lead national T20 side"], threats: ["High workload"] } },
-  { id: 6,  name: "Shubman Gill",       team: "GT",  swot: { strengths: ["Elegant stroke play", "Calm temperament"], weaknesses: ["Slow starts sometimes"], opportunities: ["Future captain prospect"], threats: ["Pressure of expectations"] } },
-  { id: 7,  name: "Ravindra Jadeja",    team: "CSK", swot: { strengths: ["All-round contribution", "Electric fielding"], weaknesses: ["Inconsistency with bat"], opportunities: ["Can lead spin attack"], threats: ["Injury risk"] } },
-  { id: 8,  name: "MS Dhoni",           team: "CSK", swot: { strengths: ["Unmatched captaincy", "Cool temperament"], weaknesses: ["Age affecting reflexes"], opportunities: ["Mentor role"], threats: ["Retirement nearing"] } },
-  { id: 9,  name: "Ruturaj Gaikwad",    team: "CSK", swot: { strengths: ["Solid technique", "Composed mindset"], weaknesses: ["Struggles with swing early"], opportunities: ["Future India opener"], threats: ["Competition for spot"] } },
-  { id:10,  name: "KL Rahul",           team: "LSG", swot: { strengths: ["Stylish stroke player", "Captaincy"], weaknesses: ["Inconsistent strike rate"], opportunities: ["Top-order anchor"], threats: ["Injury prone"] } },
-  { id:11,  name: "Rashid Khan",        team: "GT",  swot: { strengths: ["World-class spinner", "Game-changer"], weaknesses: ["Weak lower-order batting"], opportunities: ["Can develop all-round skills"], threats: ["Over-dependence"] } },
-  { id:12,  name: "Sanju Samson",       team: "RR",  swot: { strengths: ["Explosive batting", "Leadership"], weaknesses: ["Lack of consistency"], opportunities: ["National selection"], threats: ["Competition for wicketkeeper role"] } },
-  { id:13,  name: "Mohammed Siraj",     team: "RCB", swot: { strengths: ["Aggressive bowling", "Improved control"], weaknesses: ["Can leak runs early"], opportunities: ["Lead Indian pace attack"], threats: ["Injury risk"] } },
-  { id:14,  name: "Yuzvendra Chahal",   team: "RR",  swot: { strengths: ["Spin variation", "Experience"], weaknesses: ["Flat pitch struggles"], opportunities: ["Mentor young spinners"], threats: ["Form decline"] } },
-  { id:15,  name: "Axar Patel",         team: "DC",  swot: { strengths: ["Tight bowling", "Useful lower-order bat"], weaknesses: ["Lack of variations"], opportunities: ["Reliable all-round option"], threats: ["Limited opportunities"] } },
+  {
+    id: 1,
+    name: "Rohit Sharma",
+    team: "MI",
+    swot: {
+      strengths: [
+        "Explosive opening batsman",
+        "Calm under pressure",
+        "Leadership experience",
+      ],
+      weaknesses: ["Inconsistency in T20s"],
+      opportunities: ["Can mentor young batters", "Strong captain material"],
+      threats: ["Injury risk due to workload"],
+    },
+  },
+  {
+    id: 2,
+    name: "Virat Kohli",
+    team: "RCB",
+    swot: {
+      strengths: [
+        "Fitness and consistency",
+        "Aggressive leader",
+        "High strike rate",
+      ],
+      weaknesses: ["Struggles with spin at times"],
+      opportunities: ["Experience benefits team culture"],
+      threats: ["Overexposure to media pressure"],
+    },
+  },
+  {
+    id: 3,
+    name: "Suryakumar Yadav",
+    team: "MI",
+    swot: {
+      strengths: ["360° shot-making", "Fearless batting"],
+      weaknesses: ["Occasional risky shots"],
+      opportunities: ["Can stabilize middle order"],
+      threats: ["Form fluctuation"],
+    },
+  },
+  {
+    id: 4,
+    name: "Jasprit Bumrah",
+    team: "MI",
+    swot: {
+      strengths: ["Deadly yorkers", "Death overs specialist"],
+      weaknesses: ["Prone to back injury"],
+      opportunities: ["Match-winning potential"],
+      threats: ["Injury recurrence"],
+    },
+  },
+  {
+    id: 5,
+    name: "Hardik Pandya",
+    team: "GT",
+    swot: {
+      strengths: ["All-rounder", "Leadership", "Finisher"],
+      weaknesses: ["Fitness issues"],
+      opportunities: ["Lead national T20 side"],
+      threats: ["High workload"],
+    },
+  },
+  {
+    id: 6,
+    name: "Shubman Gill",
+    team: "GT",
+    swot: {
+      strengths: ["Elegant stroke play", "Calm temperament"],
+      weaknesses: ["Slow starts sometimes"],
+      opportunities: ["Future captain prospect"],
+      threats: ["Pressure of expectations"],
+    },
+  },
+  {
+    id: 7,
+    name: "Ravindra Jadeja",
+    team: "CSK",
+    swot: {
+      strengths: ["All-round contribution", "Electric fielding"],
+      weaknesses: ["Inconsistency with bat"],
+      opportunities: ["Can lead spin attack"],
+      threats: ["Injury risk"],
+    },
+  },
+  {
+    id: 8,
+    name: "MS Dhoni",
+    team: "CSK",
+    swot: {
+      strengths: ["Unmatched captaincy", "Cool temperament"],
+      weaknesses: ["Age affecting reflexes"],
+      opportunities: ["Mentor role"],
+      threats: ["Retirement nearing"],
+    },
+  },
+  {
+    id: 9,
+    name: "Ruturaj Gaikwad",
+    team: "CSK",
+    swot: {
+      strengths: ["Solid technique", "Composed mindset"],
+      weaknesses: ["Struggles with swing early"],
+      opportunities: ["Future India opener"],
+      threats: ["Competition for spot"],
+    },
+  },
+  {
+    id: 10,
+    name: "KL Rahul",
+    team: "LSG",
+    swot: {
+      strengths: ["Stylish stroke player", "Captaincy"],
+      weaknesses: ["Inconsistent strike rate"],
+      opportunities: ["Top-order anchor"],
+      threats: ["Injury prone"],
+    },
+  },
+  {
+    id: 11,
+    name: "Rashid Khan",
+    team: "GT",
+    swot: {
+      strengths: ["World-class spinner", "Game-changer"],
+      weaknesses: ["Weak lower-order batting"],
+      opportunities: ["Can develop all-round skills"],
+      threats: ["Over-dependence"],
+    },
+  },
+  {
+    id: 12,
+    name: "Sanju Samson",
+    team: "RR",
+    swot: {
+      strengths: ["Explosive batting", "Leadership"],
+      weaknesses: ["Lack of consistency"],
+      opportunities: ["National selection"],
+      threats: ["Competition for wicketkeeper role"],
+    },
+  },
+  {
+    id: 13,
+    name: "Mohammed Siraj",
+    team: "RCB",
+    swot: {
+      strengths: ["Aggressive bowling", "Improved control"],
+      weaknesses: ["Can leak runs early"],
+      opportunities: ["Lead Indian pace attack"],
+      threats: ["Injury risk"],
+    },
+  },
+  {
+    id: 14,
+    name: "Yuzvendra Chahal",
+    team: "RR",
+    swot: {
+      strengths: ["Spin variation", "Experience"],
+      weaknesses: ["Flat pitch struggles"],
+      opportunities: ["Mentor young spinners"],
+      threats: ["Form decline"],
+    },
+  },
+  {
+    id: 15,
+    name: "Axar Patel",
+    team: "DC",
+    swot: {
+      strengths: ["Tight bowling", "Useful lower-order bat"],
+      weaknesses: ["Lack of variations"],
+      opportunities: ["Reliable all-round option"],
+      threats: ["Limited opportunities"],
+    },
+  },
 ];
 
 const roleMap: Record<string, Player["role"]["primary"]> = {
@@ -55,56 +212,134 @@ const nationalityMap: Record<string, string> = {
 };
 
 const positionFromRole = (r: Player["role"]["primary"]) =>
-  r === "batsman" ? "Batsman" :
-  r === "bowler" ? "Bowler" :
-  r === "all-rounder" ? "All-Rounder" : "Wicket-Keeper";
+  r === "batsman"
+    ? "Batsman"
+    : r === "bowler"
+    ? "Bowler"
+    : r === "all-rounder"
+    ? "All-Rounder"
+    : "Wicket-Keeper";
 
 const toPlayer = (b: BasicPlayer): Player => {
   const primary = roleMap[b.name] ?? "batsman";
+
+  // Deterministic pseudo-random helper so values are static but varied per id
+  const pick = (min: number, max: number) => {
+    const span = max - min;
+    const k = (b.id * 37 + 17) % 1000; // 0-999
+    return Math.round(min + (k / 999) * span);
+  };
+
+  // Base stats by role
+  const matches = pick(40, 120);
+  let runs = 0,
+    wickets = 0,
+    strikeRate = 0,
+    average = 0,
+    economy = 0,
+    catches = 0,
+    fifties = 0,
+    hundreds = 0,
+    bestBowling = "1/10";
+
+  if (primary === "batsman") {
+    runs = pick(1200, 5500);
+    wickets = pick(0, 10);
+    strikeRate = pick(120, 165);
+    average = pick(28, 52);
+    economy = 0;
+    catches = pick(8, 35);
+    fifties = pick(8, 30);
+    hundreds = pick(1, 8);
+    bestBowling = `${pick(0, 2)}/${pick(8, 30)}`;
+  } else if (primary === "bowler") {
+    runs = pick(150, 900);
+    wickets = pick(40, 140);
+    strikeRate = pick(85, 120);
+    average = pick(10, 22);
+    economy = pick(6, 9);
+    catches = pick(6, 28);
+    fifties = pick(0, 5);
+    hundreds = 0;
+    bestBowling = `${pick(3, 6)}/${pick(8, 25)}`;
+  } else if (primary === "all-rounder") {
+    runs = pick(700, 3000);
+    wickets = pick(25, 100);
+    strikeRate = pick(115, 155);
+    average = pick(22, 38);
+    economy = pick(6.5, 8.8);
+    catches = pick(8, 32);
+    fifties = pick(3, 18);
+    hundreds = pick(0, 4);
+    bestBowling = `${pick(2, 5)}/${pick(10, 28)}`;
+  } else {
+    // wicket-keeper
+    runs = pick(1000, 4500);
+    wickets = 0;
+    strikeRate = pick(120, 160);
+    average = pick(25, 45);
+    economy = 0;
+    catches = pick(20, 70);
+    fifties = pick(6, 24);
+    hundreds = pick(0, 5);
+    bestBowling = `0/${pick(10, 25)}`;
+  }
+
+  const last5 = Array.from({ length: 5 }, (_, i) =>
+    pick(20 + i * 2, 80 + i * 3)
+  );
+  const trend = last5[last5.length - 1] > last5[0] ? "up" : "down";
+  const recentPerformance =
+    last5.reduce((a, b) => a + b, 0) / last5.length > 50 ? "good" : "average";
+
+  const current = pick(30000000, 180000000); // ₹3–18 Cr
+  const predicted = pick(40000000, 220000000); // ₹4–22 Cr
+  const confidence = pick(60, 95);
+
   return {
     id: String(b.id),
     name: b.name,
     team: b.team,
-    age: 28,
+    age: pick(22, 36),
     nationality: nationalityMap[b.name] ?? "India",
     position: positionFromRole(primary),
     stats: {
-      matches: 0,
-      runs: 0,
-      wickets: 0,
-      strikeRate: 0,
-      average: 0,
-      economy: 0,
-      catches: 0,
-      fifties: 0,
-      hundreds: 0,
-      bestBowling: "0/0",
+      matches,
+      runs,
+      wickets,
+      strikeRate,
+      average,
+      economy,
+      catches,
+      fifties,
+      hundreds,
+      bestBowling,
     },
     form: {
-      last5Matches: [0, 0, 0, 0, 0],
-      trend: "stable",
-      recentPerformance: "average",
+      last5Matches: last5,
+      trend,
+      recentPerformance,
     },
     swot: b.swot,
     role: {
       primary,
       secondary: [],
       fitment: {
-        powerHitter: 0,
-        anchor: 0,
-        finisher: 0,
-        deathBowler: 0,
-        impactSub: 0,
+        powerHitter: pick(10, 90),
+        anchor: pick(10, 90),
+        finisher: pick(10, 90),
+        deathBowler: pick(10, 90),
+        impactSub: pick(10, 90),
       },
     },
     auctionValue: {
-      current: 0,
-      predicted: 0,
-      confidence: 0,
+      current,
+      predicted,
+      confidence,
     },
     image: undefined,
-    injuryRisk: "medium",
-    leadership: 5,
+    injuryRisk: ["low", "medium", "high"][pick(0, 2)] as Player["injuryRisk"],
+    leadership: pick(3, 9),
   };
 };
 
