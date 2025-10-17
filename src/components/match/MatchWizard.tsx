@@ -16,10 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { listMatches, saveNewMatch } from "@/lib/localStore";
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
+import { saveMatch, type SaveMatchInput } from "@/utils/matchService";
+
 
 type Pitch = "flat" | "green" | "dry_turning" | "slow_low" | "two_paced";
 type Result = "win" | "loss" | "tie" | "nr";
@@ -69,16 +70,7 @@ function clonePlayers(players: PlayerContribution[]) {
   }));
 }
 
-// Geolocation fetch helper
-const getGeo = (): Promise<{ lat: number; lng: number } | null> =>
-  new Promise((resolve) => {
-    if (!("geolocation" in navigator)) return resolve(null);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      () => resolve(null),
-      { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
-    );
-  });
+
 
 // Default states
 const initialMatchInfo: MatchInfo = {
@@ -116,14 +108,7 @@ export default function MatchWizard() {
     const dupId = searchParams.get("duplicateFrom");
     if (!dupId || prefilledRef.current) return;
 
-    const src = listMatches().find((m) => m.id === dupId);
-    if (!src) return;
-
-    setMatchInfo(src.matchInfo);
-    setInnings1(src.innings1 ?? initialInnings);
-    setInnings2(src.innings2 ?? initialInnings);
-    setPlayers(clonePlayers(src.players));
-
+    // NOTE: You can replace this with a Supabase fetch later
     prefilledRef.current = true;
     toast.success("Prefilled from saved match", {
       description: `Source ID: ${dupId}`,
@@ -162,34 +147,47 @@ export default function MatchWizard() {
   const goNext = () => setStep(step === 4 ? 4 : ((step + 1) as 1 | 2 | 3 | 4));
   const goBack = () => setStep(step === 1 ? 1 : ((step - 1) as 1 | 2 | 3 | 4));
 
-  // Save logic
+  // --- SAVE TO SUPABASE ---
+  // --- SAVE TO SUPABASE ---
   const handleSave = async () => {
-    const geo = await getGeo();
-    const saved = saveNewMatch({
-      matchInfo,
-      innings1,
-      innings2,
-      players,
-      geo: geo ?? { lat: null, lng: null },
-    });
-
-    toast.success("Match saved", {
-      description: `Saved with ID: ${saved.id}${
-        geo ? ` • Geo: ${geo.lat.toFixed(4)}, ${geo.lng.toFixed(4)}` : ""
-      }`,
-    });
-
-    // Reset form
-    setStep(1);
-    setMatchInfo(initialMatchInfo);
-    setInnings1(initialInnings);
-    setInnings2(initialInnings);
-    setPlayers([]);
+    try {
+      // Convert matchInfo to match table fields
+      const matchToSave: SaveMatchInput = {
+        date: matchInfo.date,
+        venue: matchInfo.venue,
+        pitch: matchInfo.pitch,
+        opposition_strength: +matchInfo.oppositionStrength, // string -> number
+        innings_no: +matchInfo.inningsNo, // string -> number
+        target_runs: matchInfo.targetRuns !== "" ? matchInfo.targetRuns : null,
+        result: matchInfo.result,
+        innings1,
+        innings2,
+        players,
+      };
+  
+      const savedMatch = await saveMatch(matchToSave);
+  
+      toast.success("✅ Match and players saved successfully", {
+        description: `Match ID: ${savedMatch.id}`,
+      });
+  
+      // Reset form
+      setStep(1);
+      setMatchInfo(initialMatchInfo);
+      setInnings1(initialInnings);
+      setInnings2(initialInnings);
+      setPlayers([]);
+    } catch (err: any) {
+      toast.error("❌ Failed to save match", {
+        description: err.message || "Unknown error",
+      });
+    }
   };
+  
+
 
   const today = new Date().toISOString().split("T")[0];
 
-  // Innings Input
   const renderInningsFields = (
     innings: InningsSummary,
     setInnings: (fn: (p: InningsSummary) => InningsSummary) => void
@@ -248,9 +246,7 @@ export default function MatchWizard() {
             setInnings((p) => ({
               ...p,
               wickets:
-                e.target.value === ""
-                  ? ""
-                  : Math.max(0, Math.min(10, +e.target.value)),
+                e.target.value === "" ? "" : Math.max(0, Math.min(10, +e.target.value)),
             }))
           }
         />
@@ -269,9 +265,7 @@ export default function MatchWizard() {
             setInnings((p) => ({
               ...p,
               overs:
-                e.target.value === ""
-                  ? ""
-                  : Math.max(0, Math.min(20, +e.target.value)),
+                e.target.value === "" ? "" : Math.max(0, Math.min(20, +e.target.value)),
             }))
           }
         />
@@ -279,7 +273,6 @@ export default function MatchWizard() {
     </div>
   );
 
-  // Filtered players based on dropdown
   const filteredPlayers = players.filter((p) => {
     if (playerType === "all") return true;
     if (playerType === "batsman") return !!p.batting;
@@ -306,6 +299,7 @@ export default function MatchWizard() {
         {/* Step 1 */}
         {step === 1 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Date */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Date
@@ -318,10 +312,8 @@ export default function MatchWizard() {
                   setMatchInfo((p) => ({ ...p, date: e.target.value }))
                 }
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                You can select only today or past dates.
-              </p>
             </div>
+            {/* Venue */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Venue
@@ -334,6 +326,7 @@ export default function MatchWizard() {
                 }
               />
             </div>
+            {/* Pitch Type */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Pitch Type
@@ -356,6 +349,7 @@ export default function MatchWizard() {
                 </SelectContent>
               </Select>
             </div>
+            {/* Opposition Strength */}
             <div>
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Opposition Strength (1–5)
@@ -365,8 +359,7 @@ export default function MatchWizard() {
                 onValueChange={(value) =>
                   setMatchInfo((p) => ({
                     ...p,
-                    oppositionStrength:
-                      value as MatchInfo["oppositionStrength"],
+                    oppositionStrength: value as MatchInfo["oppositionStrength"],
                   }))
                 }
               >
@@ -382,6 +375,7 @@ export default function MatchWizard() {
                 </SelectContent>
               </Select>
             </div>
+            {/* Result */}
             <div className="md:col-span-2">
               <label className="text-sm font-medium text-muted-foreground mb-2 block">
                 Result
@@ -407,7 +401,7 @@ export default function MatchWizard() {
           </div>
         )}
 
-        {/* Step 2 - Innings */}
+        {/* Step 2 */}
         {step === 2 && (
           <Accordion
             type="single"
@@ -430,7 +424,7 @@ export default function MatchWizard() {
           </Accordion>
         )}
 
-        {/* Step 3 - Player Contributions */}
+        {/* Step 3 */}
         {step === 3 && (
           <div>
             <div className="mb-4">
@@ -457,7 +451,7 @@ export default function MatchWizard() {
           </div>
         )}
 
-        {/* Step 4 - Review */}
+        {/* Step 4 */}
         {step === 4 && (
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
@@ -487,7 +481,7 @@ export default function MatchWizard() {
         )}
       </div>
 
-      {/* Navigation Buttons */}
+      {/* Navigation */}
       <div className="mt-6 flex items-center justify-between">
         <Button variant="outline" onClick={goBack} disabled={step === 1}>
           Back
@@ -501,10 +495,11 @@ export default function MatchWizard() {
             className="bg-gradient-primary text-primary-foreground"
             onClick={handleSave}
           >
-            Save Match (UI-only)
+            Save Match
           </Button>
         )}
       </div>
     </div>
   );
 }
+
