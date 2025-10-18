@@ -135,7 +135,7 @@ const CompareCricketersPage = () => {
   // };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
       {/* <HeaderSection /> */}
 
@@ -143,10 +143,10 @@ const CompareCricketersPage = () => {
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold flex items-center space-x-3">
-            <TrendingUp className="w-8 h-8 text-primary" />
-            <span>Compare Cricketers</span>
+            <TrendingUp className="w-8 h-8 text-cyan-400" />
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Compare Cricketers</span>
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-gray-300">
             Select two players to analyze head-to-head performance.
           </p>
         </div>
@@ -200,11 +200,11 @@ const CompareCricketersPage = () => {
             />
 
             {/* Radar Chart */}
-            <Card className="shadow-card">
+            <Card className="glass-card shadow-card">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
-                  <Target className="w-5 h-5 text-primary" />
-                  <span>Performance Radar</span>
+                  <Target className="w-5 h-5 text-cyan-400" />
+                  <span className="text-white">Performance Radar</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -220,13 +220,13 @@ const CompareCricketersPage = () => {
 
             {/* Overall Winner */}
             {result?.winner && (
-              <Card className="shadow-card bg-primary/10 border-primary/20">
+              <Card className="glass-card shadow-card bg-cyan-500/10 border-cyan-500/20">
                 <CardContent className="text-center py-6">
-                  <Trophy className="w-12 h-12 text-primary mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold">
+                  <Trophy className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
+                  <h2 className="text-2xl font-bold text-white">
                     Overall Winner: {result.winner.name}
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-300">
                     Wins {result.score} across key metrics
                   </p>
                 </CardContent>

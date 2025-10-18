@@ -71,11 +71,11 @@ const Players = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-black">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
 
       {/* Hero Section */}
-      <div className="relative text-center py-14 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-white shadow-lg rounded-b-3xl">
+      <div className="relative text-center py-14 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 text-white shadow-lg rounded-b-3xl">
         <h1 className="text-5xl font-extrabold drop-shadow-lg">
           🏏 IPL Player Database
         </h1>
@@ -106,7 +106,7 @@ const Players = () => {
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Filters */}
         <motion.div
-          className="sticky top-6 z-30 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-lg rounded-xl p-6 mb-10 flex flex-wrap gap-4 items-center"
+          className="sticky top-6 z-30 glass-card shadow-lg rounded-xl p-6 mb-10 flex flex-wrap gap-4 items-center"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >

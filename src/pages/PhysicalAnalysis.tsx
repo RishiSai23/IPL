@@ -61,12 +61,12 @@ export default function PlayerFitnessAssessmentPage() {
   };
 
   return (
-    <main className="min-h-dvh bg-background">
+    <main className="min-h-dvh bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
 
-      {/* Hero section with orange→purple gradient to match template */}
+      {/* Hero section with cyan→blue gradient to match dashboard template */}
       <section className="mx-auto w-full max-w-6xl px-4 pt-6">
-        <div className="rounded-3xl bg-gradient-to-r from-orange-500 via-purple-500 to-blue-600 px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
+        <div className="rounded-3xl bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
           <h1 className={cn("text-balance text-3xl font-bold md:text-5xl")}>
             CricScout AI
           </h1>
@@ -88,49 +88,49 @@ export default function PlayerFitnessAssessmentPage() {
       {/* <CHANGE> Add template-like 4-card metric summary row */}
       <section className="mx-auto w-full max-w-6xl px-4 py-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Card className="rounded-2xl p-5">
-            <p className="text-xs font-medium text-muted-foreground">
+          <Card className="glass-card rounded-2xl p-5">
+            <p className="text-xs font-medium text-gray-300">
               TOTAL PLAYERS
             </p>
             <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold">4</span>
-              <Badge className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-medium text-emerald-700">
+              <span className="text-3xl font-semibold text-white">4</span>
+              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +12%
               </Badge>
             </div>
           </Card>
 
-          <Card className="rounded-2xl p-5">
-            <p className="text-xs font-medium text-muted-foreground">
+          <Card className="glass-card rounded-2xl p-5">
+            <p className="text-xs font-medium text-gray-300">
               AVG AUCTION VALUE
             </p>
             <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold">{"₹1.3 Cr"}</span>
-              <Badge className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-medium text-emerald-700">
+              <span className="text-3xl font-semibold text-white">{"₹1.3 Cr"}</span>
+              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +8%
               </Badge>
             </div>
           </Card>
 
-          <Card className="rounded-2xl p-5">
-            <p className="text-xs font-medium text-muted-foreground">
+          <Card className="glass-card rounded-2xl p-5">
+            <p className="text-xs font-medium text-gray-300">
               ACTIVE ANALYSIS
             </p>
             <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold">147</span>
-              <Badge className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-medium text-emerald-700">
+              <span className="text-3xl font-semibold text-white">147</span>
+              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +15%
               </Badge>
             </div>
           </Card>
 
-          <Card className="rounded-2xl p-5">
-            <p className="text-xs font-medium text-muted-foreground">
+          <Card className="glass-card rounded-2xl p-5">
+            <p className="text-xs font-medium text-gray-300">
               ML ACCURACY
             </p>
             <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold">94.2%</span>
-              <Badge className="rounded-full bg-emerald-100 px-2 py-1 text-[10px] font-medium text-emerald-700">
+              <span className="text-3xl font-semibold text-white">94.2%</span>
+              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +2.3%
               </Badge>
             </div>
@@ -141,8 +141,8 @@ export default function PlayerFitnessAssessmentPage() {
       {/* ... existing code ... */}
       {/* <CHANGE> Keep helper, flip cards, evaluate button, and result rendering intact */}
       <section className="mx-auto w-full max-w-6xl px-4 pb-16">
-        <Card className="mb-6 rounded-2xl border bg-card p-4 shadow-sm">
-          <p className="text-sm text-muted-foreground">
+        <Card className="mb-6 rounded-2xl glass-card p-4 shadow-sm">
+          <p className="text-sm text-gray-300">
             Tap a card to flip, enter your value, and hit Done. Fill all cards,
             then evaluate your fitness score.
           </p>
@@ -166,7 +166,7 @@ export default function PlayerFitnessAssessmentPage() {
             onClick={evaluate}
             className={cn(
               "rounded-full px-6 py-6 text-base font-semibold text-white shadow transition-transform",
-              "bg-gradient-to-r from-orange-500 via-purple-500 to-blue-600 hover:scale-105 hover:opacity-95"
+              "bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 hover:scale-105 hover:opacity-95"
             )}
           >
             {loading ? "Evaluating..." : "Evaluate Fitness"}

@@ -1,82 +1,68 @@
-import { UserCircle, Plus } from "lucide-react";
-// import type { Player } from "@/types/player";
+// src/components/PlayerCard.tsx
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 import PlayerSelectionDialog from "./PlayerSelectionDialog";
-// file: src/components/PlayerCard.tsx
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import type { Player } from "@/types/player";
-import { Activity, Award, Minus, TrendingDown, TrendingUp } from "lucide-react";
 
 interface PlayerCardProps {
+  name?: string;
+  team?: string;
+  score?: number;
   player?: Player;
+  title?: string;
   onSelectPlayer?: (player: Player) => void;
-  title: string;
 }
 
-const PlayerCard = ({ player, onSelectPlayer, title }: PlayerCardProps) => {
-  if (!player) {
+const PlayerCard = ({ 
+  name = "Unknown", 
+  team = "-", 
+  score = 0, 
+  player, 
+  title, 
+  onSelectPlayer 
+}: PlayerCardProps) => {
+  // If player is provided, use player data; otherwise use individual props
+  const displayName = player?.name || name;
+  const displayTeam = player?.team || team;
+  const displayScore = player?.stats?.runs || score;
+  
+  // Safely get the first letter
+  const initial = displayName ? displayName.charAt(0).toUpperCase() : "?";
+
+  const cardContent = (
+    <Card className="p-6 rounded-2xl border border-border overflow-hidden relative">
+      <CardContent className="flex flex-col items-center gap-4">
+        <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center text-white text-xl font-bold">
+          {initial}
+        </div>
+        <div className="text-center space-y-1">
+          <h3 className="text-xl font-bold text-foreground">{displayName}</h3>
+          <p className="text-muted-foreground text-sm">{displayTeam}</p>
+          <p className="text-sm mt-2">Score: {displayScore}</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  // If onSelectPlayer is provided, wrap in PlayerSelectionDialog
+  if (onSelectPlayer && title) {
     return (
       <PlayerSelectionDialog
-        onSelectPlayer={onSelectPlayer!}
-        title={`Select ${title}`}
+        onSelectPlayer={onSelectPlayer}
+        title={title}
         trigger={
-          <div className="bg-card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border hover:shadow-[var(--shadow-elevated)] transition-all duration-300 cursor-pointer hover:border-orange-300 hover:bg-orange-50/50 group">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-orange-100 to-orange-200 flex items-center justify-center border-2 border-dashed border-orange-300 group-hover:border-orange-400 group-hover:from-orange-200 group-hover:to-orange-300 transition-all duration-300">
-                <Plus className="w-16 h-16 text-orange-500 group-hover:text-orange-600 transition-colors duration-300" />
-              </div>
-              <div className="text-center space-y-2">
-                <h3 className="text-xl font-semibold text-orange-600 group-hover:text-orange-700 transition-colors duration-300">
-                  {title}
-                </h3>
-                <p className="text-orange-500 text-sm group-hover:text-orange-600 transition-colors duration-300">
-                  Click to add a player
-                </p>
-              </div>
-            </div>
-          </div>
+          <motion.div whileHover={{ scale: 1.02 }} className="group cursor-pointer">
+            {cardContent}
+          </motion.div>
         }
       />
     );
   }
 
   return (
-    <PlayerSelectionDialog
-      onSelectPlayer={onSelectPlayer!}
-      title={`Change ${title}`}
-      trigger={
-        <div className="bg-card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border hover:shadow-[var(--shadow-elevated)] transition-all duration-300 cursor-pointer hover:border-orange-300 hover:bg-orange-50/20 group">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="w-32 h-32 rounded-full bg-muted flex items-center justify-center overflow-hidden group-hover:ring-2 group-hover:ring-orange-200 transition-all duration-300">
-              {player.image ? (
-                <img
-                  src={player.image}
-                  alt={player.name}
-                  className="w-full h-full object-cover"
-                />
-              ) : (
-                <UserCircle className="w-20 h-20 text-muted-foreground" />
-              )}
-            </div>
-            <div className="text-center space-y-2">
-              <h3 className="text-2xl font-bold text-foreground group-hover:text-orange-700 transition-colors duration-300">
-                {player.name}
-              </h3>
-              <p className="text-muted-foreground text-sm">
-                {player.nationality}
-              </p>
-              <p className="text-muted-foreground text-sm font-medium">
-                {player.role.primary}
-              </p>
-              <p className="text-muted-foreground text-xs">{player.team}</p>
-              <p className="text-orange-500 text-xs font-medium group-hover:text-orange-600 transition-colors duration-300">
-                Click to change player
-              </p>
-            </div>
-          </div>
-        </div>
-      }
-    />
+    <motion.div whileHover={{ scale: 1.02 }} className="group">
+      {cardContent}
+    </motion.div>
   );
 };
 

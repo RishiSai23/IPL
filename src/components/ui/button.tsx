@@ -23,6 +23,9 @@ const buttonVariants = cva(
         link: "text-primary !text-primary underline-offset-4 hover:underline",
         gradient:
           "bg-gradient-to-r from-orange-500 to-violet-600 text-white !text-white shadow-md hover:from-orange-600 hover:to-violet-700",
+
+        // New variant for dark backgrounds (e.g., dark hero)
+        ghostInverse: "text-white !text-white hover:text-white hover:bg-white/10",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

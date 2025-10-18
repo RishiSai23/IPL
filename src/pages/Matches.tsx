@@ -61,15 +61,15 @@ export default function Matches() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">My Matches</h1>
-            <p className="text-muted-foreground">Saved locally on your device (no login required)</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">My Matches</h1>
+            <p className="text-gray-300">Saved locally on your device (no login required)</p>
           </div>
           <div className="flex items-center gap-2">
             <Button asChild className="bg-gradient-primary text-primary-foreground">
@@ -91,13 +91,13 @@ export default function Matches() {
 
         {/* Empty state */}
         {matches.length === 0 ? (
-          <Card className="shadow-card">
+          <Card className="glass-card shadow-card">
             <CardContent className="py-12 text-center">
-              <p className="text-foreground font-medium mb-2">No matches saved yet</p>
-              <p className="text-muted-foreground mb-4">
-                Use “Add Match” to enter a new T20 innings and player contributions.
+              <p className="text-white font-medium mb-2">No matches saved yet</p>
+              <p className="text-gray-300 mb-4">
+                Use "Add Match" to enter a new T20 innings and player contributions.
               </p>
-              <Button asChild className="bg-gradient-primary text-primary-foreground">
+              <Button asChild className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90">
                 <Link to="/add-match">Add Match</Link>
               </Button>
             </CardContent>
@@ -105,18 +105,18 @@ export default function Matches() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {matches.map((m) => (
-              <Card key={m.id} className="shadow-card">
+              <Card key={m.id} className="glass-card shadow-card">
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary text-sm font-semibold">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500/20 text-cyan-300 text-sm font-semibold">
                         {m.innings.runs || 0}/{m.innings.wickets || 0}
                       </span>
                       <div className="space-y-0.5">
-                        <div className="text-sm text-foreground font-semibold">
+                        <div className="text-sm text-white font-semibold">
                           {m.innings.battingTeam || "Batting Team"} vs {m.innings.bowlingTeam || "Bowling Team"}
                         </div>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-3 text-xs text-gray-300">
                           <span className="inline-flex items-center gap-1">
                             <Calendar className="w-3.5 h-3.5" />
                             {formatDate(m.createdAt)}
@@ -140,13 +140,13 @@ export default function Matches() {
                 <CardContent className="space-y-3 pt-0">
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-muted-foreground" />
-                      <span className="truncate">{m.matchInfo.venue || "—"}</span>
+                      <MapPin className="w-4 h-4 text-gray-300" />
+                      <span className="truncate text-gray-300">{m.matchInfo.venue || "—"}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Target className="w-4 h-4 text-muted-foreground" />
-                      <span>
-                        Overs: <span className="font-medium">{m.innings.overs || "—"}</span>
+                      <Target className="w-4 h-4 text-gray-300" />
+                      <span className="text-gray-300">
+                        Overs: <span className="font-medium text-white">{m.innings.overs || "—"}</span>
                       </span>
                     </div>
                   </div>
