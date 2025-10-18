@@ -79,18 +79,18 @@ export default function Leaderboard() {
   }, [rows, role, q, sortKey, sortOrder]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
-              <Trophy className="w-7 h-7 text-primary" />
-              Leaderboard
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <Trophy className="w-7 h-7 text-cyan-400" />
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Leaderboard</span>
             </h1>
-            <p className="text-muted-foreground">
+            <p className="text-gray-300">
               Context-adjusted Talent Index across saved matches on this device
             </p>
           </div>
@@ -101,11 +101,11 @@ export default function Leaderboard() {
         </div>
 
         {/* Filters */}
-        <Card className="shadow-card">
+        <Card className="glass-card shadow-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-primary" />
-              Filters
+              <Filter className="w-5 h-5 text-cyan-400" />
+              <span className="text-white">Filters</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -162,17 +162,17 @@ export default function Leaderboard() {
         </Card>
 
         {/* Table */}
-        <Card className="shadow-card">
+        <Card className="glass-card shadow-card">
           <CardHeader className="pb-2">
-            <CardTitle>Rankings</CardTitle>
+            <CardTitle className="text-white">Rankings</CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
             {filtered.length === 0 ? (
               <div className="py-12 text-center space-y-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-gray-300">
                   No results yet. Add matches or adjust filters.
                 </p>
-                <Button asChild className="bg-gradient-primary text-primary-foreground">
+                <Button asChild className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90">
                   <Link to="/add-match">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Match
@@ -181,7 +181,7 @@ export default function Leaderboard() {
               </div>
             ) : (
               <div className="space-y-2">
-                <div className="grid grid-cols-8 text-xs text-muted-foreground px-2">
+                <div className="grid grid-cols-8 text-xs text-gray-300 px-2">
                   <div>#</div>
                   <div className="col-span-2">Player</div>
                   <div>Role</div>
@@ -190,23 +190,23 @@ export default function Leaderboard() {
                   <div className="text-right">Bowl CXI</div>
                   <div className="text-right">TI</div>
                 </div>
-                <div className="h-px bg-border" />
+                <div className="h-px bg-cyan-500/20" />
 
                 {filtered.map((r, i) => (
                   <div
                     key={r.key}
-                    className="grid grid-cols-8 items-center text-sm px-2 py-2 rounded-lg hover:bg-muted/40 transition-smooth"
+                    className="grid grid-cols-8 items-center text-sm px-2 py-2 rounded-lg hover:bg-cyan-500/10 transition-smooth"
                   >
-                    <div className="font-medium text-muted-foreground">{i + 1}</div>
+                    <div className="font-medium text-gray-300">{i + 1}</div>
                     <div className="col-span-2 truncate">
                       <Link
                         to={`/scorecard/${encodeURIComponent(r.name)}`}
-                        className="font-semibold text-foreground hover:text-primary transition-colors"
+                        className="font-semibold text-white hover:text-cyan-400 transition-colors"
                         title={`Open scorecard for ${r.name}`}
                       >
                         {r.name}
                       </Link>
-                      <span className="ml-2 text-xs text-muted-foreground">
+                      <span className="ml-2 text-xs text-gray-300">
                         Last: {new Date(r.lastPlayedAt).toLocaleDateString()}
                       </span>
                     </div>

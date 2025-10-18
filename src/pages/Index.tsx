@@ -1,303 +1,89 @@
-// import { useState } from "react";
+import { motion } from "framer-motion";
 import Navigation from "@/components/Navigation";
-import StatCard from "@/components/StatCard";
-import PlayerCard from "@/components/PlayerCard";
-import PerformanceChart from "@/components/PerformanceChart";
-import { mockPlayers } from "@/data/mockPlayers";
-import {
-  Users,
-  TrendingUp,
-  Trophy,
-  Target,
-  BarChart3,
-  Award,
-  Zap,
-  Activity,
-  RotateCcw,
-  UserPlus,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import StatsCard from "@/components/StatsCard";
-import ChartPlaceholder from "@/components/ChartPlaceholder";
+import Dashboard from "@/pages/homepage";
+import { useEffect } from "react";
+import gsap from "gsap";
 
 const Index = () => {
-  // ---------------- Compare Players Data ----------------
-  const players = mockPlayers.slice(0, 2);
+  useEffect(() => {
+    // Subtle holographic grid animation
+    const tl = gsap.timeline({ repeat: -1, yoyo: true });
+    tl.to(".holo-grid", {
+      opacity: 0.3,
+      duration: 6,
+      ease: "sine.inOut",
+    }).to(".holo-grid", {
+      opacity: 0.6,
+      duration: 6,
+      ease: "sine.inOut",
+    });
 
-  const statsData = [
-    { label: "Matches Played", player1: "294", player2: "120", icon: Target },
-    {
-      label: "Total Runs",
-      player1: "25,716",
-      player2: "149",
-      icon: TrendingUp,
-    },
-    { label: "Wickets Taken", player1: "4", player2: "149", icon: Award },
-    { label: "Strike Rate", player1: "93.5", player2: "85.2", icon: Zap },
-    {
-      label: "Batting Average",
-      player1: "52.7",
-      player2: "8.3",
-      icon: Activity,
-    },
-    {
-      label: "Bowling Economy",
-      player1: "8.2",
-      player2: "7.4",
-      icon: BarChart3,
-    },
-  ];
-
-  // ---------------- Dashboard Data ----------------
-  const performanceData = [
-    { match: "Match 1", runs: 45, wickets: 2 },
-    { match: "Match 2", runs: 67, wickets: 1 },
-    { match: "Match 3", runs: 23, wickets: 3 },
-    { match: "Match 4", runs: 89, wickets: 0 },
-    { match: "Match 5", runs: 34, wickets: 2 },
-  ];
-
-  const topPerformers = mockPlayers.slice(0, 3);
-  const totalPlayers = mockPlayers.length;
-
-  // Safely compute average auction value (guards missing fields and divide-by-zero)
-  const playersWithAV = mockPlayers.filter(
-    (p) => typeof p?.auctionValue?.predicted === "number"
-  );
-  const avgAuctionValue = playersWithAV.length
-    ? playersWithAV.reduce(
-        (sum, p) => sum + (p.auctionValue?.predicted ?? 0),
-        0
-      ) / playersWithAV.length
-    : 0;
+    // Floating glow animation
+    gsap.to(".holo-glow", {
+      duration: 15,
+      repeat: -1,
+      yoyo: true,
+      backgroundPosition: "200% 200%",
+      ease: "sine.inOut",
+    });
+  }, []);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <Navigation />
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+      {/* === Holographic Animated Background Layers === */}
+      <div
+        className="absolute inset-0 holo-glow"
+        style={{
+          background:
+            "radial-gradient(circle at 30% 30%, rgba(0,255,255,0.15), transparent 60%), radial-gradient(circle at 70% 70%, rgba(255,0,255,0.15), transparent 60%)",
+          backgroundSize: "200% 200%",
+          mixBlendMode: "screen",
+          zIndex: 0,
+        }}
+      ></div>
 
-      {/* ---------------- Hero Section ---------------- */}
-      <div className="relative h-64 md:h-80 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-hero opacity-90" />
-        <div className="relative h-full flex items-center justify-center text-center px-4">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
-              CricScout AI
-            </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-6 drop-shadow-md">
-              Advanced IPL Player Analysis & Recommendation System
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                variant="gradient"
-                className="text-orange-500 hover:bg-black/90 shadow-hero"
-              >
-                <BarChart3 className="w-5 h-5 mr-2" />
-                Explore Analytics
-              </Button>
-              <Button
-                size="lg"
-                variant="gradient"
-                className="text-orange-500 hover:bg-blue/90 shadow-hero"
-              >
-                <Trophy className="w-5 h-5 mr-2" />
-                Auction Predictor
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div
+        className="absolute inset-0 holo-grid"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,255,0.05) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          zIndex: 0,
+        }}
+      ></div>
 
-      {/* ---------------- Main Content ---------------- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
-        {/* Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard
-            title="Total Players"
-            value={totalPlayers}
-            icon={Users}
-            trend={{ value: 12, isPositive: true }}
-            gradient="primary"
-          />
-          <StatCard
-            title="Avg Auction Value"
-            value={`₹${(avgAuctionValue / 10000000).toFixed(1)}`}
-            suffix="Cr"
-            icon={Award}
-            trend={{ value: 8, isPositive: true }}
-            gradient="secondary"
-          />
-          <StatCard
-            title="Active Analysis"
-            value="147"
-            icon={Target}
-            trend={{ value: 15, isPositive: true }}
-            gradient="accent"
-          />
-          <StatCard
-            title="ML Accuracy"
-            value="94.2"
-            suffix="%"
-            icon={TrendingUp}
-            trend={{ value: 2.3, isPositive: true }}
-            gradient="primary"
-          />
-        </div>
+      {/* === Top Navigation Bar === */}
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1, ease: "easeOut" }}
+        className="relative z-10"
+      >
+        <Navigation />
+      </motion.div>
 
-        {/* Performance Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <TrendingUp className="w-5 h-5 text-primary" />
-                <span>Recent Performance Trends</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <PerformanceChart
-                type="line"
-                data={performanceData}
-                dataKey="runs"
-                xAxisKey="match"
-                color="hsl(var(--primary))"
-                height={250}
-              />
-            </CardContent>
-          </Card>
+      {/* === Dashboard Section === */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut", delay: 0.3 }}
+        className="relative z-10"
+      >
+        <Dashboard />
+      </motion.div>
 
-          <Card className="shadow-card">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <BarChart3 className="w-5 h-5 text-secondary" />
-                <span>Team Performance Metrics</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <PerformanceChart
-                type="bar"
-                data={[
-                  { team: "RCB", score: 87 },
-                  { team: "MI", score: 92 },
-                  { team: "CSK", score: 89 },
-                  { team: "KKR", score: 85 },
-                  { team: "GT", score: 91 },
-                ]}
-                dataKey="score"
-                xAxisKey="team"
-                color="hsl(var(--secondary))"
-                height={250}
-              />
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Top Performers */}
-        <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-foreground flex items-center space-x-2">
-              <Zap className="w-6 h-6 text-primary" />
-              <span>Top Performers</span>
-            </h2>
-            <Button variant="outline" size="sm">
-              View All Players
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topPerformers.map((p) => (
-              <PlayerCard key={p.id} player={p} title="Player" />
-            ))}
-          </div>
-        </div>
-
-        {/* ---------------- Compare Players Section ---------------- */}
-        <section>
-          <header className="bg-gradient-to-r from-orange-500 via-purple-500 to-blue-600 text-white py-8 px-6 rounded-xl shadow-lg mb-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div>
-                <h2 className="text-3xl font-bold mb-2">Compare Players</h2>
-                <p className="text-white/90 text-lg">
-                  Head-to-head cricket statistics analysis
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm font-semibold">
-                  <UserPlus className="w-5 h-5 mr-2" />
-                  Add Player
-                </Button>
-                <Button className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm font-semibold">
-                  <RotateCcw className="w-5 h-5 mr-2" />
-                  Reset
-                </Button>
-              </div>
-            </div>
-          </header>
-
-          {/* Player Cards */}
-          <div className="grid md:grid-cols-2 gap-6">
-            {players.map((player, index) => (
-              <PlayerCard key={index} player={player} title="Player" />
-            ))}
-          </div>
-
-          {/* Stats Comparison Grid */}
-          <div className="mt-10">
-            <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-2">
-              <BarChart3 className="w-6 h-6 text-primary" />
-              Statistics Comparison
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {statsData.map((stat, index) => (
-                <StatsCard
-                  key={index}
-                  label={stat.label}
-                  player1Value={stat.player1}
-                  player2Value={stat.player2}
-                  icon={stat.icon}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Performance Chart Placeholder */}
-          <div className="mt-10">
-            <ChartPlaceholder />
-          </div>
-        </section>
-
-        {/* Quick Actions */}
-        <Card className="shadow-card bg-gradient-card">
-          <CardHeader>
-            <CardTitle className="text-center">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <Button className="flex flex-col items-center p-6 h-auto bg-gradient-primary text-primary-foreground hover:shadow-stat">
-                <Target className="w-8 h-8 mb-2" />
-                <span className="font-medium">SWOT Analysis</span>
-                <span className="text-xs opacity-80">
-                  Analyze player strengths
-                </span>
-              </Button>
-              <Button className="flex flex-col items-center p-6 h-auto bg-gradient-secondary text-secondary-foreground hover:shadow-stat">
-                <Users className="w-8 h-8 mb-2" />
-                <span className="font-medium">Compare Players</span>
-                <span className="text-xs opacity-80">
-                  Head-to-head analysis
-                </span>
-              </Button>
-              <Button className="flex flex-col items-center p-6 h-auto bg-gradient-accent text-accent-foreground hover:shadow-stat">
-                <Trophy className="w-8 h-8 mb-2" />
-                <span className="font-medium">Auction Predictor</span>
-                <span className="text-xs opacity-80">
-                  Predict player values
-                </span>
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* === Ambient Center Glow === */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.4 }}
+        transition={{ duration: 2 }}
+        style={{
+          background:
+            "radial-gradient(circle at center, rgba(0,255,255,0.08), transparent 70%)",
+          mixBlendMode: "overlay",
+        }}
+      ></motion.div>
     </div>
   );
 };

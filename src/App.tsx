@@ -8,6 +8,8 @@ import AddMatch from "./pages/AddMatch";
 import Analysis from "./pages/Analysis";
 // import Comparison from "./pages/Comparison.tsx";
 import PhysicalAnalysis from "./pages/PhysicalAnalysis.tsx";
+import { MotionConfig, LazyMotion, domAnimation } from "framer-motion";
+
 
 // import Auction from "./pages/Auction";
 import PlayerScore from "./pages/PlayerScore";
@@ -23,6 +25,8 @@ const queryClient = new QueryClient();
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user">
+      <LazyMotion features={domAnimation}>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <BrowserRouter>
@@ -43,5 +47,7 @@ export default function App() {
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+    </LazyMotion>
+    </MotionConfig>
   );
 }

@@ -38,10 +38,10 @@ export default function Analysis() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <Navigation />
       <main className="p-6 max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Player SWOT Analysis Dashboard</h1>
+        <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Player SWOT Analysis Dashboard</h1>
 
         {/* Player Search */}
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
@@ -69,8 +69,8 @@ export default function Analysis() {
         </div>
 
         {/* Radar Chart */}
-        <div className="bg-white p-6 rounded-xl shadow mb-8">
-          <h2 className="text-2xl font-semibold mb-4">SWOT Overview Chart</h2>
+        <div className="glass-card p-6 rounded-xl shadow mb-8">
+          <h2 className="text-2xl font-semibold mb-4 text-white">SWOT Overview Chart</h2>
           <ResponsiveContainer width="100%" height={300}>
             <RadarChart data={chartData}>
               <PolarGrid />
@@ -96,15 +96,15 @@ export default function Analysis() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="shadow-md border border-gray-200 hover:shadow-lg transition-all">
+              <Card className="glass-card shadow-md border border-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/10 transition-all">
                 <CardHeader>
-                  <CardTitle>{section.title}</CardTitle>
+                  <CardTitle className="text-white">{section.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <ul className="list-disc list-inside space-y-2">
                     {section.data.length > 0 ? (
                       section.data.map((point: string, idx: number) => (
-                        <li key={idx} className="text-gray-700">
+                        <li key={idx} className="text-gray-300">
                           {point}
                         </li>
                       ))
