@@ -1,8 +1,9 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { CheckCircle2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { AlertTriangle, CheckCircle2 } from "lucide-react";
 
 type ResultCardProps = {
   score: number; // 0-100
@@ -19,66 +20,93 @@ export function ResultCard({ score, status, commentary }: ResultCardProps) {
   const isQualified = status === "Qualified";
 
   return (
-    <Card className="mx-auto w-full max-w-3xl rounded-2xl border bg-card p-6 shadow-sm">
-      <div className="flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
-        {/* Circular meter */}
-        <div className="relative h-32 w-32">
-          <svg className="h-32 w-32 -rotate-90" viewBox="0 0 120 120">
-            <circle
-              cx="60"
-              cy="60"
-              r={radius}
-              stroke="var(--color-muted)"
-              strokeWidth="10"
-              fill="none"
-            />
-            <circle
-              cx="60"
-              cy="60"
-              r={radius}
-              stroke="url(#grad)"
-              strokeWidth="10"
-              fill="none"
-              strokeLinecap="round"
-              strokeDasharray={`${dash} ${circumference - dash}`}
-            />
-            <defs>
-              <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="var(--gradient-from)" />
-                <stop offset="100%" stopColor="var(--gradient-to)" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-2xl font-bold">{Math.round(score)}%</div>
-              <div className="text-xs text-muted-foreground">Fitness Score</div>
+    <motion.div
+      className="relative mx-auto w-full max-w-3xl"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7, ease: "easeOut" }}
+    >
+      <Card className="relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white/60 via-blue-50/40 to-purple-100/60 backdrop-blur-md shadow-xl">
+        {/* Animated background */}
+        <motion.div
+          className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-sky-300/20 via-indigo-300/10 to-transparent"
+          animate={{
+            backgroundPosition: ["0% 0%", "100% 100%"],
+          }}
+          transition={{ duration: 5, repeat: Infinity, repeatType: "mirror" }}
+        />
+
+        <div className="relative z-10 flex flex-col items-center gap-6 p-6 md:flex-row md:justify-between">
+          {/* Circular Score Meter */}
+          <div className="relative h-40 w-40">
+            <svg className="h-40 w-40 -rotate-90" viewBox="0 0 120 120">
+              <circle
+                cx="60"
+                cy="60"
+                r={radius}
+                stroke="rgba(255,255,255,0.2)"
+                strokeWidth="10"
+                fill="none"
+              />
+              <motion.circle
+                cx="60"
+                cy="60"
+                r={radius}
+                stroke="url(#grad)"
+                strokeWidth="10"
+                fill="none"
+                strokeLinecap="round"
+                strokeDasharray={`${circumference}`}
+                strokeDashoffset={circumference - dash}
+                initial={{ strokeDashoffset: circumference }}
+                animate={{ strokeDashoffset: circumference - dash }}
+                transition={{ duration: 1.2, ease: "easeOut" }}
+              />
+              <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#06b6d4" />
+                  <stop offset="100%" stopColor="#7e22ce" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+              <div className="text-4xl font-extrabold text-gray-800 drop-shadow-sm">
+                {Math.round(score)}%
+              </div>
+              <p className="text-xs text-gray-600">Fitness Score</p>
             </div>
           </div>
-        </div>
 
-        {/* Status */}
-        <div className="flex flex-1 flex-col items-center md:items-start">
-          <div
-            className={cn(
-              "mb-2 inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm font-medium ring-1",
-              isQualified
-                ? "ring-emerald-300 text-emerald-600"
-                : "ring-amber-300 text-amber-600"
-            )}
-          >
-            {isQualified ? (
-              <CheckCircle2 className="h-4 w-4" />
-            ) : (
-              <AlertTriangle className="h-4 w-4" />
-            )}
-            {isQualified ? "Qualified" : "Needs Improvement"}
+          {/* Text Section */}
+          <div className="flex flex-1 flex-col items-center text-center md:items-start md:text-left">
+            <div
+              className={cn(
+                "mb-3 inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium shadow-sm ring-1 transition-all",
+                isQualified
+                  ? "bg-emerald-100/80 text-emerald-700 ring-emerald-400/60"
+                  : "bg-amber-100/80 text-amber-700 ring-amber-400/60"
+              )}
+            >
+              {isQualified ? (
+                <CheckCircle2 className="h-4 w-4" />
+              ) : (
+                <AlertTriangle className="h-4 w-4" />
+              )}
+              {status}
+            </div>
+
+            <motion.p
+              className="max-w-lg text-sm text-gray-700"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              {commentary}
+            </motion.p>
           </div>
-          <p className="text-pretty text-sm text-muted-foreground">
-            {commentary}
-          </p>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
