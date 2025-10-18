@@ -36,10 +36,10 @@ export default function PlayerFitnessAssessmentPage() {
     try {
       setLoading(true);
       setResult(null);
-      const res = await fetch("/api/predict", {
+      const res = await fetch("http://127.0.0.1:8000/predict/fitness", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ value_dict: values }),
       });
       if (!res.ok) throw new Error("Failed to evaluate");
       const data = await res.json();
