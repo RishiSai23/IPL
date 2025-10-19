@@ -12,18 +12,33 @@ type BasicPlayer = {
   };
 };
 
-// Your basic dataset (unchanged)
+// ---------------------------------------------
+// 🖼️  Import all images from /src/assets/players
+// ---------------------------------------------
+const playerImages = import.meta.glob("/src/assets/players/*.{png,jpg,jpeg,webp,svg}", {
+  eager: true,
+  import: "default",
+});
+
+function getPlayerImage(name: string): string {
+  const normalized = name.toLowerCase().replace(/\s+/g, "-");
+  for (const path in playerImages) {
+    if (path.toLowerCase().includes(normalized)) return playerImages[path] as string;
+  }
+  return "/src/assets/players/default.png";
+}
+
+
+// ------------------------------------------------
+// 🧠  Player Base Data (Unchanged SWOT definitions)
+// ------------------------------------------------
 const BASIC: BasicPlayer[] = [
   {
     id: 1,
     name: "Rohit Sharma",
     team: "MI",
     swot: {
-      strengths: [
-        "Explosive opening batsman",
-        "Calm under pressure",
-        "Leadership experience",
-      ],
+      strengths: ["Explosive opening batsman", "Calm under pressure", "Leadership experience"],
       weaknesses: ["Inconsistency in T20s"],
       opportunities: ["Can mentor young batters", "Strong captain material"],
       threats: ["Injury risk due to workload"],
@@ -34,11 +49,7 @@ const BASIC: BasicPlayer[] = [
     name: "Virat Kohli",
     team: "RCB",
     swot: {
-      strengths: [
-        "Fitness and consistency",
-        "Aggressive leader",
-        "High strike rate",
-      ],
+      strengths: ["Fitness and consistency", "Aggressive leader", "High strike rate"],
       weaknesses: ["Struggles with spin at times"],
       opportunities: ["Experience benefits team culture"],
       threats: ["Overexposure to media pressure"],
@@ -175,6 +186,7 @@ const BASIC: BasicPlayer[] = [
       opportunities: ["Mentor young spinners"],
       threats: ["Form decline"],
     },
+    image: getPlayerImage("axar-patel"),
   },
   {
     id: 15,
@@ -185,10 +197,14 @@ const BASIC: BasicPlayer[] = [
       weaknesses: ["Lack of variations"],
       opportunities: ["Reliable all-round option"],
       threats: ["Limited opportunities"],
+      image: getPlayerImage("axar-patel"),
     },
   },
 ];
 
+// ------------------------------------------------
+// 🧾  Role and nationality mappings
+// ------------------------------------------------
 const roleMap: Record<string, Player["role"]["primary"]> = {
   "Rohit Sharma": "batsman",
   "Virat Kohli": "batsman",
@@ -199,7 +215,7 @@ const roleMap: Record<string, Player["role"]["primary"]> = {
   "Ravindra Jadeja": "all-rounder",
   "MS Dhoni": "wicket-keeper",
   "Ruturaj Gaikwad": "batsman",
-  "KL Rahul": "batsman", // sometimes wk; keep as batsman
+  "KL Rahul": "batsman",
   "Rashid Khan": "bowler",
   "Sanju Samson": "wicket-keeper",
   "Mohammed Siraj": "bowler",
@@ -220,17 +236,18 @@ const positionFromRole = (r: Player["role"]["primary"]) =>
     ? "All-Rounder"
     : "Wicket-Keeper";
 
+// ------------------------------------------------
+// ⚙️  Convert BasicPlayer → Player (Main Function)
+// ------------------------------------------------
 const toPlayer = (b: BasicPlayer): Player => {
   const primary = roleMap[b.name] ?? "batsman";
 
-  // Deterministic pseudo-random helper so values are static but varied per id
   const pick = (min: number, max: number) => {
     const span = max - min;
-    const k = (b.id * 37 + 17) % 1000; // 0-999
+    const k = (b.id * 37 + 17) % 1000;
     return Math.round(min + (k / 999) * span);
   };
 
-  // Base stats by role
   const matches = pick(40, 120);
   let runs = 0,
     wickets = 0,
@@ -273,7 +290,6 @@ const toPlayer = (b: BasicPlayer): Player => {
     hundreds = pick(0, 4);
     bestBowling = `${pick(2, 5)}/${pick(10, 28)}`;
   } else {
-    // wicket-keeper
     runs = pick(1000, 4500);
     wickets = 0;
     strikeRate = pick(120, 160);
@@ -285,15 +301,12 @@ const toPlayer = (b: BasicPlayer): Player => {
     bestBowling = `0/${pick(10, 25)}`;
   }
 
-  const last5 = Array.from({ length: 5 }, (_, i) =>
-    pick(20 + i * 2, 80 + i * 3)
-  );
+  const last5 = Array.from({ length: 5 }, (_, i) => pick(20 + i * 2, 80 + i * 3));
   const trend = last5[last5.length - 1] > last5[0] ? "up" : "down";
-  const recentPerformance =
-    last5.reduce((a, b) => a + b, 0) / last5.length > 50 ? "good" : "average";
+  const recentPerformance = last5.reduce((a, b) => a + b, 0) / last5.length > 50 ? "good" : "average";
 
-  const current = pick(30000000, 180000000); // ₹3–18 Cr
-  const predicted = pick(40000000, 220000000); // ₹4–22 Cr
+  const current = pick(30000000, 180000000);
+  const predicted = pick(40000000, 220000000);
   const confidence = pick(60, 95);
 
   return {
@@ -303,23 +316,8 @@ const toPlayer = (b: BasicPlayer): Player => {
     age: pick(22, 36),
     nationality: nationalityMap[b.name] ?? "India",
     position: positionFromRole(primary),
-    stats: {
-      matches,
-      runs,
-      wickets,
-      strikeRate,
-      average,
-      economy,
-      catches,
-      fifties,
-      hundreds,
-      bestBowling,
-    },
-    form: {
-      last5Matches: last5,
-      trend,
-      recentPerformance,
-    },
+    stats: { matches, runs, wickets, strikeRate, average, economy, catches, fifties, hundreds, bestBowling },
+    form: { last5Matches: last5, trend, recentPerformance },
     swot: b.swot,
     role: {
       primary,
@@ -332,15 +330,14 @@ const toPlayer = (b: BasicPlayer): Player => {
         impactSub: pick(10, 90),
       },
     },
-    auctionValue: {
-      current,
-      predicted,
-      confidence,
-    },
-    image: undefined,
+    auctionValue: { current, predicted, confidence },
+    image: getPlayerImage(b.name), // ✅ added image
     injuryRisk: ["low", "medium", "high"][pick(0, 2)] as Player["injuryRisk"],
     leadership: pick(3, 9),
   };
 };
 
+// ---------------------------------------------
+// ✅ Export Final Mock Player Array
+// ---------------------------------------------
 export const mockPlayers: Player[] = BASIC.map(toPlayer);
