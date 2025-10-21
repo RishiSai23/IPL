@@ -18,8 +18,6 @@ const Navigation = () => {
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  
-
   const navItems = [
     { path: "/", label: "Dashboard", icon: BarChart3 },
     { path: "/players", label: "Players", icon: Users },
@@ -28,7 +26,7 @@ const Navigation = () => {
     { path: "/physical", label: "Physical Test", icon: Trophy },
     { path: "/player-score", label: "Player Score", icon: Trophy },
     { path: "/matches", label: "My Matches", icon: Calendar },
-    { path: "/leaderboard", label: "Leaderboard", icon: Award },
+    { path: "/football/dashboard", label: "Football", icon: Award },
   ];
 
   return (
@@ -83,7 +81,11 @@ const Navigation = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="rounded-lg px-3 py-2 text-cyan-300 hover:bg-cyan-400/10 transition-all"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </Button>
           </div>
         </div>
