@@ -21,7 +21,6 @@ import { useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { saveMatch, type SaveMatchInput } from "@/utils/matchService";
 
-
 type Pitch = "flat" | "green" | "dry_turning" | "slow_low" | "two_paced";
 type Result = "win" | "loss" | "tie" | "nr";
 
@@ -53,24 +52,9 @@ const pitchOptions: { value: Pitch; label: string }[] = [
 
 const resultOptions: Result[] = ["win", "loss", "tie", "nr"];
 
-// ID Helper
-const genId = () =>
-  typeof crypto !== "undefined" && "randomUUID" in crypto
-    ? crypto.randomUUID()
-    : `p_${Math.random().toString(36).slice(2)}_${Date.now()}`;
+// (genId removed; not used currently)
 
-// Clone player data when duplicating
-function clonePlayers(players: PlayerContribution[]) {
-  return players.map((p) => ({
-    ...p,
-    id: genId(),
-    batting: p.batting ? { ...p.batting } : undefined,
-    bowling: p.bowling ? { ...p.bowling } : undefined,
-    fielding: p.fielding ? { ...p.fielding } : undefined,
-  }));
-}
-
-
+// (clonePlayers removed; not used currently)
 
 // Default states
 const initialMatchInfo: MatchInfo = {
@@ -98,7 +82,9 @@ export default function MatchWizard() {
   const [innings2, setInnings2] = useState<InningsSummary>(initialInnings);
   const [players, setPlayers] = useState<PlayerContribution[]>([]);
   const [openInnings, setOpenInnings] = useState<string>("1");
-  const [playerType, setPlayerType] = useState<"all" | "batsman" | "bowler">("all");
+  const [playerType, setPlayerType] = useState<"all" | "batsman" | "bowler">(
+    "all"
+  );
 
   const [searchParams] = useSearchParams();
   const prefilledRef = useRef(false);
@@ -164,13 +150,13 @@ export default function MatchWizard() {
         innings2,
         players,
       };
-  
+
       const savedMatch = await saveMatch(matchToSave);
-  
+
       toast.success("✅ Match and players saved successfully", {
         description: `Match ID: ${savedMatch.id}`,
       });
-  
+
       // Reset form
       setStep(1);
       setMatchInfo(initialMatchInfo);
@@ -183,8 +169,6 @@ export default function MatchWizard() {
       });
     }
   };
-  
-
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -246,7 +230,9 @@ export default function MatchWizard() {
             setInnings((p) => ({
               ...p,
               wickets:
-                e.target.value === "" ? "" : Math.max(0, Math.min(10, +e.target.value)),
+                e.target.value === ""
+                  ? ""
+                  : Math.max(0, Math.min(10, +e.target.value)),
             }))
           }
         />
@@ -265,7 +251,9 @@ export default function MatchWizard() {
             setInnings((p) => ({
               ...p,
               overs:
-                e.target.value === "" ? "" : Math.max(0, Math.min(20, +e.target.value)),
+                e.target.value === ""
+                  ? ""
+                  : Math.max(0, Math.min(20, +e.target.value)),
             }))
           }
         />
@@ -359,7 +347,8 @@ export default function MatchWizard() {
                 onValueChange={(value) =>
                   setMatchInfo((p) => ({
                     ...p,
-                    oppositionStrength: value as MatchInfo["oppositionStrength"],
+                    oppositionStrength:
+                      value as MatchInfo["oppositionStrength"],
                   }))
                 }
               >
@@ -447,7 +436,10 @@ export default function MatchWizard() {
                 </SelectContent>
               </Select>
             </div>
-            <PlayerContributions value={filteredPlayers} onChange={setPlayers} />
+            <PlayerContributions
+              value={filteredPlayers}
+              onChange={setPlayers}
+            />
           </div>
         )}
 
@@ -502,4 +494,3 @@ export default function MatchWizard() {
     </div>
   );
 }
-
