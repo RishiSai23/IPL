@@ -1,7 +1,8 @@
 // file: src/lib/aggregate.ts
 import type { SavedMatch } from "@/lib/localStore";
 import { computeScoresForMatch, type PlayerScore } from "@/lib/scoring";
-import type { PlayerPrimaryRole } from "@/components/match/PlayerContributions";
+// Define a local alias to avoid importing a non-exported type from the component
+type PlayerPrimaryRole = "batter" | "bowler" | "all-rounder" | "wicket-keeper";
 
 export type LeaderboardRow = {
   key: string; // grouping key (lowercased name)
@@ -30,9 +31,16 @@ type Acc = {
   lastPlayedAt: string; // ISO
 };
 
-function chooseRole(roleCounts: Acc["roleCounts"]): PlayerPrimaryRole | undefined {
-  let best: { role?: PlayerPrimaryRole; count: number } = { role: undefined, count: 0 };
-  (["batter", "bowler", "all-rounder", "wicket-keeper"] as PlayerPrimaryRole[]).forEach((r) => {
+function chooseRole(
+  roleCounts: Acc["roleCounts"]
+): PlayerPrimaryRole | undefined {
+  let best: { role?: PlayerPrimaryRole; count: number } = {
+    role: undefined,
+    count: 0,
+  };
+  (
+    ["batter", "bowler", "all-rounder", "wicket-keeper"] as PlayerPrimaryRole[]
+  ).forEach((r) => {
     const c = roleCounts[r] ?? 0;
     if (c > best.count) best = { role: r, count: c };
   });
@@ -49,25 +57,25 @@ export function buildLeaderboard(matches: SavedMatch[]): LeaderboardRow[] {
       const key = rawName.toLowerCase();
 
       const prev = map.get(key);
-      const acc: Acc =
-        prev ?? {
-          name: rawName,
-          roleCounts: {},
-          tiSum: 0,
-          tiCount: 0,
-          batSum: 0,
-          batCount: 0,
-          bowlSum: 0,
-          bowlCount: 0,
-          fieldSum: 0,
-          fieldCount: 0,
-          matches: 0,
-          lastPlayedAt: "",
-        };
+      const acc: Acc = prev ?? {
+        name: rawName,
+        roleCounts: {},
+        tiSum: 0,
+        tiCount: 0,
+        batSum: 0,
+        batCount: 0,
+        bowlSum: 0,
+        bowlCount: 0,
+        fieldSum: 0,
+        fieldCount: 0,
+        matches: 0,
+        lastPlayedAt: "",
+      };
 
       // role count
       if (s.primaryRole) {
-        acc.roleCounts[s.primaryRole] = (acc.roleCounts[s.primaryRole] ?? 0) + 1;
+        acc.roleCounts[s.primaryRole] =
+          (acc.roleCounts[s.primaryRole] ?? 0) + 1;
       }
 
       // totals
@@ -91,7 +99,10 @@ export function buildLeaderboard(matches: SavedMatch[]): LeaderboardRow[] {
       acc.matches += 1;
 
       // last played at (max)
-      if (!acc.lastPlayedAt || new Date(m.createdAt) > new Date(acc.lastPlayedAt)) {
+      if (
+        !acc.lastPlayedAt ||
+        new Date(m.createdAt) > new Date(acc.lastPlayedAt)
+      ) {
         acc.lastPlayedAt = m.createdAt;
       }
 
@@ -103,8 +114,12 @@ export function buildLeaderboard(matches: SavedMatch[]): LeaderboardRow[] {
     const primaryRole = chooseRole(acc.roleCounts);
     const avgTI = acc.tiCount ? Math.round(acc.tiSum / acc.tiCount) : 0;
     const avgBat = acc.batCount ? Math.round(acc.batSum / acc.batCount) : null;
-    const avgBowl = acc.bowlCount ? Math.round(acc.bowlSum / acc.bowlCount) : null;
-    const avgField = acc.fieldCount ? Math.round(acc.fieldSum / acc.fieldCount) : null;
+    const avgBowl = acc.bowlCount
+      ? Math.round(acc.bowlSum / acc.bowlCount)
+      : null;
+    const avgField = acc.fieldCount
+      ? Math.round(acc.fieldSum / acc.fieldCount)
+      : null;
 
     return {
       key,
@@ -121,7 +136,8 @@ export function buildLeaderboard(matches: SavedMatch[]): LeaderboardRow[] {
 
   // sort by avgTalentIndex desc, ties by matches desc
   rows.sort((a, b) => {
-    if (b.avgTalentIndex !== a.avgTalentIndex) return b.avgTalentIndex - a.avgTalentIndex;
+    if (b.avgTalentIndex !== a.avgTalentIndex)
+      return b.avgTalentIndex - a.avgTalentIndex;
     return b.matches - a.matches;
   });
 

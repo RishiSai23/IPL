@@ -7,7 +7,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { listMatches, type SavedMatch } from "@/lib/localStore";
 import { computeScoresForMatch, type PlayerScore } from "@/lib/scoring";
-import { ArrowLeft, Calendar, MapPin, Target, Trophy, Copy, ShieldCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  Target,
+  Trophy,
+  Copy,
+} from "lucide-react";
 
 const pitchLabel: Record<string, string> = {
   flat: "Flat",
@@ -46,7 +53,10 @@ export default function MatchDetails() {
     if (!match) return [];
     return match.players.filter((p) => {
       const b = p.batting;
-      return b && (b.runs !== "" || b.balls !== "" || b.fours !== "" || b.sixes !== "");
+      return (
+        b &&
+        (b.runs !== "" || b.balls !== "" || b.fours !== "" || b.sixes !== "")
+      );
     });
   }, [match]);
 
@@ -61,17 +71,27 @@ export default function MatchDetails() {
   const fielders = useMemo(() => {
     if (!match) return [];
     return match.players.filter((p) => {
-      const f = p.fielding;
+      const f = p.fielding as any;
       if (!f) return false;
-      const vals = [f.catches, f.runouts, f.stumpings, f.drops, f.boundarySaves].map((x) =>
-        typeof x === "number" ? x : x === "" ? 0 : Number(x || 0)
-      );
+      const vals = [
+        f.catches,
+        f.runOuts,
+        f.stumpings,
+        f.drops,
+        f.boundarySaves,
+      ].map((x) => (typeof x === "number" ? x : x === "" ? 0 : Number(x || 0)));
       return vals.some((n) => (Number.isFinite(n) ? n > 0 : false));
     });
   }, [match]);
 
-  const scores = useMemo<PlayerScore[]>(() => (match ? computeScoresForMatch(match) : []), [match]);
-  const sortedScores = useMemo(() => [...scores].sort((a, b) => b.talentIndex - a.talentIndex), [scores]);
+  const scores = useMemo<PlayerScore[]>(
+    () => (match ? computeScoresForMatch(match) : []),
+    [match]
+  );
+  const sortedScores = useMemo(
+    () => [...scores].sort((a, b) => b.talentIndex - a.talentIndex),
+    [scores]
+  );
 
   if (!match) {
     return (
@@ -80,11 +100,16 @@ export default function MatchDetails() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <Card className="shadow-card">
             <CardContent className="py-10 text-center space-y-4">
-              <h1 className="text-xl font-semibold text-foreground">Match not found</h1>
+              <h1 className="text-xl font-semibold text-foreground">
+                Match not found
+              </h1>
               <p className="text-muted-foreground text-sm">
                 The match you’re looking for does not exist on this device.
               </p>
-              <Button onClick={() => navigate("/matches")} className="bg-gradient-primary text-primary-foreground">
+              <Button
+                onClick={() => navigate("/matches")}
+                className="bg-gradient-primary text-primary-foreground"
+              >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Matches
               </Button>
@@ -107,7 +132,10 @@ export default function MatchDetails() {
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
-            <Button asChild className="bg-gradient-primary text-primary-foreground">
+            <Button
+              asChild
+              className="bg-gradient-primary text-primary-foreground"
+            >
               <Link to={`/add-match?duplicateFrom=${match.id}`}>
                 <Copy className="w-4 h-4 mr-2" />
                 Duplicate as new
@@ -116,9 +144,15 @@ export default function MatchDetails() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Badge variant="outline">{pitchLabel[match.matchInfo.pitch] || match.matchInfo.pitch}</Badge>
-            <Badge variant="outline">Opp: {match.matchInfo.oppositionStrength}/5</Badge>
-            <Badge variant="outline">{match.matchInfo.inningsNo === "1" ? "1st Inns" : "2nd Inns"}</Badge>
+            <Badge variant="outline">
+              {pitchLabel[match.matchInfo.pitch] || match.matchInfo.pitch}
+            </Badge>
+            <Badge variant="outline">
+              Opp: {match.matchInfo.oppositionStrength}/5
+            </Badge>
+            <Badge variant="outline">
+              {match.matchInfo.inningsNo === "1" ? "1st Inns" : "2nd Inns"}
+            </Badge>
           </div>
         </div>
 
@@ -132,7 +166,8 @@ export default function MatchDetails() {
                 </span>
                 <div className="space-y-0.5">
                   <div className="text-base text-foreground font-semibold">
-                    {match.innings.battingTeam || "Batting Team"} vs {match.innings.bowlingTeam || "Bowling Team"}
+                    {match.innings.battingTeam || "Batting Team"} vs{" "}
+                    {match.innings.bowlingTeam || "Bowling Team"}
                   </div>
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span className="inline-flex items-center gap-1">
@@ -154,7 +189,9 @@ export default function MatchDetails() {
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
                   <MapPin className="w-3.5 h-3.5" />
-                  <span className="truncate max-w-[220px]">{match.matchInfo.venue || "—"}</span>
+                  <span className="truncate max-w-[220px]">
+                    {match.matchInfo.venue || "—"}
+                  </span>
                 </div>
               </div>
             </CardTitle>
@@ -165,7 +202,10 @@ export default function MatchDetails() {
               <h3 className="font-semibold text-foreground mb-2">Match Info</h3>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p>
-                  Date: <span className="text-foreground">{match.matchInfo.date || "—"}</span>
+                  Date:{" "}
+                  <span className="text-foreground">
+                    {match.matchInfo.date || "—"}
+                  </span>
                 </p>
                 <p>
                   Pitch:{" "}
@@ -175,7 +215,9 @@ export default function MatchDetails() {
                 </p>
                 <p>
                   Opposition Strength:{" "}
-                  <span className="text-foreground">{match.matchInfo.oppositionStrength}/5</span>
+                  <span className="text-foreground">
+                    {match.matchInfo.oppositionStrength}/5
+                  </span>
                 </p>
                 <p>
                   Innings:{" "}
@@ -185,23 +227,37 @@ export default function MatchDetails() {
                 </p>
                 {match.matchInfo.inningsNo === "2" && (
                   <p>
-                    Target: <span className="text-foreground">{match.matchInfo.targetRuns || "—"}</span>
+                    Target:{" "}
+                    <span className="text-foreground">
+                      {match.matchInfo.targetRuns || "—"}
+                    </span>
                   </p>
                 )}
                 <p>
-                  Result: <span className="text-foreground uppercase">{match.matchInfo.result}</span>
+                  Result:{" "}
+                  <span className="text-foreground uppercase">
+                    {match.matchInfo.result}
+                  </span>
                 </p>
               </div>
             </div>
 
             <div className="rounded-lg border border-border p-4">
-              <h3 className="font-semibold text-foreground mb-2">Innings Summary</h3>
+              <h3 className="font-semibold text-foreground mb-2">
+                Innings Summary
+              </h3>
               <div className="text-sm text-muted-foreground space-y-1">
                 <p>
-                  Batting Team: <span className="text-foreground">{match.innings.battingTeam || "—"}</span>
+                  Batting Team:{" "}
+                  <span className="text-foreground">
+                    {match.innings.battingTeam || "—"}
+                  </span>
                 </p>
                 <p>
-                  Bowling Team: <span className="text-foreground">{match.innings.bowlingTeam || "—"}</span>
+                  Bowling Team:{" "}
+                  <span className="text-foreground">
+                    {match.innings.bowlingTeam || "—"}
+                  </span>
                 </p>
                 <p>
                   Score:{" "}
@@ -210,7 +266,10 @@ export default function MatchDetails() {
                   </span>
                 </p>
                 <p>
-                  Overs: <span className="text-foreground">{match.innings.overs || "—"}</span>
+                  Overs:{" "}
+                  <span className="text-foreground">
+                    {match.innings.overs || "—"}
+                  </span>
                 </p>
               </div>
             </div>
@@ -228,7 +287,9 @@ export default function MatchDetails() {
             </CardHeader>
             <CardContent className="pt-0">
               {batters.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No batting entries.</p>
+                <p className="text-sm text-muted-foreground">
+                  No batting entries.
+                </p>
               ) : (
                 <div className="space-y-2">
                   <div className="grid grid-cols-6 text-xs text-muted-foreground">
@@ -240,19 +301,32 @@ export default function MatchDetails() {
                   </div>
                   <div className="h-px bg-border" />
                   {batters.map((p) => (
-                    <div key={p.id} className="grid grid-cols-6 text-sm items-center">
+                    <div
+                      key={p.id}
+                      className="grid grid-cols-6 text-sm items-center"
+                    >
                       <div className="col-span-2 truncate">
-                        <span className="font-medium text-foreground">{p.name || "Unnamed"}</span>
+                        <span className="font-medium text-foreground">
+                          {p.name || "Unnamed"}
+                        </span>
                         <span className="ml-2 text-xs text-muted-foreground">
                           {p.batting?.roleInMatch || "—"}
                           {p.batting?.notOut ? " • NO" : ""}
-                          {p.batting?.finisherFlag ? " • Finisher" : ""}
+                          {(p.batting as any)?.finisherFlag
+                            ? " • Finisher"
+                            : ""}
                         </span>
                       </div>
                       <div className="text-right">{p.batting?.runs ?? "—"}</div>
-                      <div className="text-right">{p.batting?.balls ?? "—"}</div>
-                      <div className="text-right">{p.batting?.fours ?? "—"}</div>
-                      <div className="text-right">{p.batting?.sixes ?? "—"}</div>
+                      <div className="text-right">
+                        {p.batting?.balls ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.batting?.fours ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.batting?.sixes ?? "—"}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -267,7 +341,9 @@ export default function MatchDetails() {
             </CardHeader>
             <CardContent className="pt-0">
               {bowlers.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No bowling entries.</p>
+                <p className="text-sm text-muted-foreground">
+                  No bowling entries.
+                </p>
               ) : (
                 <div className="space-y-2">
                   <div className="grid grid-cols-7 text-xs text-muted-foreground">
@@ -280,16 +356,33 @@ export default function MatchDetails() {
                   </div>
                   <div className="h-px bg-border" />
                   {bowlers.map((p) => (
-                    <div key={p.id} className="grid grid-cols-7 text-sm items-center">
+                    <div
+                      key={p.id}
+                      className="grid grid-cols-7 text-sm items-center"
+                    >
                       <div className="col-span-2 truncate">
-                        <span className="font-medium text-foreground">{p.name || "Unnamed"}</span>
-                        <span className="ml-2 text-xs text-muted-foreground">{p.primaryRole || "—"}</span>
+                        <span className="font-medium text-foreground">
+                          {p.name || "Unnamed"}
+                        </span>
+                        <span className="ml-2 text-xs text-muted-foreground">
+                          {(p as any).primaryRole || "—"}
+                        </span>
                       </div>
-                      <div className="text-right">{p.bowling?.overs ?? "—"}</div>
-                      <div className="text-right">{p.bowling?.runsConceded ?? "—"}</div>
-                      <div className="text-right">{p.bowling?.wickets ?? "—"}</div>
-                      <div className="text-right">{p.bowling?.wides ?? "—"}</div>
-                      <div className="text-right">{p.bowling?.noBalls ?? "—"}</div>
+                      <div className="text-right">
+                        {p.bowling?.overs ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.bowling?.runsConceded ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.bowling?.wickets ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.bowling?.wides ?? "—"}
+                      </div>
+                      <div className="text-right">
+                        {p.bowling?.noBalls ?? "—"}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -305,7 +398,9 @@ export default function MatchDetails() {
           </CardHeader>
           <CardContent className="pt-0">
             {fielders.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No fielding entries.</p>
+              <p className="text-sm text-muted-foreground">
+                No fielding entries.
+              </p>
             ) : (
               <div className="space-y-2">
                 <div className="grid grid-cols-7 text-xs text-muted-foreground">
@@ -318,15 +413,28 @@ export default function MatchDetails() {
                 </div>
                 <div className="h-px bg-border" />
                 {fielders.map((p) => (
-                  <div key={p.id} className="grid grid-cols-7 text-sm items-center">
+                  <div
+                    key={p.id}
+                    className="grid grid-cols-7 text-sm items-center"
+                  >
                     <div className="col-span-2 truncate">
-                      <span className="font-medium text-foreground">{p.name || "Unnamed"}</span>
+                      <span className="font-medium text-foreground">
+                        {p.name || "Unnamed"}
+                      </span>
                     </div>
                     <div className="text-right">{p.fielding?.catches ?? 0}</div>
-                    <div className="text-right">{p.fielding?.runouts ?? 0}</div>
-                    <div className="text-right">{p.fielding?.stumpings ?? 0}</div>
-                    <div className="text-right">{p.fielding?.drops ?? 0}</div>
-                    <div className="text-right">{p.fielding?.boundarySaves ?? 0}</div>
+                    <div className="text-right">
+                      {(p.fielding as any)?.runOuts ?? 0}
+                    </div>
+                    <div className="text-right">
+                      {p.fielding?.stumpings ?? 0}
+                    </div>
+                    <div className="text-right">
+                      {(p.fielding as any)?.drops ?? 0}
+                    </div>
+                    <div className="text-right">
+                      {(p.fielding as any)?.boundarySaves ?? 0}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -341,7 +449,9 @@ export default function MatchDetails() {
           </CardHeader>
           <CardContent className="pt-0">
             {sortedScores.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No player contributions to score.</p>
+              <p className="text-sm text-muted-foreground">
+                No player contributions to score.
+              </p>
             ) : (
               <div className="space-y-2">
                 <div className="grid grid-cols-6 text-xs text-muted-foreground">
@@ -353,17 +463,26 @@ export default function MatchDetails() {
                 </div>
                 <div className="h-px bg-border" />
                 {sortedScores.map((s) => (
-                  <div key={s.playerId} className="grid grid-cols-6 text-sm items-center">
+                  <div
+                    key={s.playerId}
+                    className="grid grid-cols-6 text-sm items-center"
+                  >
                     <div className="col-span-2 truncate">
-                      <span className="font-medium text-foreground">{s.name}</span>
+                      <span className="font-medium text-foreground">
+                        {s.name}
+                      </span>
                       {s.primaryRole && (
-                        <span className="ml-2 text-xs text-muted-foreground capitalize">• {s.primaryRole}</span>
+                        <span className="ml-2 text-xs text-muted-foreground capitalize">
+                          • {s.primaryRole}
+                        </span>
                       )}
                     </div>
                     <div className="text-right">{s.battingCXI ?? "—"}</div>
                     <div className="text-right">{s.bowlingCXI ?? "—"}</div>
                     <div className="text-right">{s.fieldingPM ?? "—"}</div>
-                    <div className="text-right font-semibold text-foreground">{s.talentIndex}</div>
+                    <div className="text-right font-semibold text-foreground">
+                      {s.talentIndex}
+                    </div>
                   </div>
                 ))}
               </div>

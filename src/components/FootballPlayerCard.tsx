@@ -59,7 +59,7 @@ const FootballPlayerCard = ({
             position: "Forward",
             age: 25,
             nationality: "Unknown",
-            marketValue: 0,
+            marketValue: { predicted: 0 },
             stats: {
               goals: 0,
               assists: 0,
@@ -67,6 +67,8 @@ const FootballPlayerCard = ({
               accuracy: 0,
               stamina: 0,
               matches: 0,
+              yellowCards: 0,
+              redCards: 0,
             },
             leadership: 0,
           };

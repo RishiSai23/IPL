@@ -8,7 +8,6 @@ import {
   TrendingUp,
   Trophy,
   Users,
-  LogOut,
   Calendar,
   UserPlus,
   Dumbbell,
@@ -78,13 +77,7 @@ const Dashboard = () => {
     },
   ];
 
-  const handleLogout = () => {
-    navigate("/football/login");
-  };
-
-  const handleComparePlayers = () => {
-    navigate("/football/compare");
-  };
+  // handlers removed (unused)
 
   const handlePhysicalTest = () => {
     navigate("/football/physical-test");
@@ -123,7 +116,7 @@ const Dashboard = () => {
             animate="visible"
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
           >
-            {stats.map((stat, index) => (
+            {stats.map((stat) => (
               <motion.div
                 key={stat.title}
                 variants={itemVariants}

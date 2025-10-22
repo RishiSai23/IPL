@@ -12,7 +12,6 @@ import { MotionConfig, LazyMotion, domAnimation } from "framer-motion";
 
 // import Auction from "./pages/Auction";
 import PlayerScore from "./pages/PlayerScore";
-import Comparison from "./pages/Comparison";
 import Index from "./pages/Index";
 import Leaderboard from "./pages/Leaderboard";
 import MatchDetails from "./pages/MatchDetails";
