@@ -65,6 +65,7 @@ export default function PlayerFitnessAssessmentPage() {
       <Navigation />
 
       {/* Hero section */}
+      {/* Hero section with cyan→blue gradient to match dashboard template */}
       <section className="mx-auto w-full max-w-6xl px-4 pt-6">
         <div className="rounded-3xl bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
           <h1 className={cn("text-balance text-3xl font-bold md:text-5xl")}>
@@ -89,9 +90,7 @@ export default function PlayerFitnessAssessmentPage() {
       <section className="mx-auto w-full max-w-6xl px-4 py-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">
-              TOTAL PLAYERS
-            </p>
+            <p className="text-xs font-medium text-gray-300">TOTAL PLAYERS</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">4</span>
               <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
@@ -107,15 +106,17 @@ export default function PlayerFitnessAssessmentPage() {
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">{"₹1.3 Cr"}</span>
               <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
+              <span className="text-3xl font-semibold text-white">
+                {"₹1.3 Cr"}
+              </span>
+              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +8%
               </Badge>
             </div>
           </Card>
 
           <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">
-              ACTIVE ANALYSIS
-            </p>
+            <p className="text-xs font-medium text-gray-300">ACTIVE ANALYSIS</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">147</span>
               <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
@@ -125,9 +126,7 @@ export default function PlayerFitnessAssessmentPage() {
           </Card>
 
           <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">
-              ML ACCURACY
-            </p>
+            <p className="text-xs font-medium text-gray-300">ML ACCURACY</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">94.2%</span>
               <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">

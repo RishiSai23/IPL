@@ -1,149 +1,86 @@
-import { Button } from "@/components/ui/button";
-import {
-  Award,
-  BarChart3,
-  Calendar,
-  Menu,
-  Target,
-  TrendingUp,
-  Trophy,
-  Users,
-  X,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import React from "react";
+import type { User } from "@supabase/supabase-js";
 import { Link, useLocation } from "react-router-dom";
-import favicon from "../assets/favicon.png";
+// FIX: Using a common relative path (assuming LoginPage is one directory up from Navigation.tsx's directory)
+import { AuthenticatedDropdown } from "./LoginPage";
+import { LogIn } from "lucide-react"; // Icon for login button
 
-const Navigation = () => {
+interface NavigationProps {
+  user?: User;
+}
+
+const navLinks = [
+  { to: "/", label: "Dashboard" },
+  { to: "/players", label: "Players" },
+  { to: "/matches", label: "Matches" },
+  { to: "/pfAnalysis", label: "Player Analysis" },
+  { to: "/leaderboard", label: "Leaderboard" },
+  { to: "/comparison", label: "Compare" },
+  // { to: "/analysis", label: "Pf Analysis" },
+];
+
+const Navigation: React.FC<NavigationProps> = ({ user }) => {
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Detect scroll to make nav slightly opaque when scrolled
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const getLinkClasses = (path: string) => {
+    // Determine if the current path starts with the link's path for active state
+    const isActive =
+      location.pathname === path ||
+      (path !== "/" && location.pathname.startsWith(path));
 
-  const navItems = [
-    { path: "/", label: "Dashboard", icon: BarChart3 },
-    { path: "/players", label: "Players", icon: Users },
-    { path: "/analysis", label: "SWOT Analysis", icon: Target },
-    { path: "/comparison", label: "Compare", icon: TrendingUp },
-    { path: "/physical", label: "Physical Test", icon: Trophy },
-    { path: "/player-score", label: "Player Score", icon: Trophy },
-    { path: "/matches", label: "My Matches", icon: Calendar },
-    { path: "/leaderboard", label: "Leaderboard", icon: Award },
-  ];
+    // Using green and emerald for the active state
+    return `text-sm font-medium px-4 py-2 rounded-lg transition duration-200 
+            ${
+              isActive
+                ? "bg-emerald-600/20 text-emerald-400 border border-emerald-500/50"
+                : "text-gray-300 hover:text-emerald-300 hover:bg-gray-700/50"
+            }`;
+  };
 
   return (
-    <>
-      {/* Advanced Navigation Bar */}
-      <nav
-        className={`fixed top-0 left-1/2 -translate-x-1/2 w-[95%] md:w-[85%] z-50 mt-4 rounded-2xl border border-cyan-400/30 backdrop-blur-2xl transition-all duration-500 ${
-          isScrolled
-            ? "bg-gradient-to-r from-[#031A2E]/90 via-[#0B2340]/90 to-[#1A044E]/90 shadow-[0_0_25px_rgba(0,255,255,0.3)]"
-            : "bg-gradient-to-r from-[#042030]/70 via-[#081A35]/70 to-[#12043D]/70 shadow-[0_0_25px_rgba(0,255,255,0.2)]"
-        }`}
-      >
-        <div className="w-full px-4 md:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo Section */}
-            <div className="flex items-center space-x-3">
-              <div className="relative group">
-                <div className="absolute inset-0 rounded-xl bg-cyan-400/30 blur-md group-hover:blur-lg transition-all duration-500" />
-                <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-blue-500 to-purple-600 flex items-center justify-center shadow-[0_0_20px_rgba(0,255,255,0.4)]">
-                  <img src={favicon} alt="logo" className="w-6 h-6" />
-                </div>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent tracking-wide">
-                  CricScout
-                </h1>
-              </div>
-            </div>
+    // FIX 1: Set a high Z-index on the NAV element itself to ensure the whole bar is on top.
+    <nav className="sticky top-0 bg-black/80 backdrop-blur-sm shadow-md py-3 px-8 z-[100] border-b border-emerald-900/50">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
+        {/* LEFT SECTION: Logo/App Name */}
+        <Link
+          to="/"
+          className="text-2xl font-extrabold text-yellow-500 tracking-wider uppercase transition"
+        >
+          P.U.L.S.E
+        </Link>
 
-            {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                return (
-                  <Link key={item.path} to={item.path}>
-                    <Button
-                      variant="ghost"
-                      size="default"
-                      className={`flex items-center space-x-2 text-sm font-semibold rounded-lg px-4 py-2 transition-all duration-300 ${
-                        isActive
-                          ? "text-cyan-400 border-b border-cyan-400/80 shadow-[0_2px_15px_rgba(0,255,255,0.3)]"
-                          : "text-gray-300 hover:text-cyan-300 hover:bg-cyan-400/10"
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </Button>
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="rounded-lg px-3 py-2 text-cyan-300 hover:bg-cyan-400/10 transition-all"
-              >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </Button>
-            </div>
-          </div>
+        {/* CENTER SECTION: Navigation Links (Pill-shaped, rounded container) */}
+        <div className="flex space-x-2 p-1 bg-gray-900/50 rounded-full shadow-inner shadow-black/30">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={getLinkClasses(link.to)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile Navigation Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-gradient-to-br from-[#041A30]/90 via-[#0C1B40]/90 to-[#1A044E]/90 backdrop-blur-xl border-t border-cyan-400/20 py-4 rounded-b-2xl shadow-inner transition-all duration-500">
-            <div className="flex flex-col space-y-2 px-4">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Button
-                      variant="ghost"
-                      size="default"
-                      className={`w-full justify-start space-x-3 rounded-lg px-3 py-2 transition-all ${
-                        isActive
-                          ? "text-cyan-400 border-l-2 border-cyan-400/60 bg-cyan-400/10"
-                          : "text-gray-300 hover:text-cyan-300 hover:bg-cyan-400/10"
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span>{item.label}</span>
-                    </Button>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Spacer to Prevent Overlap */}
-      <div className="h-24 md:h-24" />
-    </>
+        {/* RIGHT SECTION: User Authentication */}
+        {/* FIX 2: Added 'relative' to create a stacking context for the dropdown to render correctly. */}
+        <div className="flex items-center relative">
+          {user ? (
+            // FIX 3: Renders the AuthenticatedDropdown
+            <AuthenticatedDropdown user={user} />
+          ) : (
+            // Standalone Login Button
+            <Link
+              to="/login"
+              className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300 shadow-lg shadow-emerald-500/30"
+            >
+              <LogIn className="w-5 h-5" />
+              <span>Login</span>
+            </Link>
+          )}
+        </div>
+      </div>
+    </nav>
   );
 };
 

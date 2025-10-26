@@ -1,11 +1,6 @@
-// import { useState } from "react";
 import Navigation from "@/components/Navigation";
-// import HeaderSection from "@/components/HeaderSection";
 import type { Player } from "@/types/player";
 import PlayerCard from "@/components/PlayerCard";
-// import { mockPlayers } from "@/data/mockPlayers";
-// file: src/pages/Comparison.tsx
-// import Navigation from "@/components/Navigation";
 import PerformanceChart from "@/components/PerformanceChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Target, Trophy } from "lucide-react";
@@ -144,7 +139,9 @@ const CompareCricketersPage = () => {
         <div className="mb-6">
           <h1 className="text-3xl font-bold flex items-center space-x-3">
             <TrendingUp className="w-8 h-8 text-cyan-400" />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Compare Cricketers</span>
+            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              Compare Cricketers
+            </span>
           </h1>
           <p className="text-gray-300">
             Select two players to analyze head-to-head performance.

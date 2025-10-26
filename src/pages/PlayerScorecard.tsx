@@ -1,7 +1,6 @@
 // file: src/pages/PlayerScorecard.tsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { computeScoresForMatch } from "@/lib/scoring";
 import PerformanceChart from "@/components/PerformanceChart";
 import { ArrowLeft, Calendar, MapPin, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
-import type { BatRole } from "@/components/match/PlayerContributions";
+type BatRole = "opener" | "middle" | "finisher";
 
 type Role = "batter" | "bowler" | "all-rounder" | "wicket-keeper" | undefined;
 
@@ -36,7 +35,10 @@ type PlayerEvent = {
 
 function shortDate(iso: string) {
   try {
-    return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric" });
+    return new Date(iso).toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+    });
   } catch {
     return iso;
   }
@@ -76,11 +78,16 @@ export default function PlayerScorecard() {
             field: s.fieldingPM,
             ti: s.talentIndex,
             // badge fields
-            batRole: pRaw?.batting?.roleInMatch,
-            finisher: !!pRaw?.batting?.finisherFlag,
+            batRole: pRaw?.batting?.roleInMatch as BatRole | undefined,
+            finisher: !!(pRaw as any)?.batting?.finisherFlag,
             deathOvers:
-              typeof pRaw?.bowling?.oversInDeath === "number" ? pRaw.bowling.oversInDeath : 0,
-            catches: typeof pRaw?.fielding?.catches === "number" ? pRaw.fielding.catches : 0,
+              typeof (pRaw as any)?.bowling?.oversInDeath === "number"
+                ? (pRaw as any).bowling.oversInDeath
+                : 0,
+            catches:
+              typeof pRaw?.fielding?.catches === "number"
+                ? pRaw.fielding.catches
+                : 0,
           });
         }
       }
@@ -91,7 +98,8 @@ export default function PlayerScorecard() {
     setEvents(evts);
   }, [playerKey]);
 
-  const name = events[0]?.name || (playerKey ? decodeURIComponent(playerKey) : "Player");
+  const name =
+    events[0]?.name || (playerKey ? decodeURIComponent(playerKey) : "Player");
   const role: Role = useMemo(() => {
     const counts: Record<string, number> = {};
     events.forEach((e) => {
@@ -147,7 +155,9 @@ export default function PlayerScorecard() {
 
   const trendData = useMemo(() => {
     // oldest -> newest for chart
-    const asc = [...events].sort((a, b) => +new Date(a.createdAt) - +new Date(b.createdAt));
+    const asc = [...events].sort(
+      (a, b) => +new Date(a.createdAt) - +new Date(b.createdAt)
+    );
     return asc.map((e) => ({
       label: `${shortDate(e.createdAt)}`,
       ti: e.ti,
@@ -162,20 +172,27 @@ export default function PlayerScorecard() {
     // Chase Master: 3+ chase matches and avg TI in chases >= 65
     const chases = events.filter((e) => e.inningsNo === "2");
     if (chases.length >= 3) {
-      const avgChaseTI = chases.reduce((sum, e) => sum + e.ti, 0) / chases.length;
+      const avgChaseTI =
+        chases.reduce((sum, e) => sum + e.ti, 0) / chases.length;
       if (avgChaseTI >= 65) out.push("Chase Master");
     }
 
     // Finisher: 3+ matches marked as finisher role or finisherFlag true
-    const finisherCount = events.filter((e) => e.batRole === "finisher" || e.finisher).length;
+    const finisherCount = events.filter(
+      (e) => e.batRole === "finisher" || e.finisher
+    ).length;
     if (finisherCount >= 3) out.push("Finisher");
 
     // Death Specialist: total death overs >= 3 and avg bowl CXI in those matches >= 55
     const deathEvts = events.filter((e) => (e.deathOvers || 0) > 0);
-    const totalDeathOvers = deathEvts.reduce((sum, e) => sum + (e.deathOvers || 0), 0);
+    const totalDeathOvers = deathEvts.reduce(
+      (sum, e) => sum + (e.deathOvers || 0),
+      0
+    );
     if (totalDeathOvers >= 3) {
       const avgDeathBowl =
-        deathEvts.reduce((sum, e) => sum + (e.bowl ?? 0), 0) / (deathEvts.length || 1);
+        deathEvts.reduce((sum, e) => sum + (e.bowl ?? 0), 0) /
+        (deathEvts.length || 1);
       if (avgDeathBowl >= 55) out.push("Death Specialist");
     }
 
@@ -187,9 +204,7 @@ export default function PlayerScorecard() {
   }, [events]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-
+    <div className="bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Top bar */}
         <div className="flex items-center justify-between">
@@ -219,7 +234,9 @@ export default function PlayerScorecard() {
                     .slice(0, 3)}
                 </span>
                 <div className="space-y-0.5">
-                  <div className="text-xl text-foreground font-bold">{name}</div>
+                  <div className="text-xl text-foreground font-bold">
+                    {name}
+                  </div>
                   <div className="flex items-center gap-4 text-xs text-muted-foreground">
                     <span className="inline-flex items-center gap-1">
                       <Trophy className="w-3.5 h-3.5" />
@@ -229,7 +246,8 @@ export default function PlayerScorecard() {
                       <>
                         <span className="inline-flex items-center gap-1">
                           <Calendar className="w-3.5 h-3.5" />
-                          Last: {new Date(events[0].createdAt).toLocaleDateString()}
+                          Last:{" "}
+                          {new Date(events[0].createdAt).toLocaleDateString()}
                         </span>
                         <span className="inline-flex items-center gap-1">
                           <MapPin className="w-3.5 h-3.5" />
@@ -243,20 +261,36 @@ export default function PlayerScorecard() {
 
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div className="p-3 bg-gradient-stats rounded-lg">
-                  <div className="text-2xl font-bold text-foreground">{aggregates.avgTI}</div>
-                  <div className="text-xs text-muted-foreground">Avg Talent Index</div>
+                  <div className="text-2xl font-bold text-foreground">
+                    {aggregates.avgTI}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Avg Talent Index
+                  </div>
                 </div>
                 <div className="p-3 bg-gradient-stats rounded-lg">
-                  <div className="text-2xl font-bold text-foreground">{aggregates.avgBat ?? "—"}</div>
-                  <div className="text-xs text-muted-foreground">Avg Bat CXI</div>
+                  <div className="text-2xl font-bold text-foreground">
+                    {aggregates.avgBat ?? "—"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Avg Bat CXI
+                  </div>
                 </div>
                 <div className="p-3 bg-gradient-stats rounded-lg">
-                  <div className="text-2xl font-bold text-foreground">{aggregates.avgBowl ?? "—"}</div>
-                  <div className="text-xs text-muted-foreground">Avg Bowl CXI</div>
+                  <div className="text-2xl font-bold text-foreground">
+                    {aggregates.avgBowl ?? "—"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Avg Bowl CXI
+                  </div>
                 </div>
                 <div className="p-3 bg-gradient-stats rounded-lg">
-                  <div className="text-2xl font-bold text-foreground">{aggregates.avgField ?? "—"}</div>
-                  <div className="text-xs text-muted-foreground">Avg Field PM</div>
+                  <div className="text-2xl font-bold text-foreground">
+                    {aggregates.avgField ?? "—"}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Avg Field PM
+                  </div>
                 </div>
               </div>
             </CardTitle>
@@ -326,11 +360,17 @@ export default function PlayerScorecard() {
                   >
                     <div>{shortDate(e.createdAt)}</div>
                     <div className="col-span-2 truncate">{e.venue}</div>
-                    <div className="capitalize">{e.pitch.replace("_", " ")}</div>
+                    <div className="capitalize">
+                      {e.pitch.replace("_", " ")}
+                    </div>
                     <div>{e.inningsNo === "1" ? "1st" : "2nd"}</div>
                     <div className="text-right">{e.opp}/5</div>
-                    <div className="text-right">{typeof e.bat === "number" ? e.bat : "—"}</div>
-                    <div className="text-right">{typeof e.bowl === "number" ? e.bowl : "—"}</div>
+                    <div className="text-right">
+                      {typeof e.bat === "number" ? e.bat : "—"}
+                    </div>
+                    <div className="text-right">
+                      {typeof e.bowl === "number" ? e.bowl : "—"}
+                    </div>
                     <div className="text-right font-semibold">{e.ti}</div>
                     <div className="text-right">
                       <Button asChild variant="outline" size="sm">

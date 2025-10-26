@@ -1,12 +1,20 @@
 // file: src/lib/scoring.ts
 import type { SavedMatch, MatchInfo } from "@/lib/localStore";
-import type {
-  PlayerContribution,
-  BattingEntry,
-  BowlingEntry,
-  FieldingEntry,
-  PlayerPrimaryRole,
-} from "@/components/match/PlayerContributions";
+import type { PlayerContribution } from "@/components/match/PlayerContributions";
+// Mirror the structures locally for scoring purposes
+type PlayerPrimaryRole = "batter" | "bowler" | "all-rounder" | "wicket-keeper";
+type BattingEntry = PlayerContribution["batting"] & {
+  finisherFlag?: boolean;
+  battingPosition?: number | "";
+};
+type BowlingEntry = PlayerContribution["bowling"] & {
+  oversInPowerplay?: number | "";
+  oversInDeath?: number | "";
+};
+type FieldingEntry = PlayerContribution["fielding"] & {
+  drops?: number | "";
+  boundarySaves?: number | "";
+};
 
 type Pitch = "flat" | "green" | "dry_turning" | "slow_low" | "two_paced";
 
@@ -28,13 +36,15 @@ const PF_BOWL: Record<Pitch, number> = {
   two_paced: 1.08,
 };
 
-const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+const clamp = (v: number, min: number, max: number) =>
+  Math.max(min, Math.min(max, v));
 const scaleTo100 = (raw: number, minRaw = -25, maxRaw = 40) => {
   const z = (raw - minRaw) / (maxRaw - minRaw);
   return clamp(Math.round(100 * z), 0, 100);
 };
 
-const n = (v: number | "" | undefined | null): number => (typeof v === "number" ? v : 0);
+const n = (v: number | "" | undefined | null): number =>
+  typeof v === "number" ? v : 0;
 
 // Convert cricket-style overs (e.g., 3.4) to balls (3 overs + 4 balls = 22 balls)
 function oversToBalls(overs: number): number {
@@ -53,7 +63,10 @@ function oppAdjForBowl(opp: "1" | "2" | "3" | "4" | "5"): number {
   return 1 + 0.05 * (Number(opp) - 3);
 }
 
-export function battingCXIInnings(b: BattingEntry | undefined, info: MatchInfo): number | null {
+export function battingCXIInnings(
+  b: BattingEntry | undefined,
+  info: MatchInfo
+): number | null {
   if (!b) return null;
   const balls = n(b.balls);
   const runs = n(b.runs);
@@ -68,7 +81,9 @@ export function battingCXIInnings(b: BattingEntry | undefined, info: MatchInfo):
   // Wicket penalty (apply only if actually out and faced balls)
   const isOut = b.notOut ? false : balls > 0;
   const topOrder = n(b.battingPosition) > 0 && n(b.battingPosition) <= 3;
-  const wicketPenalty = isOut ? 5 + (topOrder ? 1 : 0) + (info.inningsNo === "2" ? 1 : 0) : 0;
+  const wicketPenalty = isOut
+    ? 5 + (topOrder ? 1 : 0) + (info.inningsNo === "2" ? 1 : 0)
+    : 0;
   rawImpact -= wicketPenalty;
 
   // Pressure weight (only for chases with a known target)
@@ -84,7 +99,10 @@ export function battingCXIInnings(b: BattingEntry | undefined, info: MatchInfo):
   return scaleTo100(weighted, -20, 40);
 }
 
-export function bowlingCXIInnings(w: BowlingEntry | undefined, info: MatchInfo): number | null {
+export function bowlingCXIInnings(
+  w: BowlingEntry | undefined,
+  info: MatchInfo
+): number | null {
   if (!w) return null;
   const overs = n(w.overs);
   const balls = oversToBalls(overs);
@@ -103,8 +121,7 @@ export function bowlingCXIInnings(w: BowlingEntry | undefined, info: MatchInfo):
   const rpbDeath = 1.5; // ~9.0 rpo
 
   let xCon =
-    (ppBalls * rpbPP + midBalls * rpbMid + deathBalls * rpbDeath) *
-    (oAdj / pf);
+    (ppBalls * rpbPP + midBalls * rpbMid + deathBalls * rpbDeath) * (oAdj / pf);
 
   // If no phase info, fall back to uniform
   if (ppBalls + midBalls + deathBalls === 0) {
@@ -126,10 +143,10 @@ export function fieldingPlusMinus(f: FieldingEntry | undefined): number | null {
   if (!f) return null;
   const pm =
     n(f.catches) * 3 +
-    n(f.runouts) * 4 +
+    n((f as any).runOuts) * 4 +
     n(f.stumpings) * 4 +
-    n(f.boundarySaves) * 1 -
-    n(f.drops) * 3;
+    n((f as any).boundarySaves) * 1 -
+    n((f as any).drops) * 3;
 
   // Return a 0–100 scale for UI consistency
   return scaleTo100(pm, -6, 18);
@@ -173,11 +190,11 @@ export function computeScoresForMatch(match: SavedMatch): PlayerScore[] {
     const bat = battingCXIInnings(p.batting, info);
     const bowl = bowlingCXIInnings(p.bowling, info);
     const field = fieldingPlusMinus(p.fielding);
-    const ti = talentIndex(bat, bowl, field, p.primaryRole);
+    const ti = talentIndex(bat, bowl, field, (p as any).primaryRole);
     return {
       playerId: p.id,
       name: p.name || "Unnamed",
-      primaryRole: p.primaryRole,
+      primaryRole: (p as any).primaryRole,
       battingCXI: bat,
       bowlingCXI: bowl,
       fieldingPM: field,
