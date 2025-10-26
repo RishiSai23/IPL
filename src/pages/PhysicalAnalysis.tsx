@@ -1,17 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Navigation from "@/components/Navigation";
+import { FlipCard } from "@/components/fitness/flip-card";
+import { ResultCard } from "@/components/fitness/result-card";
 import {
   FITNESS_TESTS,
   type FitnessTestKey,
 } from "@/components/fitness/test-data";
-import { FlipCard } from "@/components/fitness/flip-card";
-import { ResultCard } from "@/components/fitness/result-card";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useMemo, useState } from "react";
 
 type ValuesState = Partial<Record<FitnessTestKey, number>>;
 
@@ -62,9 +62,12 @@ export default function PlayerFitnessAssessmentPage() {
 
   return (
     <main className="min-h-dvh bg-gradient-to-b from-black via-slate-950 to-black text-white">
+      <Navigation />
+
+      {/* Hero section */}
       {/* Hero section with cyan→blue gradient to match dashboard template */}
       <section className="mx-auto w-full max-w-6xl px-4 pt-6">
-        <div className="rounded-3xl bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
+        <div className="rounded-3xl bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
           <h1 className={cn("text-balance text-3xl font-bold md:text-5xl")}>
             CricScout AI
           </h1>
@@ -73,24 +76,24 @@ export default function PlayerFitnessAssessmentPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Button className="rounded-full bg-white/20 px-5 text-white hover:bg-white/30">
+            <Button className="rounded-full px-5 text-white bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95">
               Explore Analytics
             </Button>
-            <Button className="rounded-full bg-white/20 px-5 text-white hover:bg-white/30">
+            <Button className="rounded-full px-5 text-white bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95">
               Auction Predictor
             </Button>
           </div>
         </div>
       </section>
 
-      {/* <CHANGE> Add template-like 4-card metric summary row */}
+      {/* 4-card metric summary row */}
       <section className="mx-auto w-full max-w-6xl px-4 py-6">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="glass-card rounded-2xl p-5">
             <p className="text-xs font-medium text-gray-300">TOTAL PLAYERS</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">4</span>
-              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
+              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
                 +12%
               </Badge>
             </div>
@@ -101,6 +104,8 @@ export default function PlayerFitnessAssessmentPage() {
               AVG AUCTION VALUE
             </p>
             <div className="mt-2 flex items-end justify-between">
+              <span className="text-3xl font-semibold text-white">{"₹1.3 Cr"}</span>
+              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
               <span className="text-3xl font-semibold text-white">
                 {"₹1.3 Cr"}
               </span>
@@ -114,7 +119,7 @@ export default function PlayerFitnessAssessmentPage() {
             <p className="text-xs font-medium text-gray-300">ACTIVE ANALYSIS</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">147</span>
-              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
+              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
                 +15%
               </Badge>
             </div>
@@ -124,7 +129,7 @@ export default function PlayerFitnessAssessmentPage() {
             <p className="text-xs font-medium text-gray-300">ML ACCURACY</p>
             <div className="mt-2 flex items-end justify-between">
               <span className="text-3xl font-semibold text-white">94.2%</span>
-              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
+              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
                 +2.3%
               </Badge>
             </div>
@@ -132,8 +137,7 @@ export default function PlayerFitnessAssessmentPage() {
         </div>
       </section>
 
-      {/* ... existing code ... */}
-      {/* <CHANGE> Keep helper, flip cards, evaluate button, and result rendering intact */}
+      {/* Fitness assessment section */}
       <section className="mx-auto w-full max-w-6xl px-4 pb-16">
         <Card className="mb-6 rounded-2xl glass-card p-4 shadow-sm">
           <p className="text-sm text-gray-300">
@@ -159,8 +163,8 @@ export default function PlayerFitnessAssessmentPage() {
             disabled={!allFilled || loading}
             onClick={evaluate}
             className={cn(
-              "rounded-full px-6 py-6 text-base font-semibold text-white shadow transition-transform",
-              "bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 hover:scale-105 hover:opacity-95"
+              "rounded-full px-6 py-6 text-base font-semibold shadow transition-transform text-white",
+              "bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95"
             )}
           >
             {loading ? "Evaluating..." : "Evaluate Fitness"}
