@@ -77,9 +77,33 @@ const Homepage = () => {
           Star Players
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
-          <PlayerCard name="Virat Kohli" team="RCB" score={98} />
-          <PlayerCard name="Rohit Sharma" team="MI" score={92} />
-          <PlayerCard name="Hardik Pandya" team="MI" score={87} />
+          <PlayerCard
+            player={{
+              name: "Virat Kohli",
+              team: "RCB",
+              position: "Batsman",
+              image: kohli,
+              id: "kohli",
+            }}
+          />
+          <PlayerCard
+            player={{
+              name: "Rohit Sharma",
+              team: "MI",
+              position: "Batsman",
+              image: "/placeholder-player.png",
+              id: "sharma",
+            }}
+          />
+          <PlayerCard
+            player={{
+              name: "Hardik Pandya",
+              team: "MI",
+              position: "All-Rounder",
+              image: "/placeholder-player.png",
+              id: "pandya",
+            }}
+          />
         </div>
       </section>
 

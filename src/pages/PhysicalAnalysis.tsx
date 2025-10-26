@@ -104,11 +104,14 @@ export default function PlayerFitnessAssessmentPage() {
               AVG AUCTION VALUE
             </p>
             <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold text-white">{"₹1.3 Cr"}</span>
-              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
               <span className="text-3xl font-semibold text-white">
                 {"₹1.3 Cr"}
               </span>
+              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
+                <span className="text-3xl font-semibold text-white">
+                  {"₹1.3 Cr"}
+                </span>
+              </Badge>
               <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
                 +8%
               </Badge>
