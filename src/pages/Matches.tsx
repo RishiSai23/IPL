@@ -1,10 +1,18 @@
 // file: src/pages/Matches.tsx
-import Navigation from "@/components/Navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { deleteMatch, listMatches, type SavedMatch } from "@/lib/localStore";
-import { Calendar, Download, MapPin, Plus, RefreshCw, Target, Trash2, Trophy } from "lucide-react";
+import {
+  Calendar,
+  Download,
+  MapPin,
+  Plus,
+  RefreshCw,
+  Target,
+  Trash2,
+  Trophy,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -49,11 +57,15 @@ export default function Matches() {
 
   const handleExport = () => {
     const data = listMatches();
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const blob = new Blob([JSON.stringify(data, null, 2)], {
+      type: "application/json",
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `cricscout-matches-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `cricscout-matches-${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -61,18 +73,23 @@ export default function Matches() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
-
+    <div className="bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">My Matches</h1>
-            <p className="text-gray-300">Saved locally on your device (no login required)</p>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              My Matches
+            </h1>
+            <p className="text-gray-300">
+              Saved locally on your device (no login required)
+            </p>
           </div>
           <div className="flex items-center gap-2">
-            <Button asChild className="bg-gradient-primary text-primary-foreground">
+            <Button
+              asChild
+              className="bg-gradient-primary text-primary-foreground"
+            >
               <Link to="/add-match">
                 <Plus className="w-4 h-4 mr-2" />
                 Add Match
@@ -93,11 +110,17 @@ export default function Matches() {
         {matches.length === 0 ? (
           <Card className="glass-card shadow-card">
             <CardContent className="py-12 text-center">
-              <p className="text-white font-medium mb-2">No matches saved yet</p>
-              <p className="text-gray-300 mb-4">
-                Use "Add Match" to enter a new T20 innings and player contributions.
+              <p className="text-white font-medium mb-2">
+                No matches saved yet
               </p>
-              <Button asChild className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90">
+              <p className="text-gray-300 mb-4">
+                Use "Add Match" to enter a new T20 innings and player
+                contributions.
+              </p>
+              <Button
+                asChild
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90"
+              >
                 <Link to="/add-match">Add Match</Link>
               </Button>
             </CardContent>
@@ -114,7 +137,8 @@ export default function Matches() {
                       </span>
                       <div className="space-y-0.5">
                         <div className="text-sm text-white font-semibold">
-                          {m.innings.battingTeam || "Batting Team"} vs {m.innings.bowlingTeam || "Bowling Team"}
+                          {m.innings.battingTeam || "Batting Team"} vs{" "}
+                          {m.innings.bowlingTeam || "Bowling Team"}
                         </div>
                         <div className="flex items-center gap-3 text-xs text-gray-300">
                           <span className="inline-flex items-center gap-1">
@@ -130,9 +154,17 @@ export default function Matches() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline">{pitchLabel[m.matchInfo.pitch] || m.matchInfo.pitch}</Badge>
-                      <Badge variant="outline">Opp: {m.matchInfo.oppositionStrength}/5</Badge>
-                      <Badge variant="outline">{m.matchInfo.inningsNo === "1" ? "1st Inns" : "2nd Inns"}</Badge>
+                      <Badge variant="outline">
+                        {pitchLabel[m.matchInfo.pitch] || m.matchInfo.pitch}
+                      </Badge>
+                      <Badge variant="outline">
+                        Opp: {m.matchInfo.oppositionStrength}/5
+                      </Badge>
+                      <Badge variant="outline">
+                        {m.matchInfo.inningsNo === "1"
+                          ? "1st Inns"
+                          : "2nd Inns"}
+                      </Badge>
                     </div>
                   </CardTitle>
                 </CardHeader>
@@ -141,12 +173,17 @@ export default function Matches() {
                   <div className="grid grid-cols-2 gap-3 text-sm">
                     <div className="flex items-center gap-2">
                       <MapPin className="w-4 h-4 text-gray-300" />
-                      <span className="truncate text-gray-300">{m.matchInfo.venue || "—"}</span>
+                      <span className="truncate text-gray-300">
+                        {m.matchInfo.venue || "—"}
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Target className="w-4 h-4 text-gray-300" />
                       <span className="text-gray-300">
-                        Overs: <span className="font-medium text-white">{m.innings.overs || "—"}</span>
+                        Overs:{" "}
+                        <span className="font-medium text-white">
+                          {m.innings.overs || "—"}
+                        </span>
                       </span>
                     </div>
                   </div>
@@ -155,7 +192,10 @@ export default function Matches() {
                     <Button asChild variant="outline">
                       <Link to={`/matches/${m.id}`}>View Details</Link>
                     </Button>
-                    <Button variant="destructive" onClick={() => handleDelete(m.id)}>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDelete(m.id)}
+                    >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete
                     </Button>

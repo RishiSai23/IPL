@@ -1,6 +1,5 @@
 // file: src/pages/Leaderboard.tsx
 import { useEffect, useMemo, useState } from "react";
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +17,12 @@ import { Trophy, RefreshCw, Filter, Search, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type RoleFilter = "all" | "batter" | "bowler" | "all-rounder" | "wicket-keeper";
-type SortKey = "avgTalentIndex" | "matches" | "avgBattingCXI" | "avgBowlingCXI" | "avgFieldingPM";
+type SortKey =
+  | "avgTalentIndex"
+  | "matches"
+  | "avgBattingCXI"
+  | "avgBowlingCXI"
+  | "avgFieldingPM";
 
 export default function Leaderboard() {
   const [rows, setRows] = useState<LeaderboardRow[]>([]);
@@ -79,16 +83,16 @@ export default function Leaderboard() {
   }, [rows, role, q, sortKey, sortOrder]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
-
+    <div className="bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
               <Trophy className="w-7 h-7 text-cyan-400" />
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Leaderboard</span>
+              <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                Leaderboard
+              </span>
             </h1>
             <p className="text-gray-300">
               Context-adjusted Talent Index across saved matches on this device
@@ -120,7 +124,10 @@ export default function Leaderboard() {
             </div>
 
             <div>
-              <Select value={role} onValueChange={(val) => setRole(val as RoleFilter)}>
+              <Select
+                value={role}
+                onValueChange={(val) => setRole(val as RoleFilter)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Role" />
                 </SelectTrigger>
@@ -135,7 +142,10 @@ export default function Leaderboard() {
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              <Select value={sortKey} onValueChange={(val) => setSortKey(val as SortKey)}>
+              <Select
+                value={sortKey}
+                onValueChange={(val) => setSortKey(val as SortKey)}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -148,7 +158,10 @@ export default function Leaderboard() {
                 </SelectContent>
               </Select>
 
-              <Select value={sortOrder} onValueChange={(val) => setSortOrder(val as "asc" | "desc")}>
+              <Select
+                value={sortOrder}
+                onValueChange={(val) => setSortOrder(val as "asc" | "desc")}
+              >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Order" />
                 </SelectTrigger>
@@ -172,7 +185,10 @@ export default function Leaderboard() {
                 <p className="text-sm text-gray-300">
                   No results yet. Add matches or adjust filters.
                 </p>
-                <Button asChild className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90">
+                <Button
+                  asChild
+                  className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white hover:opacity-90"
+                >
                   <Link to="/add-match">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Match
@@ -222,7 +238,9 @@ export default function Leaderboard() {
                     <div className="text-right">{r.matches}</div>
                     <div className="text-right">{r.avgBattingCXI ?? "—"}</div>
                     <div className="text-right">{r.avgBowlingCXI ?? "—"}</div>
-                    <div className="text-right font-semibold">{r.avgTalentIndex}</div>
+                    <div className="text-right font-semibold">
+                      {r.avgTalentIndex}
+                    </div>
                   </div>
                 ))}
               </div>

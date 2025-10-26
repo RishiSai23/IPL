@@ -1,7 +1,6 @@
 // file: src/pages/PlayerScorecard.tsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -205,9 +204,7 @@ export default function PlayerScorecard() {
   }, [events]);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-
+    <div className="bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Top bar */}
         <div className="flex items-center justify-between">

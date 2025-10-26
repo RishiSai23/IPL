@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import Navigation from "@/components/Navigation";
 import Dashboard from "@/pages/homepage";
 import { useEffect } from "react";
 import gsap from "gsap";
@@ -51,16 +50,6 @@ const Index = () => {
           zIndex: 0,
         }}
       ></div>
-
-      {/* === Top Navigation Bar === */}
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="relative z-10"
-      >
-        <Navigation />
-      </motion.div>
 
       {/* === Dashboard Section === */}
       <motion.div
