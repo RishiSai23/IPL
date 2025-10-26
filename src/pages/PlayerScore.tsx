@@ -71,7 +71,6 @@ const PlayerScore = () => {
     <>
       <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#120b2e] to-[#0a0a0a] flex justify-center items-center p-8 text-white">
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex justify-center items-center p-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -99,7 +98,6 @@ const PlayerScore = () => {
             <SectionCard
               title="1️⃣ Player & Match Info"
               icon={<Trophy className="text-purple-400" />}
-              icon={<Trophy className="text-orange-500" />}
             >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                 <InputField
@@ -127,7 +125,6 @@ const PlayerScore = () => {
             <SectionCard
               title="2️⃣ Match Conditions"
               icon={<CloudSun className="text-cyan-400" />}
-              icon={<CloudSun className="text-blue-500" />}
             >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                 <InputField
@@ -162,7 +159,6 @@ const PlayerScore = () => {
             <SectionCard
               title="3️⃣ Live Situation"
               icon={<BarChart3 className="text-blue-400" />}
-              icon={<BarChart3 className="text-indigo-500" />}
             >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
                 <InputField
@@ -213,7 +209,6 @@ const PlayerScore = () => {
             <SectionCard
               title="4️⃣ Performance Stats"
               icon={<Sparkles className="text-pink-400" />}
-              icon={<Sparkles className="text-pink-500" />}
             >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                 {[

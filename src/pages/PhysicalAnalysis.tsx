@@ -61,91 +61,69 @@ export default function PlayerFitnessAssessmentPage() {
   };
 
   return (
-    <main className="min-h-dvh bg-gradient-to-b from-black via-slate-950 to-black text-white">
+    <main className="min-h-dvh bg-gradient-to-b from-[#0a0a0a] via-[#120b2e] to-[#0a0a0a] text-white">
       <Navigation />
 
-      {/* Hero section */}
-      {/* Hero section with cyan→blue gradient to match dashboard template */}
+      {/* HERO SECTION */}
       <section className="mx-auto w-full max-w-6xl px-4 pt-6">
-        <div className="rounded-3xl bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] px-6 py-12 text-center text-white shadow-md md:px-10 md:py-16">
-          <h1 className={cn("text-balance text-3xl font-bold md:text-5xl")}>
-            CricScout AI
+        <div className="rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-700 px-6 py-12 text-center text-white shadow-[0_0_30px_rgba(0,255,255,0.25)] md:px-10 md:py-16">
+          <h1 className={cn("text-balance text-3xl font-extrabold md:text-5xl")}>
+            ⚡ CricScout AI Fitness Analyzer
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-pretty text-sm opacity-90 md:text-base">
-            Advanced IPL Player Analysis & Recommendation System
+            Smart AI-driven fitness evaluation for IPL prospects 🏏
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Button className="rounded-full px-5 text-white bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95">
+            <Button className="rounded-full bg-white/10 border border-cyan-300/30 text-cyan-200 hover:bg-cyan-500/20 transition">
               Explore Analytics
             </Button>
-            <Button className="rounded-full px-5 text-white bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95">
+            <Button className="rounded-full bg-white/10 border border-purple-300/30 text-purple-200 hover:bg-purple-500/20 transition">
               Auction Predictor
             </Button>
           </div>
         </div>
       </section>
 
-      {/* 4-card metric summary row */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-6">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">TOTAL PLAYERS</p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold text-white">4</span>
-              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
-                +12%
-              </Badge>
-            </div>
-          </Card>
-
-          <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">
-              AVG AUCTION VALUE
-            </p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold text-white">{"₹1.3 Cr"}</span>
-              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
-              <span className="text-3xl font-semibold text-white">
-                {"₹1.3 Cr"}
-              </span>
-              <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300">
-                +8%
-              </Badge>
-            </div>
-          </Card>
-
-          <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">ACTIVE ANALYSIS</p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold text-white">147</span>
-              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
-                +15%
-              </Badge>
-            </div>
-          </Card>
-
-          <Card className="glass-card rounded-2xl p-5">
-            <p className="text-xs font-medium text-gray-300">ML ACCURACY</p>
-            <div className="mt-2 flex items-end justify-between">
-              <span className="text-3xl font-semibold text-white">94.2%</span>
-              <Badge className="rounded-full bg-[#3c096c]/20 px-2 py-1 text-[10px] font-medium text-[#6a0dad]">
-                +2.3%
-              </Badge>
-            </div>
-          </Card>
+      {/* METRIC CARDS */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-8">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: "TOTAL PLAYERS", value: "4", change: "+12%" },
+            { label: "AVG AUCTION VALUE", value: "₹1.3 Cr", change: "+8%" },
+            { label: "ACTIVE ANALYSIS", value: "147", change: "+15%" },
+            { label: "ML ACCURACY", value: "94.2%", change: "+2.3%" },
+          ].map((stat, i) => (
+            <Card
+              key={i}
+              className="rounded-2xl p-5 bg-gradient-to-b from-[#0f0f1a]/90 to-[#1a1033]/80 border border-cyan-400/20 shadow-[0_0_20px_rgba(0,255,255,0.1)] hover:shadow-[0_0_25px_rgba(255,0,255,0.2)] transition-all"
+            >
+              <p className="text-xs font-semibold text-cyan-200/80">
+                {stat.label}
+              </p>
+              <div className="mt-2 flex items-end justify-between">
+                <span className="text-3xl font-bold text-white">
+                  {stat.value}
+                </span>
+                <Badge className="rounded-full bg-cyan-500/20 px-2 py-1 text-[10px] font-medium text-cyan-300 border border-cyan-400/30">
+                  {stat.change}
+                </Badge>
+              </div>
+            </Card>
+          ))}
         </div>
       </section>
 
-      {/* Fitness assessment section */}
+      {/* INSTRUCTIONS */}
       <section className="mx-auto w-full max-w-6xl px-4 pb-16">
-        <Card className="mb-6 rounded-2xl glass-card p-4 shadow-sm">
-          <p className="text-sm text-gray-300">
+        <Card className="mb-6 rounded-2xl bg-gradient-to-b from-[#0f0f1a]/70 to-[#1b0e33]/70 border border-cyan-400/30 p-4 shadow-[0_0_20px_rgba(0,255,255,0.1)]">
+          <p className="text-sm text-cyan-200/80">
             Tap a card to flip, enter your value, and hit Done. Fill all cards,
             then evaluate your fitness score.
           </p>
         </Card>
 
+        {/* FLIP CARDS GRID */}
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {FITNESS_TESTS.map((t) => (
             <FlipCard
@@ -157,21 +135,24 @@ export default function PlayerFitnessAssessmentPage() {
           ))}
         </div>
 
-        <div className="mt-8 flex items-center justify-center">
+        {/* EVALUATE BUTTON */}
+        <div className="mt-10 flex items-center justify-center">
           <Button
             size="lg"
             disabled={!allFilled || loading}
             onClick={evaluate}
             className={cn(
-              "rounded-full px-6 py-6 text-base font-semibold shadow transition-transform text-white",
-              "bg-gradient-to-r from-[#1a1a2e] via-[#3c096c] to-[#6a0dad] hover:scale-105 hover:opacity-95"
+              "rounded-full px-8 py-5 text-base font-bold tracking-wide text-white",
+              "bg-gradient-to-r from-cyan-500 via-blue-600 to-purple-600",
+              "shadow-[0_0_20px_rgba(0,255,255,0.3)] hover:shadow-[0_0_25px_rgba(255,0,255,0.4)] transition-all hover:scale-105"
             )}
           >
-            {loading ? "Evaluating..." : "Evaluate Fitness"}
+            {loading ? "Evaluating..." : "🚀 Evaluate Fitness"}
           </Button>
         </div>
 
-        <div className="mt-8">
+        {/* RESULT CARD */}
+        <div className="mt-10">
           {result && (
             <ResultCard
               score={result.score}
