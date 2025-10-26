@@ -72,7 +72,6 @@ const PlayerScore = () => {
 
   return (
     <>
-      <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex justify-center items-center p-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -97,47 +96,139 @@ const PlayerScore = () => {
 
           <form onSubmit={handleSubmit} className="space-y-10">
             {/* 1️⃣ Player Info */}
-            <SectionCard title="1️⃣ Player & Match Info" icon={<Trophy className="text-orange-500" />}>
+            <SectionCard
+              title="1️⃣ Player & Match Info"
+              icon={<Trophy className="text-orange-500" />}
+            >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-                <InputField label="Player Name" name="player_name" value={formData.player_name} onChange={handleChange} />
-                <InputField label="Role" name="role" value={formData.role} onChange={handleChange} />
-                <InputField label="Match Format" name="match_format" value={formData.match_format} onChange={handleChange} />
+                <InputField
+                  label="Player Name"
+                  name="player_name"
+                  value={formData.player_name}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Match Format"
+                  name="match_format"
+                  value={formData.match_format}
+                  onChange={handleChange}
+                />
               </div>
             </SectionCard>
 
             {/* 2️⃣ Match Conditions */}
-            <SectionCard title="2️⃣ Match Conditions" icon={<CloudSun className="text-blue-500" />}>
+            <SectionCard
+              title="2️⃣ Match Conditions"
+              icon={<CloudSun className="text-blue-500" />}
+            >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-                <InputField label="Pitch Type" name="pitch_type" value={formData.pitch_type} onChange={handleChange} />
-                <InputField label="Venue Type" name="venue_type" value={formData.venue_type} onChange={handleChange} />
-                <InputField label="Weather Condition" name="weather_condition" value={formData.weather_condition} onChange={handleChange} />
-                <InputField label="Opponent Strength" name="opponent_strength" value={formData.opponent_strength} onChange={handleChange} type="number" />
+                <InputField
+                  label="Pitch Type"
+                  name="pitch_type"
+                  value={formData.pitch_type}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Venue Type"
+                  name="venue_type"
+                  value={formData.venue_type}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Weather Condition"
+                  name="weather_condition"
+                  value={formData.weather_condition}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Opponent Strength"
+                  name="opponent_strength"
+                  value={formData.opponent_strength}
+                  onChange={handleChange}
+                  type="number"
+                />
               </div>
             </SectionCard>
 
             {/* 3️⃣ Live Situation */}
-            <SectionCard title="3️⃣ Live Situation" icon={<BarChart3 className="text-indigo-500" />}>
+            <SectionCard
+              title="3️⃣ Live Situation"
+              icon={<BarChart3 className="text-indigo-500" />}
+            >
               <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
-                <InputField label="Batting Position" name="batting_position" value={formData.batting_position} onChange={handleChange} type="number" />
-                <InputField label="Wickets Fallen Before" name="wickets_fallen_before" value={formData.wickets_fallen_before} onChange={handleChange} type="number" />
-                <InputField label="Required Run Rate" name="required_run_rate" value={formData.required_run_rate} onChange={handleChange} type="number" />
-                <CheckboxField label="Is Second Innings" name="is_second_innings" checked={formData.is_second_innings} onChange={handleChange} />
-                <InputField label="Match Stage" name="match_stage" value={formData.match_stage} onChange={handleChange} type="number" />
-                <InputField label="Match Pressure" name="match_pressure" value={formData.match_pressure} onChange={handleChange} type="number" />
+                <InputField
+                  label="Batting Position"
+                  name="batting_position"
+                  value={formData.batting_position}
+                  onChange={handleChange}
+                  type="number"
+                />
+                <InputField
+                  label="Wickets Fallen Before"
+                  name="wickets_fallen_before"
+                  value={formData.wickets_fallen_before}
+                  onChange={handleChange}
+                  type="number"
+                />
+                <InputField
+                  label="Required Run Rate"
+                  name="required_run_rate"
+                  value={formData.required_run_rate}
+                  onChange={handleChange}
+                  type="number"
+                />
+                <CheckboxField
+                  label="Is Second Innings"
+                  name="is_second_innings"
+                  checked={formData.is_second_innings}
+                  onChange={handleChange}
+                />
+                <InputField
+                  label="Match Stage"
+                  name="match_stage"
+                  value={formData.match_stage}
+                  onChange={handleChange}
+                  type="number"
+                />
+                <InputField
+                  label="Match Pressure"
+                  name="match_pressure"
+                  value={formData.match_pressure}
+                  onChange={handleChange}
+                  type="number"
+                />
               </div>
             </SectionCard>
 
             {/* 4️⃣ Performance Stats */}
-            <SectionCard title="4️⃣ Performance Stats" icon={<Sparkles className="text-pink-500" />}>
+            <SectionCard
+              title="4️⃣ Performance Stats"
+              icon={<Sparkles className="text-pink-500" />}
+            >
               <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                 {[
-                  "runs_scored", "balls_faced", "fours", "sixes",
-                  "wickets_taken", "overs_bowled", "economy_rate",
-                  "catches", "runouts", "stumpings"
+                  "runs_scored",
+                  "balls_faced",
+                  "fours",
+                  "sixes",
+                  "wickets_taken",
+                  "overs_bowled",
+                  "economy_rate",
+                  "catches",
+                  "runouts",
+                  "stumpings",
                 ].map((key) => (
                   <InputField
                     key={key}
-                    label={key.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+                    label={key
+                      .replaceAll("_", " ")
+                      .replace(/\b\w/g, (c) => c.toUpperCase())}
                     name={key}
                     value={(formData as any)[key]}
                     onChange={handleChange}

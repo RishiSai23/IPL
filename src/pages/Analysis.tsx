@@ -1,4 +1,3 @@
-import Navigation from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getAllCachedPlayers } from "@/api/footballApi";
@@ -133,8 +132,7 @@ export default function Analysis() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
+    <div className="bg-gradient-to-b from-black via-slate-950 to-black text-white">
       <main className="p-6 max-w-7xl mx-auto">
         <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
           Player SWOT Analysis Dashboard

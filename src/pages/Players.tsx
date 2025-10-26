@@ -1,5 +1,4 @@
 // file: src/pages/Players.tsx
-import Navigation from "@/components/Navigation";
 import PlayerCard from "@/components/PlayerCard";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -136,9 +135,7 @@ const Players = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
-
+    <div className="bg-gradient-to-b from-black via-slate-950 to-black text-white">
       {/* Hero Section */}
       <div className="relative text-center py-14 bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 text-white shadow-lg rounded-b-3xl">
         <h1 className="text-5xl font-extrabold drop-shadow-lg">
