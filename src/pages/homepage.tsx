@@ -4,8 +4,9 @@ import { useEffect, useRef } from "react";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
 import kohli from "@/assets/players/kohli.png";
-import rohit from "@/assets/players/rohit-sharma.png";
-import dhoni from "@/assets/players/ms.png";
+import messi from "@/assets/players/lionel-messi.png";
+import rohit from "@/assets/players/rohit.png";
+import hardik from "@/assets/players/Hardik-pandya.png";
 
 const Homepage = () => {
   const heroRef = useRef(null);
@@ -39,12 +40,17 @@ const Homepage = () => {
         className="relative h-[90vh] flex flex-col justify-center items-center text-center z-10 pt-16"
       >
         <motion.h1 className="hero-title text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 drop-shadow-[0_0_20px_rgba(0,255,255,0.5)]">
-          P.U.L.S.E
+          PULSE
         </motion.h1>
         <motion.p className="hero-subtitle mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
           Enter the next era of cricket analytics — real-time performance,
           predictive AI insights, and player holograms.
         </motion.p>
+        <motion.img
+          src={messi}
+          alt="Lionel Messi"
+          className="hero-img absolute bottom-0 left-9 w-[400px] md:w-[500px] object-cover object-left opacity-50 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
+        />
         <motion.img
           src={kohli}
           alt="Virat Kohli"
@@ -99,10 +105,10 @@ const Homepage = () => {
           />
           <PlayerCard
             player={{
-              name: "MS DHONI",
-              team: "CSK",
-              position: "Wicket Keeper",
-              image: dhoni,
+              name: "Hardik Pandya",
+              team: "MI",
+              position: "All-Rounder",
+              image: hardik,
               id: "pandya",
             }}
           />
