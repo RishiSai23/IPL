@@ -29,7 +29,7 @@ const Navigation: React.FC<NavigationProps> = ({ user }) => {
       (path !== "/" && location.pathname.startsWith(path));
 
     // Using green and emerald for the active state
-    return `text-sm font-medium px-4 py-2 rounded-lg transition duration-200 
+    return `text-sm font-large px-4 py-2 rounded-lg transition duration-200 
             ${
               isActive
                 ? "bg-emerald-600/20 text-emerald-400 border border-emerald-500/50"
@@ -39,7 +39,7 @@ const Navigation: React.FC<NavigationProps> = ({ user }) => {
 
   return (
     // FIX 1: Set a high Z-index on the NAV element itself to ensure the whole bar is on top.
-    <nav className="sticky top-0 bg-black/80 backdrop-blur-sm shadow-md py-3 px-8 z-[100] border-b border-emerald-900/50">
+    <nav className="sticky top-0 bg-black/80 backdrop-blur-lg shadow-md py-3 px-8 z-[100] border-b border-emerald-900/50">
       <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* LEFT SECTION: Logo/App Name */}
         <Link

@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
 import kohli from "@/assets/players/kohli.png";
-
+import rohit from "@/assets/players/lionel-messi.png";
 const Homepage = () => {
   const heroRef = useRef(null);
 
@@ -43,6 +43,11 @@ const Homepage = () => {
           Enter the next era of cricket analytics — real-time performance,
           predictive AI insights, and player holograms.
         </motion.p>
+        <motion.img
+          src={rohit}
+          alt="Lionel Messi"
+          className="hero-img absolute bottom-0 left-9 w-[400px] md:w-[500px] object-cover object-left opacity-50 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
+        />
         <motion.img
           src={kohli}
           alt="Virat Kohli"

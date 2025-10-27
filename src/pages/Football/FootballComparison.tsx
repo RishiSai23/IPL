@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+// import Navigation from "@/components/Navigation";
 import type { FootballPlayer } from "@/types/footballPlayer";
 import FootballPlayerCard from "@/components/FootballPlayerCard";
 import { useState, useEffect } from "react";

@@ -5,10 +5,16 @@ interface PlayerCardProps {
   title?: string;
 }
 
-const PlayerCard = ({ player }: PlayerCardProps) => {
+const PlayerCard = ({ player, title }: PlayerCardProps) => {
   // Early return if player is not provided
   if (!player) {
-    return null;
+    return (
+      <Card className="relative bg-gradient-to-b from-[#0a0a0a] via-[#120b2e] to-[#0a0a0a] border border-cyan-500 rounded-xl overflow-hidden text-white shadow-[0_0_20px_rgba(0,255,255,0.2)] p-4 flex items-center justify-center min-h-[400px]">
+        <h2 className="text-xl font-bold text-gray-400">
+          {title || "Select Player"}
+        </h2>
+      </Card>
+    );
   }
 
   return (
