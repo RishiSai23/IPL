@@ -46,7 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({ user }) => {
           to="/"
           className="text-2xl font-extrabold text-yellow-500 tracking-wider uppercase transition"
         >
-          P.U.L.S.E
+          PULSE
         </Link>
 
         {/* CENTER SECTION: Navigation Links (Pill-shaped, rounded container) */}
