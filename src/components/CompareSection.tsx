@@ -11,18 +11,14 @@ interface CompareSectionProps {
 const CompareSection = ({
   player1,
   player2,
-  onSelectPlayer1,
-  onSelectPlayer2,
+  onSelectPlayer1: _onSelectPlayer1,
+  onSelectPlayer2: _onSelectPlayer2,
 }: CompareSectionProps) => {
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-12">
-      <div className="bg-card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border">
+      <div className="b -card rounded-3xl p-8 shadow-[var(--shadow-card)] border border-border">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-center">
-          <PlayerCard
-            player={player1}
-            onSelectPlayer={onSelectPlayer1}
-            title="Player 1"
-          />
+          <PlayerCard player={player1} title="Player 1" />
 
           <div className="flex items-center justify-center">
             <div className="relative">
@@ -33,11 +29,7 @@ const CompareSection = ({
             </div>
           </div>
 
-          <PlayerCard
-            player={player2}
-            onSelectPlayer={onSelectPlayer2}
-            title="Player 2"
-          />
+          <PlayerCard player={player2} title="Player 2" />
         </div>
       </div>
     </div>
