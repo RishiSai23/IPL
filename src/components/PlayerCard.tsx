@@ -36,14 +36,7 @@ const PlayerCard = ({ player }: PlayerCardProps) => {
       </div>
 
       {/* Price Section */}
-      <div className="text-center mt-5">
-        <p className="text-base font-semibold text-gray-400 line-through">
-          ₹{player.auctionValue?.previous ?? "2000"}
-        </p>
-        <p className="text-xl font-extrabold text-purple-400 drop-shadow-md">
-          ₹{player.auctionValue?.predicted ?? "1699"}
-        </p>
-      </div>
+      
 
       {/* Buttons */}
       <div className="flex justify-between mt-6">

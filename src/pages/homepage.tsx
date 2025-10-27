@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
 import kohli from "@/assets/players/kohli.png";
+import rohit from "@/assets/players/rohit-sharma.png";
+import dhoni from "@/assets/players/ms.png";
 
 const Homepage = () => {
   const heroRef = useRef(null);
@@ -91,16 +93,16 @@ const Homepage = () => {
               name: "Rohit Sharma",
               team: "MI",
               position: "Batsman",
-              image: "/placeholder-player.png",
+              image: rohit,
               id: "sharma",
             }}
           />
           <PlayerCard
             player={{
-              name: "Hardik Pandya",
-              team: "MI",
-              position: "All-Rounder",
-              image: "/placeholder-player.png",
+              name: "MS DHONI",
+              team: "CSK",
+              position: "Wicket Keeper",
+              image: dhoni,
               id: "pandya",
             }}
           />

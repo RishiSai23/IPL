@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 // FIX: Using a common relative path (assuming LoginPage is one directory up from Navigation.tsx's directory)
 import { AuthenticatedDropdown } from "./LoginPage";
 import { LogIn } from "lucide-react"; // Icon for login button
-
+import PhysicalAnalysis from "@/pages/PhysicalAnalysis";
 interface NavigationProps {
   user?: User;
 }
@@ -14,7 +14,7 @@ const navLinks = [
   { to: "/players", label: "Players" },
   { to: "/matches", label: "Matches" },
   { to: "/pfAnalysis", label: "Player Analysis" },
-  { to: "/leaderboard", label: "Leaderboard" },
+  { to: "/physicalanalysis", label: "Physical Analysis" },
   { to: "/comparison", label: "Compare" },
   // { to: "/analysis", label: "Pf Analysis" },
 ];
