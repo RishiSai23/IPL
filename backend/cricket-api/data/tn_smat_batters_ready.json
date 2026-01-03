@@ -1,0 +1,208 @@
+{
+  "players": [
+    {
+      "id": "sai-sudharsan",
+      "name": "Sai Sudharsan",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 6,
+        "runs": 192,
+        "average": 32.0,
+        "strikeRate": 152.38,
+        "pressureScore": 50.17,
+        "baseSkillScore": 74.0,
+        "consistencyScore": 21.67,
+        "oppositionQualityScore": 85.42,
+        "finalScore": 56.91
+      }
+    },
+    {
+      "id": "tushar-raheja",
+      "name": "Tushar Raheja",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 7,
+        "runs": 151,
+        "average": 21.57,
+        "strikeRate": 164.13,
+        "pressureScore": 32.22,
+        "baseSkillScore": 38.75,
+        "consistencyScore": 17.9,
+        "oppositionQualityScore": 29.74,
+        "finalScore": 30.94
+      }
+    },
+    {
+      "id": "shivam-singh",
+      "name": "Shivam Singh",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 3,
+        "runs": 35,
+        "average": 11.67,
+        "strikeRate": 89.74,
+        "pressureScore": 3.0,
+        "baseSkillScore": 15.0,
+        "consistencyScore": 16.27,
+        "oppositionQualityScore": 0,
+        "finalScore": 8.8
+      }
+    },
+    {
+      "id": "amit-sathvik",
+      "name": "Amit Sathvik",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 5,
+        "runs": 119,
+        "average": 23.8,
+        "strikeRate": 138.37,
+        "pressureScore": 29.98,
+        "baseSkillScore": 36.86,
+        "consistencyScore": 24.08,
+        "oppositionQualityScore": 28.85,
+        "finalScore": 30.69
+      }
+    },
+    {
+      "id": "narayan-jagadeesan",
+      "name": "Narayan Jagadeesan",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 7,
+        "runs": 191,
+        "average": 27.29,
+        "strikeRate": 148.06,
+        "pressureScore": 28.33,
+        "baseSkillScore": 56.37,
+        "consistencyScore": 15.51,
+        "oppositionQualityScore": 47.95,
+        "finalScore": 37.12
+      }
+    },
+    {
+      "id": "rithik-easwaran",
+      "name": "Rithik Easwaran",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 1,
+        "runs": 29,
+        "average": 29.0,
+        "strikeRate": 170.59,
+        "pressureScore": 39.0,
+        "baseSkillScore": 54.42,
+        "consistencyScore": 0,
+        "oppositionQualityScore": 59.3,
+        "finalScore": 38.87
+      }
+    },
+    {
+      "id": "r-rajkumar",
+      "name": "R Rajkumar",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 7,
+        "runs": 167,
+        "average": 23.86,
+        "strikeRate": 160.58,
+        "pressureScore": 31.52,
+        "baseSkillScore": 42.75,
+        "consistencyScore": 12.16,
+        "oppositionQualityScore": 44.63,
+        "finalScore": 32.98
+      }
+    },
+    {
+      "id": "mohamed-ali",
+      "name": "Mohamed Ali",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 1,
+        "runs": 2,
+        "average": 2.0,
+        "strikeRate": 25.0,
+        "pressureScore": 0.0,
+        "baseSkillScore": 9.0,
+        "consistencyScore": 0,
+        "oppositionQualityScore": 0,
+        "finalScore": 2.7
+      }
+    },
+    {
+      "id": "m-shahrukh-khan",
+      "name": "M Shahrukh Khan",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 4,
+        "runs": 18,
+        "average": 4.5,
+        "strikeRate": 75.0,
+        "pressureScore": 0.0,
+        "baseSkillScore": 9.0,
+        "consistencyScore": 20.0,
+        "oppositionQualityScore": 0,
+        "finalScore": 6.7
+      }
+    },
+    {
+      "id": "sai-kishore",
+      "name": "Sai Kishore",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 4,
+        "runs": 95,
+        "average": 23.75,
+        "strikeRate": 169.64,
+        "pressureScore": 13.5,
+        "baseSkillScore": 47.06,
+        "consistencyScore": 20.0,
+        "oppositionQualityScore": 41.4,
+        "finalScore": 29.05
+      }
+    },
+    {
+      "id": "sonu-yadav",
+      "name": "Sonu Yadav",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 3,
+        "runs": 23,
+        "average": 7.67,
+        "strikeRate": 109.52,
+        "pressureScore": 11.99,
+        "baseSkillScore": 15.0,
+        "consistencyScore": 17.78,
+        "oppositionQualityScore": 2.4,
+        "finalScore": 12.61
+      }
+    },
+    {
+      "id": "sunny-sandhu",
+      "name": "Sunny Sandhu",
+      "team": "Tamil Nadu",
+      "role": "Batter",
+      "stats": {
+        "matches": 1,
+        "runs": 11,
+        "average": 11.0,
+        "strikeRate": 183.33,
+        "pressureScore": 22.0,
+        "baseSkillScore": 36.0,
+        "consistencyScore": 0,
+        "oppositionQualityScore": 20.0,
+        "finalScore": 21.5
+      }
+    }
+  ]
+}
