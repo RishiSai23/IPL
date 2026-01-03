@@ -62,7 +62,7 @@ export default function PlayerFitnessAssessmentPage() {
 
   return (
     <main className="min-h-dvh bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
+      {/* <Navigation /> */}
 
       {/* Hero section */}
       {/* Hero section with cyan→blue gradient to match dashboard template */}
