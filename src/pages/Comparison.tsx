@@ -1,236 +1,198 @@
-import Navigation from "@/components/Navigation";
+import { useEffect, useState } from "react";
 import type { Player } from "@/types/player";
 import PlayerCard from "@/components/PlayerCard";
+import PerformanceComparison from "@/components/PerformanceComparison";
 import PerformanceChart from "@/components/PerformanceChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Target, Trophy } from "lucide-react";
-import { useState } from "react";
-import PerformanceComparison from "@/components/PerformanceComparison";
-
-// Removed unused mock blocks to avoid linter errors
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
 
 const CompareCricketersPage = () => {
-  const [player1, setPlayer1] = useState<Player | undefined>(undefined);
-  const [player2, setPlayer2] = useState<Player | undefined>(undefined);
+  const [players, setPlayers] = useState<any[]>([]);
+  const [search, setSearch] = useState("");
+  const [selectingFor, setSelectingFor] =
+    useState<"player1" | "player2" | null>(null);
+  const [player1, setPlayer1] = useState<any>();
+  const [player2, setPlayer2] = useState<any>();
+  const [loading, setLoading] = useState(false);
 
-  // Simple winner helper
-  const getWinner = (a: number, b: number): "player1" | "player2" | "tie" => {
-    if (a > b) return "player1";
-    if (b > a) return "player2";
-    return "tie";
-  };
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          "http://localhost:5000/api/v1/players/tn-smat-batters"
+        );
+        const data = await res.json();
+        setPlayers(data.players || []);
+      } catch (e) {
+        console.error("Failed to load TN SMAT batters", e);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const comparisonMetrics =
+    fetchPlayers();
+  }, []);
+
+  const metrics =
     player1 && player2
       ? [
           {
-            key: "runs",
             label: "Runs",
-            player1: player1.stats.runs,
-            player2: player2.stats.runs,
+            p1: player1.stats.runs,
+            p2: player2.stats.runs,
           },
           {
-            key: "wickets",
-            label: "Wickets",
-            player1: player1.stats.wickets,
-            player2: player2.stats.wickets,
-          },
-          {
-            key: "strikeRate",
-            label: "Strike Rate",
-            player1: player1.stats.strikeRate,
-            player2: player2.stats.strikeRate,
-          },
-          {
-            key: "average",
             label: "Average",
-            player1: player1.stats.average,
-            player2: player2.stats.average,
+            p1: player1.stats.average,
+            p2: player2.stats.average,
           },
           {
-            key: "matches",
-            label: "Matches",
-            player1: player1.stats.matches,
-            player2: player2.stats.matches,
+            label: "Strike Rate",
+            p1: player1.stats.strikeRate,
+            p2: player2.stats.strikeRate,
           },
           {
-            key: "leadership",
-            label: "Leadership",
-            player1: player1.leadership,
-            player2: player2.leadership,
+            label: "Final Score",
+            p1: player1.stats.finalScore,
+            p2: player2.stats.finalScore,
           },
         ]
       : [];
 
-  const radarData =
-    player1 && player2
-      ? [
-          {
-            metric: "Batting",
-            player1: Math.min(10, (player1.stats.runs / 1000) * 2),
-            player2: Math.min(10, (player2.stats.runs / 1000) * 2),
-          },
-          {
-            metric: "Bowling",
-            player1: Math.min(10, (player1.stats.wickets / 20) * 10),
-            player2: Math.min(10, (player2.stats.wickets / 20) * 10),
-          },
-          {
-            metric: "Experience",
-            player1: Math.min(10, (player1.stats.matches / 50) * 10),
-            player2: Math.min(10, (player2.stats.matches / 50) * 10),
-          },
-          {
-            metric: "Leadership",
-            player1: player1.leadership,
-            player2: player2.leadership,
-          },
-          {
-            metric: "Value",
-            player1: Math.min(
-              10,
-              (player1.auctionValue.predicted / 20000000) * 10
-            ),
-            player2: Math.min(
-              10,
-              (player2.auctionValue.predicted / 20000000) * 10
-            ),
-          },
-        ]
-      : [];
-
-  const getBetterPlayer = () => {
-    if (!player1 || !player2) return null;
-    let p1Wins = 0,
-      p2Wins = 0;
-    comparisonMetrics.forEach((metric) => {
-      const winner = getWinner(metric.player1, metric.player2);
-      if (winner === "player1") p1Wins++;
-      if (winner === "player2") p2Wins++;
-    });
-    if (p1Wins > p2Wins)
-      return { winner: player1, score: `${p1Wins}-${p2Wins}` };
-    if (p2Wins > p1Wins)
-      return { winner: player2, score: `${p2Wins}-${p1Wins}` };
-    return { winner: null, score: `${p1Wins}-${p2Wins}` };
-  };
-
-  const result = getBetterPlayer();
-
-  // Player selection happens via PlayerCard's dialog
-
-  // const handleSelectTrendingPlayer = (player: { id: string; name: string }) => {
-  //   console.log("Selected trending player:", player.name);
-  //   const selectedPlayer = mockPlayers.find((p) => p.id === player.id);
-  //   if (selectedPlayer) {
-  //     if (!player1) setPlayer1(selectedPlayer);
-  //     else if (!player2) setPlayer2(selectedPlayer);
-  //     else setPlayer2(selectedPlayer);
-  //   }
-  // };
+  const filtered = players.filter((p) =>
+    p.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      <Navigation />
-      {/* <HeaderSection /> */}
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold flex items-center space-x-3">
-            <TrendingUp className="w-8 h-8 text-cyan-400" />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              Compare Cricketers
-            </span>
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+        <div>
+          <h1 className="text-3xl font-bold flex items-center gap-2">
+            <TrendingUp className="text-cyan-400" />
+            Compare TN SMAT Batters
           </h1>
-          <p className="text-gray-300">
-            Select two players to analyze head-to-head performance.
+          <p className="text-gray-400 mt-1">
+            Real Syed Mushtaq Ali Trophy data • Model-driven scores
           </p>
         </div>
 
-        {/* VS Section using PlayerCard with search dialog */}
-        <div className="flex justify-center items-start gap-6">
-          <div className="w-72">
-            <PlayerCard
-              title="Player 1"
-              player={player1}
-              onSelectPlayer={(p) => setPlayer1(p)}
-            />
-          </div>
-          <div className="flex items-center h-full pt-10">
-            <span className="text-2xl font-bold">VS</span>
-          </div>
-          <div className="w-72">
-            <PlayerCard
-              title="Player 2"
-              player={player2}
-              onSelectPlayer={(p) => setPlayer2(p)}
-            />
-          </div>
+        <div className="flex justify-center gap-8">
+          <PlayerCard
+            title="Player 1"
+            player={player1}
+            onSelectPlayer={() => setSelectingFor("player1")}
+          />
+          <div className="text-2xl font-bold pt-10">VS</div>
+          <PlayerCard
+            title="Player 2"
+            player={player2}
+            onSelectPlayer={() => setSelectingFor("player2")}
+          />
         </div>
 
-        {/* Player selection moved into PlayerCard dialogs */}
-
-        {/* Metrics Comparison */}
         {player1 && player2 && (
-          <div className="space-y-6">
-            {/* Themed Performance Comparison (replaces previous metrics block) */}
+          <>
             <PerformanceComparison
               player1Name={player1.name}
               player2Name={player2.name}
-              stats={comparisonMetrics.map((m) => {
-                const format = (key: string, val: number) => {
-                  if (key === "strikeRate" || key === "average")
-                    return val.toFixed(1);
-                  return Number.isFinite(val)
-                    ? val.toLocaleString()
-                    : String(val);
-                };
-                return {
-                  label: m.label,
-                  player1Value: m.player1,
-                  player2Value: m.player2,
-                  player1Display: format(m.key, m.player1),
-                  player2Display: format(m.key, m.player2),
-                };
-              })}
+              stats={metrics.map((m) => ({
+                label: m.label,
+                player1Value: m.p1,
+                player2Value: m.p2,
+                player1Display: m.p1.toFixed(2),
+                player2Display: m.p2.toFixed(2),
+              }))}
             />
 
-            {/* Radar Chart */}
-            <Card className="glass-card shadow-card">
+            <Card className="bg-slate-900 border border-cyan-500/30">
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Target className="w-5 h-5 text-cyan-400" />
-                  <span className="text-white">Performance Radar</span>
+                <CardTitle className="flex gap-2 items-center">
+                  <Target className="text-cyan-400" />
+                  Batting Radar
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <PerformanceChart
                   type="radar"
-                  data={radarData}
+                  data={[
+                    {
+                      metric: "Runs",
+                      player1: player1.stats.runs / 20,
+                      player2: player2.stats.runs / 20,
+                    },
+                    {
+                      metric: "Strike Rate",
+                      player1: player1.stats.strikeRate / 20,
+                      player2: player2.stats.strikeRate / 20,
+                    },
+                    {
+                      metric: "Final Score",
+                      player1: player1.stats.finalScore / 10,
+                      player2: player2.stats.finalScore / 10,
+                    },
+                  ]}
                   dataKey="player1"
                   xAxisKey="metric"
-                  height={400}
+                  height={350}
                 />
               </CardContent>
             </Card>
 
-            {/* Overall Winner */}
-            {result?.winner && (
-              <Card className="glass-card shadow-card bg-cyan-500/10 border-cyan-500/20">
-                <CardContent className="text-center py-6">
-                  <Trophy className="w-12 h-12 text-cyan-400 mx-auto mb-4" />
-                  <h2 className="text-2xl font-bold text-white">
-                    Overall Winner: {result.winner.name}
-                  </h2>
-                  <p className="text-gray-300">
-                    Wins {result.score} across key metrics
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+            <Card className="bg-cyan-500/10 border border-cyan-500/20">
+              <CardContent className="text-center py-6">
+                <Trophy className="mx-auto text-cyan-400 mb-3" size={40} />
+                <h2 className="text-xl font-bold">
+                  Winner:{" "}
+                  {player1.stats.finalScore >
+                  player2.stats.finalScore
+                    ? player1.name
+                    : player2.name}
+                </h2>
+              </CardContent>
+            </Card>
+          </>
         )}
+
+        <Dialog open={!!selectingFor} onOpenChange={() => setSelectingFor(null)}>
+          <DialogContent className="bg-gray-900">
+            <DialogTitle>Select Player</DialogTitle>
+
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search player"
+              className="mb-4"
+            />
+
+            <ScrollArea className="h-80">
+              {loading ? (
+                <p className="text-center text-gray-400">Loading...</p>
+              ) : (
+                filtered.map((p) => (
+                  <Button
+                    key={p.id}
+                    variant="ghost"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      selectingFor === "player1"
+                        ? setPlayer1(p)
+                        : setPlayer2(p);
+                      setSelectingFor(null);
+                      setSearch("");
+                    }}
+                  >
+                    {p.name}
+                  </Button>
+                ))
+              )}
+            </ScrollArea>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

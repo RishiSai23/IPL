@@ -20,7 +20,7 @@ const CompareSection = ({
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-8 items-center">
           <PlayerCard
             player={player1}
-            onSelectPlayer={onSelectPlayer1}
+            onSelectPlayer={() => onSelectPlayer1(player1!)}
             title="Player 1"
           />
 
@@ -35,7 +35,7 @@ const CompareSection = ({
 
           <PlayerCard
             player={player2}
-            onSelectPlayer={onSelectPlayer2}
+            onSelectPlayer={() => onSelectPlayer2(player2!)}
             title="Player 2"
           />
         </div>

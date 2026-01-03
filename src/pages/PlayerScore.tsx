@@ -1,4 +1,3 @@
-import Navigation from "@/components/Navigation";
 import { motion } from "framer-motion";
 import { BarChart3, CloudSun, Sparkles, Trophy } from "lucide-react";
 import { useState } from "react";

@@ -50,3 +50,5 @@ build/
 # IDE folders
 .vscode/
 .idea/
+
+__pycache__/
