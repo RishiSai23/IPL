@@ -1,174 +1,172 @@
-{
-  "players": [
-    {
-      "id": "rohan-kunnummal",
-      "name": "Rohan Kunnummal",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 8,
-        "runs": 368,
-        "average": 46.0,
-        "strikeRate": 160.7,
-        "pressureScore": 40.57,
-        "baseSkillScore": 89.17,
-        "consistencyScore": 33.12,
-        "oppositionQualityScore": 100.0,
-        "finalScore": 62.57
-      }
-    },
-    {
-      "id": "ahammed-imran",
-      "name": "Ahammed Imran",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 3,
-        "runs": 20,
-        "average": 6.67,
-        "strikeRate": 64.52,
-        "pressureScore": 0.0,
-        "baseSkillScore": 15.0,
-        "consistencyScore": 20.0,
-        "oppositionQualityScore": 0,
-        "finalScore": 8.5
-      }
-    },
-    {
-      "id": "krishna-prasad",
-      "name": "Krishna Prasad",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 2,
-        "runs": 19,
-        "average": 9.5,
-        "strikeRate": 95.0,
-        "pressureScore": 2.57,
-        "baseSkillScore": 10.5,
-        "consistencyScore": 0,
-        "oppositionQualityScore": 0,
-        "finalScore": 4.05
-      }
-    },
-    {
-      "id": "sanju-samson",
-      "name": "Sanju Samson",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 7,
-        "runs": 284,
-        "average": 40.57,
-        "strikeRate": 135.24,
-        "pressureScore": 40.02,
-        "baseSkillScore": 79.93,
-        "consistencyScore": 49.04,
-        "oppositionQualityScore": 87.76,
-        "finalScore": 60.96
-      }
-    },
-    {
-      "id": "mohammed-azharuddeen",
-      "name": "Mohammed Azharuddeen",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 3,
-        "runs": 49,
-        "average": 16.33,
-        "strikeRate": 100.0,
-        "pressureScore": 12.78,
-        "baseSkillScore": 16.78,
-        "consistencyScore": 27.47,
-        "oppositionQualityScore": 20.4,
-        "finalScore": 18.06
-      }
-    },
-    {
-      "id": "vishnu-vinod",
-      "name": "Vishnu Vinod",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 4,
-        "runs": 137,
-        "average": 34.25,
-        "strikeRate": 138.38,
-        "pressureScore": 45.06,
-        "baseSkillScore": 74.23,
-        "consistencyScore": 32.74,
-        "oppositionQualityScore": 86.32,
-        "finalScore": 57.54
-      }
-    },
-    {
-      "id": "salman-nizar",
-      "name": "Salman Nizar",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 7,
-        "runs": 68,
-        "average": 9.71,
-        "strikeRate": 82.93,
-        "pressureScore": 2.86,
-        "baseSkillScore": 9.0,
-        "consistencyScore": 18.82,
-        "oppositionQualityScore": 0,
-        "finalScore": 7.46
-      }
-    },
-    {
-      "id": "abdul-basith",
-      "name": "Abdul Basith",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 5,
-        "runs": 38,
-        "average": 7.6,
-        "strikeRate": 84.44,
-        "pressureScore": 8.76,
-        "baseSkillScore": 15.0,
-        "consistencyScore": 19.85,
-        "oppositionQualityScore": 0,
-        "finalScore": 11.54
-      }
-    },
-    {
-      "id": "akhil-scaria",
-      "name": "Akhil Scaria",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 2,
-        "runs": 19,
-        "average": 9.5,
-        "strikeRate": 63.33,
-        "pressureScore": 1.27,
-        "baseSkillScore": 9.0,
-        "consistencyScore": 0,
-        "oppositionQualityScore": 0,
-        "finalScore": 3.14
-      }
-    },
-    {
-      "id": "sharafuddeen",
-      "name": "Sharafuddeen",
-      "team": "Kerala",
-      "role": "Batter",
-      "stats": {
-        "matches": 3,
-        "runs": 39,
-        "average": 13.0,
-        "strikeRate": 162.5,
-        "pressureScore": 20.0,
-        "baseSkillScore": 36.0,
-        "consistencyScore": 28.95,
-        "oppositionQualityScore": 44.0,
-        "finalScore": 30.19
-      }
+[
+  {
+    "id": "rohan-kunnummal",
+    "name": "Rohan Kunnummal",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 8,
+      "runs": 368,
+      "average": 46.0,
+      "strikeRate": 160.7,
+      "pressureScore": 40.57,
+      "baseSkillScore": 89.17,
+      "consistencyScore": 33.12,
+      "oppositionQualityScore": 100.0,
+      "finalScore": 62.57
     }
-  ]
-}
+  },
+  {
+    "id": "ahammed-imran",
+    "name": "Ahammed Imran",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 3,
+      "runs": 20,
+      "average": 6.67,
+      "strikeRate": 64.52,
+      "pressureScore": 0.0,
+      "baseSkillScore": 15.0,
+      "consistencyScore": 20.0,
+      "oppositionQualityScore": 0,
+      "finalScore": 8.5
+    }
+  },
+  {
+    "id": "krishna-prasad",
+    "name": "Krishna Prasad",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 2,
+      "runs": 19,
+      "average": 9.5,
+      "strikeRate": 95.0,
+      "pressureScore": 2.57,
+      "baseSkillScore": 10.5,
+      "consistencyScore": 0,
+      "oppositionQualityScore": 0,
+      "finalScore": 4.05
+    }
+  },
+  {
+    "id": "sanju-samson",
+    "name": "Sanju Samson",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 7,
+      "runs": 284,
+      "average": 40.57,
+      "strikeRate": 135.24,
+      "pressureScore": 40.02,
+      "baseSkillScore": 79.93,
+      "consistencyScore": 49.04,
+      "oppositionQualityScore": 87.76,
+      "finalScore": 60.96
+    }
+  },
+  {
+    "id": "mohammed-azharuddeen",
+    "name": "Mohammed Azharuddeen",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 3,
+      "runs": 49,
+      "average": 16.33,
+      "strikeRate": 100.0,
+      "pressureScore": 12.78,
+      "baseSkillScore": 16.78,
+      "consistencyScore": 27.47,
+      "oppositionQualityScore": 20.4,
+      "finalScore": 18.06
+    }
+  },
+  {
+    "id": "vishnu-vinod",
+    "name": "Vishnu Vinod",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 4,
+      "runs": 137,
+      "average": 34.25,
+      "strikeRate": 138.38,
+      "pressureScore": 45.06,
+      "baseSkillScore": 74.23,
+      "consistencyScore": 32.74,
+      "oppositionQualityScore": 86.32,
+      "finalScore": 57.54
+    }
+  },
+  {
+    "id": "salman-nizar",
+    "name": "Salman Nizar",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 7,
+      "runs": 68,
+      "average": 9.71,
+      "strikeRate": 82.93,
+      "pressureScore": 2.86,
+      "baseSkillScore": 9.0,
+      "consistencyScore": 18.82,
+      "oppositionQualityScore": 0,
+      "finalScore": 7.46
+    }
+  },
+  {
+    "id": "abdul-basith",
+    "name": "Abdul Basith",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 5,
+      "runs": 38,
+      "average": 7.6,
+      "strikeRate": 84.44,
+      "pressureScore": 8.76,
+      "baseSkillScore": 15.0,
+      "consistencyScore": 19.85,
+      "oppositionQualityScore": 0,
+      "finalScore": 11.54
+    }
+  },
+  {
+    "id": "akhil-scaria",
+    "name": "Akhil Scaria",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 2,
+      "runs": 19,
+      "average": 9.5,
+      "strikeRate": 63.33,
+      "pressureScore": 1.27,
+      "baseSkillScore": 9.0,
+      "consistencyScore": 0,
+      "oppositionQualityScore": 0,
+      "finalScore": 3.14
+    }
+  },
+  {
+    "id": "sharafuddeen",
+    "name": "Sharafuddeen",
+    "team": "Kerala",
+    "role": "Batter",
+    "stats": {
+      "matches": 3,
+      "runs": 39,
+      "average": 13.0,
+      "strikeRate": 162.5,
+      "pressureScore": 20.0,
+      "baseSkillScore": 36.0,
+      "consistencyScore": 28.95,
+      "oppositionQualityScore": 44.0,
+      "finalScore": 30.19
+    }
+  }
+]
