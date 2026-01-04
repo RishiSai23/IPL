@@ -7,7 +7,7 @@ interface PlayerCardProps {
 }
 
 const PlayerCard = ({ player, title, onSelectPlayer }: PlayerCardProps) => {
-  // 🛡️ EMPTY STATE (no player selected)
+  // 🛡️ EMPTY STATE
   if (!player) {
     return (
       <Card
@@ -18,13 +18,13 @@ const PlayerCard = ({ player, title, onSelectPlayer }: PlayerCardProps) => {
       >
         <h3 className="text-lg font-bold">{title}</h3>
         <p className="text-sm text-gray-400 mt-2">
-          Click to choose a TN SMAT batter
+          Click to select a SMAT player
         </p>
       </Card>
     );
   }
 
-  const stats = player.stats || {};
+  const { stats = {}, role } = player;
 
   return (
     <Card
@@ -38,18 +38,57 @@ const PlayerCard = ({ player, title, onSelectPlayer }: PlayerCardProps) => {
 
       {/* Team & Role */}
       <p className="text-center text-cyan-400 mt-1">
-        {player.team} • {player.role}
+        {player.team} • {role}
       </p>
 
-      {/* Stats */}
+      {/* =====================
+          ROLE-AWARE STATS
+         ===================== */}
+
       <div className="mt-5 space-y-2 text-sm text-gray-300">
-        <p>Matches: <span className="text-white">{stats.matches ?? "—"}</span></p>
-        <p>Runs: <span className="text-white">{stats.runs ?? "—"}</span></p>
-        <p>Average: <span className="text-white">{stats.average ?? "—"}</span></p>
-        <p>Strike Rate: <span className="text-white">{stats.strikeRate ?? "—"}</span></p>
+        {role === "Batter" && (
+          <>
+            <p>
+              Matches: <span className="text-white">{stats.matches ?? "—"}</span>
+            </p>
+            <p>
+              Runs: <span className="text-white">{stats.runs ?? "—"}</span>
+            </p>
+            <p>
+              Average: <span className="text-white">{stats.average ?? "—"}</span>
+            </p>
+            <p>
+              Strike Rate:{" "}
+              <span className="text-white">{stats.strikeRate ?? "—"}</span>
+            </p>
+          </>
+        )}
+
+        {role === "Bowler" && (
+          <>
+            <p>
+              Pressure Score:{" "}
+              <span className="text-white">{stats.pressureScore}</span>
+            </p>
+            <p>
+              Base Skill:{" "}
+              <span className="text-white">{stats.baseSkillScore}</span>
+            </p>
+            <p>
+              Consistency:{" "}
+              <span className="text-white">{stats.consistencyScore}</span>
+            </p>
+            <p>
+              Opposition Quality:{" "}
+              <span className="text-white">
+                {stats.oppositionQualityScore}
+              </span>
+            </p>
+          </>
+        )}
       </div>
 
-      {/* Final Score */}
+      {/* Final Model Score */}
       {stats.finalScore !== undefined && (
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-400">Model Score</p>
