@@ -1,0 +1,134 @@
+[
+  {
+    "name": "Esakkimuthu A",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 81.5,
+      "baseSkillScore": 68.9,
+      "consistencyScore": 45.0,
+      "oppositionQualityScore": 64.0,
+      "finalScore": 67.8
+    }
+  },
+  {
+    "name": "R Rajkumar",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 68.9,
+      "baseSkillScore": 64.0,
+      "consistencyScore": 71.0,
+      "oppositionQualityScore": 64.7,
+      "finalScore": 67.22
+    }
+  },
+  {
+    "name": "Ragupathy Silambarasan",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 78.0,
+      "baseSkillScore": 68.9,
+      "consistencyScore": 45.0,
+      "oppositionQualityScore": 64.0,
+      "finalScore": 66.57
+    }
+  },
+  {
+    "name": "Sonu Yadav",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 79.17,
+      "baseSkillScore": 53.0,
+      "consistencyScore": 55.0,
+      "oppositionQualityScore": 58.6,
+      "finalScore": 63.4
+    }
+  },
+  {
+    "name": "T Natarajan",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 78.83,
+      "baseSkillScore": 53.0,
+      "consistencyScore": 35.0,
+      "oppositionQualityScore": 60.67,
+      "finalScore": 59.59
+    }
+  },
+  {
+    "name": "Sunny Sandhu",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 57.7,
+      "baseSkillScore": 47.9,
+      "consistencyScore": 64.0,
+      "oppositionQualityScore": 49.3,
+      "finalScore": 54.76
+    }
+  },
+  {
+    "name": "Gurjapneet Singh",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 53.17,
+      "baseSkillScore": 37.0,
+      "consistencyScore": 40.0,
+      "oppositionQualityScore": 45.55,
+      "finalScore": 44.54
+    }
+  },
+  {
+    "name": "Manimaran Siddharth",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 55.95,
+      "baseSkillScore": 30.0,
+      "consistencyScore": 39.5,
+      "oppositionQualityScore": 45.56,
+      "finalScore": 43.32
+    }
+  },
+  {
+    "name": "Varun Chakravarthy",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 43.0,
+      "baseSkillScore": 30.0,
+      "consistencyScore": 45.0,
+      "oppositionQualityScore": 43.9,
+      "finalScore": 39.63
+    }
+  },
+  {
+    "name": "Mohamed Ali",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 39.5,
+      "baseSkillScore": 36.0,
+      "consistencyScore": 45.0,
+      "oppositionQualityScore": 38.8,
+      "finalScore": 39.45
+    }
+  },
+  {
+    "name": "Sai Kishore",
+    "team": "Tamil Nadu",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 39.57,
+      "baseSkillScore": 30.0,
+      "consistencyScore": 45.0,
+      "oppositionQualityScore": 36.49,
+      "finalScore": 37.32
+    }
+  }
+]

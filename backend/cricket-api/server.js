@@ -1,4 +1,3 @@
-// backend/cricket-api/server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -18,52 +17,59 @@ app.use(cors());
 app.use(express.json());
 
 // -----------------------------
-// TN SMAT BATTERS ROUTE (ONLY DATA WE USE)
+// HELPER
 // -----------------------------
-app.get("/api/v1/players/tn-smat-batters", (req, res) => {
+const serveJSON = (res, filePath, errorMsg) => {
   try {
-    const filePath = path.join(
-      __dirname,
-      "data/tn_smat_batters_ready.json"
-    );
-
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ players: [] });
+      return res.json({ players: [] });
     }
-
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    res.json(data);
+    res.json({ players: data });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Failed to load TN SMAT batters" });
+    res.status(500).json({ message: errorMsg });
   }
-});
+};
 
 // -----------------------------
-// KERALA SMAT BATTERS ROUTE
+// BATTERS
 // -----------------------------
-app.get("/api/v1/players/ker-smat-batters", (req, res) => {
-  try {
-    const filePath = path.join(
-      __dirname,
-      "data/kl_smat_batters_ready.json"
-    );
+app.get("/api/v1/players/tn-smat-batters", (req, res) =>
+  serveJSON(
+    res,
+    path.join(__dirname, "data/tn_smat_batters_ready.json"),
+    "Failed to load TN batters"
+  )
+);
 
-    if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ players: [] });
-    }
+app.get("/api/v1/players/ker-smat-batters", (req, res) =>
+  serveJSON(
+    res,
+    path.join(__dirname, "data/kl_smat_batters_ready.json"),
+    "Failed to load KL batters"
+  )
+);
 
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    res.json(data);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Failed to load Kerala SMAT batters" });
-  }
-});
+// -----------------------------
+// BOWLERS (NEW)
+// -----------------------------
+app.get("/api/v1/players/tn-smat-bowlers", (req, res) =>
+  serveJSON(
+    res,
+    path.join(__dirname, "data/tn_smat_bowlers_ready.json"),
+    "Failed to load TN bowlers"
+  )
+);
+
+app.get("/api/v1/players/ker-smat-bowlers", (req, res) =>
+  serveJSON(
+    res,
+    path.join(__dirname, "data/kl_smat_bowlers_ready.json"),
+    "Failed to load KL bowlers"
+  )
+);
 
 app.listen(PORT, () => {
   console.log(`✅ Cricket API running at http://localhost:${PORT}`);
 });
-
-
-

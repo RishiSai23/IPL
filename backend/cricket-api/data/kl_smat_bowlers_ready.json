@@ -1,0 +1,98 @@
+[
+  {
+    "name": "KM Asif",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 93.75,
+      "baseSkillScore": 70.0,
+      "consistencyScore": 35.0,
+      "oppositionQualityScore": 65.06,
+      "finalScore": 70.57
+    }
+  },
+  {
+    "name": "Akhil Scaria",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 74.67,
+      "baseSkillScore": 78.0,
+      "consistencyScore": 40.0,
+      "oppositionQualityScore": 61.86,
+      "finalScore": 66.81
+    }
+  },
+  {
+    "name": "Biju Narayanan",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 68.0,
+      "baseSkillScore": 64.0,
+      "consistencyScore": 70.0,
+      "oppositionQualityScore": 62.5,
+      "finalScore": 66.38
+    }
+  },
+  {
+    "name": "Ankit Sharma",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 57.0,
+      "baseSkillScore": 64.0,
+      "consistencyScore": 67.5,
+      "oppositionQualityScore": 63.3,
+      "finalScore": 62.14
+    }
+  },
+  {
+    "name": "MD Nidheesh",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 66.75,
+      "baseSkillScore": 57.0,
+      "consistencyScore": 60.0,
+      "oppositionQualityScore": 53.03,
+      "finalScore": 60.42
+    }
+  },
+  {
+    "name": "Sharafuddeen",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 65.25,
+      "baseSkillScore": 57.0,
+      "consistencyScore": 55.0,
+      "oppositionQualityScore": 56.64,
+      "finalScore": 59.43
+    }
+  },
+  {
+    "name": "Vignesh Puthur",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 78.0,
+      "baseSkillScore": 43.0,
+      "consistencyScore": 35.0,
+      "oppositionQualityScore": 57.62,
+      "finalScore": 55.84
+    }
+  },
+  {
+    "name": "Abdul Basith",
+    "team": "Kerala",
+    "role": "Bowler",
+    "stats": {
+      "pressureScore": 59.67,
+      "baseSkillScore": 64.0,
+      "consistencyScore": 35.0,
+      "oppositionQualityScore": 57.81,
+      "finalScore": 55.76
+    }
+  }
+]
