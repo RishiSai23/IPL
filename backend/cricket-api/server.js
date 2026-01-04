@@ -39,6 +39,31 @@ app.get("/api/v1/players/tn-smat-batters", (req, res) => {
   }
 });
 
+// -----------------------------
+// KERALA SMAT BATTERS ROUTE
+// -----------------------------
+app.get("/api/v1/players/ker-smat-batters", (req, res) => {
+  try {
+    const filePath = path.join(
+      __dirname,
+      "data/kl_smat_batters_ready.json"
+    );
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ players: [] });
+    }
+
+    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load Kerala SMAT batters" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`✅ Cricket API running at http://localhost:${PORT}`);
 });
+
+
+

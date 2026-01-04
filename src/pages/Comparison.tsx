@@ -22,11 +22,22 @@ const CompareCricketersPage = () => {
     const fetchPlayers = async () => {
       try {
         setLoading(true);
-        const res = await fetch(
+        const tnRes = await fetch(
           "http://localhost:5000/api/v1/players/tn-smat-batters"
         );
-        const data = await res.json();
-        setPlayers(data.players || []);
+        const tnData = await tnRes.json();
+        
+        const klRes = await fetch(
+          "http://localhost:5000/api/v1/players/ker-smat-batters"
+        );
+        const klData = await klRes.json();
+        
+        const combinedPlayers = [
+          ...(tnData.players || []),
+          ...(klData.players || [])
+        ].sort((a, b) => a.name.localeCompare(b.name));
+        
+        setPlayers(combinedPlayers);        
       } catch (e) {
         console.error("Failed to load TN SMAT batters", e);
       } finally {
@@ -192,7 +203,7 @@ const CompareCricketersPage = () => {
 
         {/* Player Selection Dialog */}
         <Dialog open={!!selectingFor} onOpenChange={() => setSelectingFor(null)}>
-          <DialogContent className="bg-gray-900">
+          <DialogContent className="bg-gray-900 flex flex-col gap-4 max-h-[80vh] overflow-hidden">
             <DialogTitle>Select Player</DialogTitle>
 
             <Input
@@ -202,7 +213,7 @@ const CompareCricketersPage = () => {
               className="mb-4"
             />
 
-            <ScrollArea className="h-80">
+            <ScrollArea className="flex-1">
               {loading ? (
                 <p className="text-center text-gray-400">Loading...</p>
               ) : (
