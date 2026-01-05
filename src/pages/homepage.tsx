@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 const Homepage = () => {
   return (
     <div className="min-h-screen bg-black text-white">
+
       {/* HERO */}
       <section className="relative pt-32 pb-28 px-6 md:px-20 max-w-7xl mx-auto">
         <motion.h1
@@ -64,35 +65,10 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* DATA CREDIBILITY STRIP */}
+      {/* DATA CREDIBILITY */}
       <section className="px-6 md:px-20 py-10 max-w-7xl mx-auto border-t border-gray-800 text-sm text-gray-400">
         Data source: Official domestic scorecards · Seasons: 2025–26 · Teams:
         Tamil Nadu, Kerala
-      </section>
-
-      {/* DOMESTIC SNAPSHOT */}
-      <section className="px-6 md:px-20 py-20 max-w-7xl mx-auto border-t border-gray-800">
-        <h2 className="text-xl font-medium mb-10">
-          Domestic performance snapshots
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-10">
-          <div className="flex justify-between items-center border-b border-gray-800 pb-4">
-            <div>
-              <div className="text-gray-200">Narayan Jagadeesan</div>
-              <div className="text-sm text-gray-500">Tamil Nadu · Batter</div>
-            </div>
-            <div className="text-teal-400 font-medium">Final Score: 37</div>
-          </div>
-
-          <div className="flex justify-between items-center border-b border-gray-800 pb-4">
-            <div>
-              <div className="text-gray-200">Rohan Kunnummal</div>
-              <div className="text-sm text-gray-500">Kerala · Batter</div>
-            </div>
-            <div className="text-teal-400 font-medium">Final Score: 63</div>
-          </div>
-        </div>
       </section>
 
       {/* SYSTEM FLOW */}
@@ -121,6 +97,7 @@ const Homepage = () => {
       <footer className="px-6 md:px-20 py-10 text-sm text-gray-500 border-t border-gray-800">
         Built for domestic cricket analysis. Explainable by design.
       </footer>
+
     </div>
   );
 };
