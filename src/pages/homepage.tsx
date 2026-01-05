@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import StatCard from "@/components/StatCard";
 import PlayerCard from "@/components/PlayerCard";
 import kohli from "@/assets/players/kohli.png";
-import messi from "@/assets/players/lionel-messi.png";
+//import messi from "@/assets/players/lionel-messi.png";
 import rohit from "@/assets/players/rohit.png";
 import hardik from "@/assets/players/Hardik-pandya.png";
 
@@ -47,9 +47,9 @@ const Homepage = () => {
           predictive AI insights, and player holograms.
         </motion.p>
         <motion.img
-          src={messi}
-          alt="Lionel Messi"
-          className="hero-img absolute bottom-0 left-9 w-[400px] md:w-[500px] object-cover object-left opacity-50 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
+          //src={messi}
+          //alt="Lionel Messi"
+          //className="hero-img absolute bottom-0 left-9 w-[400px] md:w-[500px] object-cover object-left opacity-50 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
         />
         <motion.img
           src={kohli}
@@ -58,7 +58,7 @@ const Homepage = () => {
         />
       </section>
 
-      {/* Stats Section */}
+      {/* Stats Section
       <section className="relative z-20 px-6 md:px-20 py-16 backdrop-blur-sm bg-white/5 rounded-t-3xl shadow-inner">
         <h2 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
           Performance Highlights
@@ -77,9 +77,9 @@ const Homepage = () => {
           <StatCard title="Top Player" value="Virat Kohli" trend="🔥" />
           <StatCard title="Next Match" value="MI vs RCB" trend="Tomorrow" />
         </div>
-      </section>
+      </section> */}
 
-      {/* Players Section */}
+      {/* Players Section
       <section className="px-6 md:px-20 py-24 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-12 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
           Star Players
@@ -113,12 +113,12 @@ const Homepage = () => {
             }}
           />
         </div>
-      </section>
+      </section> }
 
       {/* Footer */}
-      <footer className="text-center text-gray-500 py-8 border-t border-gray-800">
-        © 2025 CricScout — Powered by AI Analytics
-      </footer>
+        {/* <footer className="text-center text-gray-500 py-8 border-t border-gray-800">
+          © 2025 CricScout — Powered by AI Analytics
+        </footer> */}
     </div>
   );
 };
