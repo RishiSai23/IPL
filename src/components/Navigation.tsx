@@ -12,9 +12,9 @@ interface NavigationProps {
 const navLinks = [
   { to: "/", label: "Dashboard" },
   { to: "/players", label: "Players" },
-  { to: "/matches", label: "Matches" },
-  { to: "/pfAnalysis", label: "Player Analysis" },
-  { to: "/physicalanalysis", label: "Physical Analysis" },
+  //{ to: "/matches", label: "Matches" },
+  //{ to: "/pfAnalysis", label: "Player Analysis" },
+  //{ to: "/physicalanalysis", label: "Physical Analysis" },
   { to: "/comparison", label: "Compare" },
   // { to: "/analysis", label: "Pf Analysis" },
 ];
