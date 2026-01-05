@@ -19,57 +19,53 @@ app.use(express.json());
 // -----------------------------
 // HELPER
 // -----------------------------
-const serveJSON = (res, filePath, errorMsg) => {
-  try {
-    if (!fs.existsSync(filePath)) {
-      return res.json({ players: [] });
-    }
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    res.json({ players: data });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: errorMsg });
-  }
+const readJSON = (file) => {
+  const filePath = path.join(__dirname, "data", file);
+  if (!fs.existsSync(filePath)) return [];
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+};
+
+const serveJSON = (res, data) => {
+  res.json({ players: data });
 };
 
 // -----------------------------
 // BATTERS
 // -----------------------------
 app.get("/api/v1/players/tn-smat-batters", (req, res) =>
-  serveJSON(
-    res,
-    path.join(__dirname, "data/tn_smat_batters_ready.json"),
-    "Failed to load TN batters"
-  )
+  serveJSON(res, readJSON("tn_smat_batters_ready.json"))
 );
 
 app.get("/api/v1/players/ker-smat-batters", (req, res) =>
-  serveJSON(
-    res,
-    path.join(__dirname, "data/kl_smat_batters_ready.json"),
-    "Failed to load KL batters"
-  )
+  serveJSON(res, readJSON("kl_smat_batters_ready.json"))
 );
 
 // -----------------------------
-// BOWLERS (NEW)
+// BOWLERS
 // -----------------------------
 app.get("/api/v1/players/tn-smat-bowlers", (req, res) =>
-  serveJSON(
-    res,
-    path.join(__dirname, "data/tn_smat_bowlers_ready.json"),
-    "Failed to load TN bowlers"
-  )
+  serveJSON(res, readJSON("tn_smat_bowlers_ready.json"))
 );
 
 app.get("/api/v1/players/ker-smat-bowlers", (req, res) =>
-  serveJSON(
-    res,
-    path.join(__dirname, "data/kl_smat_bowlers_ready.json"),
-    "Failed to load KL bowlers"
-  )
+  serveJSON(res, readJSON("kl_smat_bowlers_ready.json"))
 );
 
+// -----------------------------
+// 🔥 AGGREGATED ENDPOINT (THIS WAS MISSING)
+// -----------------------------
+app.get("/api/v1/players/all", (req, res) => {
+  const allPlayers = [
+    ...readJSON("tn_smat_batters_ready.json"),
+    ...readJSON("kl_smat_batters_ready.json"),
+    ...readJSON("tn_smat_bowlers_ready.json"),
+    ...readJSON("kl_smat_bowlers_ready.json"),
+  ];
+
+  serveJSON(res, allPlayers);
+});
+
+// -----------------------------
 app.listen(PORT, () => {
   console.log(`✅ Cricket API running at http://localhost:${PORT}`);
 });
