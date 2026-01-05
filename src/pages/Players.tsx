@@ -15,6 +15,11 @@ export default function Players() {
   const [team, setTeam] = useState("all");
   const [search, setSearch] = useState("");
 
+  const [minFinal, setMinFinal] = useState(0);
+  const [minPressure, setMinPressure] = useState(0);
+  const [minConsistency, setMinConsistency] = useState(0);
+  const [minOpposition, setMinOpposition] = useState(0);
+
   useEffect(() => {
     setLoading(true);
     getAllCachedPlayers()
@@ -24,24 +29,35 @@ export default function Players() {
 
   const filteredPlayers = useMemo(() => {
     return players.filter((p) => {
-      // Team filter
       if (team !== "all" && p.team !== team) return false;
-
-      // Search filter
       if (!p.name.toLowerCase().includes(search.toLowerCase())) return false;
 
-      // 🔥 ROLE FILTER (CORRECT)
-      if (activeRole === "batters") {
-        return p.role === "Batter";
-      }
+      if (activeRole === "batters" && p.role !== "Batter") return false;
+      if (activeRole === "bowlers" && p.role !== "Bowler") return false;
 
-      return p.role === "Bowler";
+      const s = p.stats;
+      if (!s) return false;
+
+      if (s.finalScore < minFinal) return false;
+      if (s.pressureScore < minPressure) return false;
+      if (s.consistencyScore < minConsistency) return false;
+      if (s.oppositionQualityScore < minOpposition) return false;
+
+      return true;
     });
-  }, [players, team, search, activeRole]);
+  }, [
+    players,
+    team,
+    search,
+    activeRole,
+    minFinal,
+    minPressure,
+    minConsistency,
+    minOpposition,
+  ]);
 
   return (
     <div className="bg-black min-h-screen text-white">
-      {/* HERO */}
       <div className="py-14 text-center bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 rounded-b-3xl">
         <h1 className="text-5xl font-extrabold">🏏 Player Database</h1>
         <p className="mt-3 opacity-90">
@@ -50,7 +66,6 @@ export default function Players() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-10">
-        {/* ROLE TABS */}
         <Tabs
           value={activeRole}
           onValueChange={(v) => setActiveRole(v as RoleTab)}
@@ -62,16 +77,22 @@ export default function Players() {
           </TabsList>
         </Tabs>
 
-        {/* FILTERS */}
         <ExploreFilters
           team={team}
           setTeam={setTeam}
           search={search}
           setSearch={setSearch}
+          minFinal={minFinal}
+          setMinFinal={setMinFinal}
+          minPressure={minPressure}
+          setMinPressure={setMinPressure}
+          minConsistency={minConsistency}
+          setMinConsistency={setMinConsistency}
+          minOpposition={minOpposition}
+          setMinOpposition={setMinOpposition}
           players={players}
         />
 
-        {/* TABLE */}
         <PlayersTable
           players={filteredPlayers}
           role={activeRole}
