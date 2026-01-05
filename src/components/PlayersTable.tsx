@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ArrowUpDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import type { Player } from "@/types/player";
 
 type SortKey =
@@ -14,12 +13,19 @@ interface Props {
   players: Player[];
   role: "batters" | "bowlers";
   loading: boolean;
+  selected: Player[];
+  setSelected: (p: Player[]) => void;
 }
 
-export default function PlayersTable({ players, role, loading }: Props) {
+export default function PlayersTable({
+  players,
+  role,
+  loading,
+  selected,
+  setSelected,
+}: Props) {
   const [sortKey, setSortKey] = useState<SortKey>("finalScore");
   const [asc, setAsc] = useState(false);
-  const navigate = useNavigate();
 
   const sorted = [...players].sort((a, b) => {
     const aVal = a.stats?.[sortKey as keyof typeof a.stats] ?? 0;
@@ -30,6 +36,16 @@ export default function PlayersTable({ players, role, loading }: Props) {
   if (loading) {
     return <div className="text-center py-12 opacity-60">Loading players…</div>;
   }
+
+  const toggleSelect = (player: Player) => {
+    const exists = selected.find((p) => p.name === player.name);
+
+    if (exists) {
+      setSelected(selected.filter((p) => p.name !== player.name));
+    } else if (selected.length < 2) {
+      setSelected([...selected, player]);
+    }
+  };
 
   const Sortable = ({ k, label }: { k: SortKey; label: string }) => (
     <th
@@ -67,31 +83,38 @@ export default function PlayersTable({ players, role, loading }: Props) {
         </thead>
 
         <tbody>
-          {sorted.map((p) => (
-            <tr
-              key={p.name}
-              className="border-t border-slate-800 hover:bg-slate-900 cursor-pointer"
-              onClick={() =>
-                navigate(`/compare?player1=${encodeURIComponent(p.name)}`)
-              }
-            >
-              <td className="px-4 py-3 font-medium">{p.name}</td>
-              <td>{p.team}</td>
+          {sorted.map((p) => {
+            const isSelected = selected.some((s) => s.name === p.name);
 
-              {role === "batters" && (
-                <>
-                  <td>{p.stats?.runs ?? "-"}</td>
-                  <td>{p.stats?.matches ?? "-"}</td>
-                  <td>{p.stats?.strikeRate?.toFixed(1) ?? "-"}</td>
-                </>
-              )}
+            return (
+              <tr
+                key={p.name}
+                onClick={() => toggleSelect(p)}
+                className={`border-t border-slate-800 cursor-pointer
+                  ${
+                    isSelected
+                      ? "bg-teal-500/10"
+                      : "hover:bg-slate-900"
+                  }`}
+              >
+                <td className="px-4 py-3 font-medium">{p.name}</td>
+                <td>{p.team}</td>
 
-              <td className="font-semibold">{p.stats?.finalScore ?? "-"}</td>
-              <td>{p.stats?.pressureScore ?? "-"}</td>
-              <td>{p.stats?.consistencyScore ?? "-"}</td>
-              <td>{p.stats?.oppositionQualityScore ?? "-"}</td>
-            </tr>
-          ))}
+                {role === "batters" && (
+                  <>
+                    <td>{p.stats?.runs ?? "-"}</td>
+                    <td>{p.stats?.matches ?? "-"}</td>
+                    <td>{p.stats?.strikeRate?.toFixed(1) ?? "-"}</td>
+                  </>
+                )}
+
+                <td className="font-semibold">{p.stats?.finalScore ?? "-"}</td>
+                <td>{p.stats?.pressureScore ?? "-"}</td>
+                <td>{p.stats?.consistencyScore ?? "-"}</td>
+                <td>{p.stats?.oppositionQualityScore ?? "-"}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

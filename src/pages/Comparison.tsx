@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import CompareHero from "@/components/compare/CompareHero";
 import MetricRow from "@/components/compare/MetricRow";
 import { Button } from "@/components/ui/button";
@@ -8,10 +9,18 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { TrendingUp, Trophy } from "lucide-react";
 
-type Mode = "batting" | "bowling";
+type Mode = "batters" | "bowlers";
 
 const ComparisonPage = () => {
-  const [mode, setMode] = useState<Mode>("batting");
+  const [params] = useSearchParams();
+
+  // ✅ MODE COMES FROM QUERY PARAM
+  const qpMode = params.get("mode") as Mode | null;
+  const [mode, setMode] = useState<Mode>(qpMode ?? "batters");
+
+  const qp1 = params.get("player1");
+  const qp2 = params.get("player2");
+
   const [players, setPlayers] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [selectingFor, setSelectingFor] =
@@ -22,23 +31,22 @@ const ComparisonPage = () => {
   const [loading, setLoading] = useState(false);
 
   // --------------------------------------------------
-  // FETCH PLAYERS (UNCHANGED)
+  // FETCH PLAYERS BASED ON MODE
   // --------------------------------------------------
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
         setLoading(true);
-        setPlayers([]);
         setPlayer1(undefined);
         setPlayer2(undefined);
 
         const tnURL =
-          mode === "batting"
+          mode === "batters"
             ? "http://localhost:5000/api/v1/players/tn-smat-batters"
             : "http://localhost:5000/api/v1/players/tn-smat-bowlers";
 
         const klURL =
-          mode === "batting"
+          mode === "batters"
             ? "http://localhost:5000/api/v1/players/ker-smat-batters"
             : "http://localhost:5000/api/v1/players/ker-smat-bowlers";
 
@@ -50,18 +58,18 @@ const ComparisonPage = () => {
         const tnData = await tnRes.json();
         const klData = await klRes.json();
 
-        const tnPlayers = Array.isArray(tnData.players)
-          ? tnData.players
-          : [];
-        const klPlayers = Array.isArray(klData.players)
-          ? klData.players
-          : [];
+        const allPlayers = [
+          ...(tnData.players ?? []),
+          ...(klData.players ?? []),
+        ];
 
-        setPlayers(
-          [...tnPlayers, ...klPlayers].sort((a, b) =>
-            a.name.localeCompare(b.name)
-          )
-        );
+        setPlayers(allPlayers);
+
+        // ✅ AUTO-HYDRATE FROM QUERY PARAMS
+        if (qp1 && qp2) {
+          setPlayer1(allPlayers.find((p) => p.name === qp1));
+          setPlayer2(allPlayers.find((p) => p.name === qp2));
+        }
       } catch (err) {
         console.error("Failed to load players", err);
         setPlayers([]);
@@ -71,14 +79,14 @@ const ComparisonPage = () => {
     };
 
     fetchPlayers();
-  }, [mode]);
+  }, [mode, qp1, qp2]);
 
   const filtered = players.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
   // --------------------------------------------------
-  // WINNING METRIC (NO DECIMALS)
+  // WINNING METRIC
   // --------------------------------------------------
   let winningMetricKey: string | null = null;
   let winningMetricDiff = 0;
@@ -127,7 +135,7 @@ const ComparisonPage = () => {
           <div>
             <h1 className="text-3xl font-bold flex items-center gap-2">
               <TrendingUp className="text-cyan-400" />
-              Compare SMAT Players
+              Compare SMAT {mode === "batters" ? "Batters" : "Bowlers"}
             </h1>
             <p className="text-gray-400 mt-1">
               Context-aware domestic intelligence
@@ -136,21 +144,20 @@ const ComparisonPage = () => {
 
           <div className="flex gap-2">
             <Button
-              variant={mode === "batting" ? "default" : "outline"}
-              onClick={() => setMode("batting")}
+              variant={mode === "batters" ? "default" : "outline"}
+              onClick={() => setMode("batters")}
             >
               Batting
             </Button>
             <Button
-              variant={mode === "bowling" ? "default" : "outline"}
-              onClick={() => setMode("bowling")}
+              variant={mode === "bowlers" ? "default" : "outline"}
+              onClick={() => setMode("bowlers")}
             >
               Bowling
             </Button>
           </div>
         </div>
 
-        {/* HERO */}
         <CompareHero
           player1={player1}
           player2={player2}
@@ -160,30 +167,10 @@ const ComparisonPage = () => {
         {/* METRICS */}
         {player1 && player2 && (
           <div className="space-y-4 mt-6">
-            <MetricRow
-              title="Pressure"
-              leftScore={Math.round(player1.stats.pressureScore)}
-              rightScore={Math.round(player2.stats.pressureScore)}
-              highlight={winningMetricKey === "pressure"}
-            />
-            <MetricRow
-              title="Base Skill"
-              leftScore={Math.round(player1.stats.baseSkillScore)}
-              rightScore={Math.round(player2.stats.baseSkillScore)}
-              highlight={winningMetricKey === "base skill"}
-            />
-            <MetricRow
-              title="Consistency"
-              leftScore={Math.round(player1.stats.consistencyScore)}
-              rightScore={Math.round(player2.stats.consistencyScore)}
-              highlight={winningMetricKey === "consistency"}
-            />
-            <MetricRow
-              title="Opposition Quality"
-              leftScore={Math.round(player1.stats.oppositionQualityScore)}
-              rightScore={Math.round(player2.stats.oppositionQualityScore)}
-              highlight={winningMetricKey === "opposition quality"}
-            />
+            <MetricRow title="Pressure" leftScore={Math.round(player1.stats.pressureScore)} rightScore={Math.round(player2.stats.pressureScore)} highlight={winningMetricKey === "pressure"} />
+            <MetricRow title="Base Skill" leftScore={Math.round(player1.stats.baseSkillScore)} rightScore={Math.round(player2.stats.baseSkillScore)} highlight={winningMetricKey === "base skill"} />
+            <MetricRow title="Consistency" leftScore={Math.round(player1.stats.consistencyScore)} rightScore={Math.round(player2.stats.consistencyScore)} highlight={winningMetricKey === "consistency"} />
+            <MetricRow title="Opposition Quality" leftScore={Math.round(player1.stats.oppositionQualityScore)} rightScore={Math.round(player2.stats.oppositionQualityScore)} highlight={winningMetricKey === "opposition quality"} />
           </div>
         )}
 
@@ -191,7 +178,6 @@ const ComparisonPage = () => {
         {winner && winningMetricKey && (
           <Card className="bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-cyan-500/10 border border-cyan-500/30 rounded-2xl">
             <CardContent className="py-10 px-8 text-center space-y-5">
-
               <div className="flex justify-center">
                 <div className="w-14 h-14 rounded-full bg-cyan-500/20 flex items-center justify-center">
                   <Trophy className="text-cyan-400" size={28} />
@@ -207,75 +193,24 @@ const ComparisonPage = () => {
               </div>
 
               <div className="text-sm text-yellow-400 font-semibold">
-                Primary Differentiator: {winningMetricKey} (+{winningMetricDiff} points)
+                Primary Differentiator: {winningMetricKey} (+{winningMetricDiff})
               </div>
 
-              <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                {winner.name} is preferred over {loser?.name} due to a clear
-                advantage in{" "}
-                <span className="text-yellow-400 font-semibold">
-                  {winningMetricKey}
-                </span>{" "}
-                when evaluated head-to-head under{" "}
-                <span className="text-cyan-400 font-semibold">
-                  {mode}
-                </span>{" "}
-                conditions in the Syed Mushtaq Ali Trophy.
-              </p>
-
-              <div className="h-px w-24 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mx-auto" />
-
               <div className="text-sm tracking-widest text-gray-400">
-                Confidence Level:{" "}
-                <span
-                  className={
-                    confidence === "HIGH"
-                      ? "text-green-400"
-                      : confidence === "MEDIUM"
-                      ? "text-yellow-400"
-                      : "text-red-400"
-                  }
-                >
+                Confidence:{" "}
+                <span className={
+                  confidence === "HIGH"
+                    ? "text-green-400"
+                    : confidence === "MEDIUM"
+                    ? "text-yellow-400"
+                    : "text-red-400"
+                }>
                   {confidence}
                 </span>
               </div>
             </CardContent>
           </Card>
         )}
-
-        {/* PLAYER SELECTION DIALOG */}
-        <Dialog open={!!selectingFor} onOpenChange={() => setSelectingFor(null)}>
-          <DialogContent className="bg-gray-900 flex flex-col gap-4 max-h-[80vh]">
-            <DialogTitle>Select Player</DialogTitle>
-            <Input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search player"
-            />
-            <ScrollArea className="flex-1">
-              {loading ? (
-                <p className="text-center text-gray-400">Loading...</p>
-              ) : (
-                filtered.map((p) => (
-                  <Button
-                    key={p.name}
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      selectingFor === "player1"
-                        ? setPlayer1(p)
-                        : setPlayer2(p);
-                      setSelectingFor(null);
-                      setSearch("");
-                    }}
-                  >
-                    {p.name}
-                  </Button>
-                ))
-              )}
-            </ScrollArea>
-          </DialogContent>
-        </Dialog>
 
       </div>
     </div>

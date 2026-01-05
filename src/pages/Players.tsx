@@ -4,6 +4,7 @@ import ExploreFilters from "@/components/ExploreFilters";
 import PlayersTable from "@/components/PlayersTable";
 import { getAllCachedPlayers } from "@/api/footballApi";
 import type { Player } from "@/types/player";
+import { useNavigate } from "react-router-dom";
 
 type RoleTab = "batters" | "bowlers";
 
@@ -20,6 +21,12 @@ export default function Players() {
   const [minConsistency, setMinConsistency] = useState(0);
   const [minOpposition, setMinOpposition] = useState(0);
 
+  const [selected, setSelected] = useState<Player[]>([]);
+  const navigate = useNavigate();
+
+  // --------------------------------------------------
+  // FETCH PLAYERS (ONCE)
+  // --------------------------------------------------
   useEffect(() => {
     setLoading(true);
     getAllCachedPlayers()
@@ -27,6 +34,29 @@ export default function Players() {
       .finally(() => setLoading(false));
   }, []);
 
+  // --------------------------------------------------
+  // RESET SELECTION WHEN ROLE CHANGES
+  // --------------------------------------------------
+  useEffect(() => {
+    setSelected([]);
+  }, [activeRole]);
+
+  // --------------------------------------------------
+  // AUTO-REDIRECT WHEN 2 PLAYERS SELECTED
+  // --------------------------------------------------
+  useEffect(() => {
+    if (selected.length === 2) {
+      navigate(
+        `/comparison?mode=${activeRole}&player1=${encodeURIComponent(
+          selected[0].name
+        )}&player2=${encodeURIComponent(selected[1].name)}`
+      );
+    }
+  }, [selected, activeRole, navigate]);
+
+  // --------------------------------------------------
+  // FILTERED VIEW
+  // --------------------------------------------------
   const filteredPlayers = useMemo(() => {
     return players.filter((p) => {
       if (team !== "all" && p.team !== team) return false;
@@ -56,12 +86,15 @@ export default function Players() {
     minOpposition,
   ]);
 
+  // --------------------------------------------------
+  // UI
+  // --------------------------------------------------
   return (
     <div className="bg-black min-h-screen text-white">
-      <div className="py-14 text-center bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 rounded-b-3xl">
-        <h1 className="text-5xl font-extrabold">🏏 Player Database</h1>
-        <p className="mt-3 opacity-90">
-          Explore domestic players before comparing them
+      <div className="py-14 text-center border-b border-slate-800">
+        <h1 className="text-4xl font-semibold">Player Database</h1>
+        <p className="mt-2 text-gray-400">
+          Shortlist domestic players before comparison
         </p>
       </div>
 
@@ -97,6 +130,8 @@ export default function Players() {
           players={filteredPlayers}
           role={activeRole}
           loading={loading}
+          selected={selected}
+          setSelected={setSelected}
         />
       </div>
     </div>
