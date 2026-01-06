@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 const Homepage = () => {
   return (
     <div className="bg-black text-white">
+
       {/* ================= HERO ================= */}
       <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto">
         <motion.h1
@@ -33,7 +34,7 @@ const Homepage = () => {
           Syed Mushtaq Ali Trophy · Real match data · Explainable logic
         </motion.div>
 
-        {/* Subtle scroll cue (no layout impact) */}
+        {/* Subtle scroll cue */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
@@ -51,7 +52,7 @@ const Homepage = () => {
 
       {/* ================= INTELLIGENCE PILLARS ================= */}
       <section className="px-6 md:px-20 py-20 max-w-7xl mx-auto border-t border-gray-800">
-        <div className="mb-14 text-gray-400 tracking-wide text-sm">
+        <div className="mb-12 text-gray-400 tracking-wide text-sm">
           CORE INTELLIGENCE
         </div>
 
@@ -108,7 +109,6 @@ const Homepage = () => {
         </div>
       </section>
 
-      
     </div>
   );
 };
