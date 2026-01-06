@@ -34,7 +34,11 @@ export default function PlayersTable({
   });
 
   if (loading) {
-    return <div className="text-center py-12 opacity-60">Loading players…</div>;
+    return (
+      <div className="text-center py-12 text-gray-500">
+        Loading players…
+      </div>
+    );
   }
 
   const toggleSelect = (player: Player) => {
@@ -49,29 +53,58 @@ export default function PlayersTable({
 
   const Sortable = ({ k, label }: { k: SortKey; label: string }) => (
     <th
-      className="cursor-pointer"
       onClick={() => {
         setSortKey(k);
         setAsc(k === sortKey ? !asc : false);
       }}
+      className="px-3 py-3 text-right cursor-pointer text-xs font-medium tracking-wide text-gray-400 hover:text-white"
     >
-      {label} <ArrowUpDown className="inline w-4 h-4 ml-1" />
+      {label}
+      <ArrowUpDown className="inline w-3 h-3 ml-1 opacity-60" />
     </th>
   );
 
   return (
     <div className="overflow-x-auto border border-slate-800 rounded-xl">
-      <table className="w-full text-sm">
-        <thead className="bg-slate-900">
+      <table className="w-full table-fixed text-sm">
+        {/* COLUMN WIDTH CONTROL */}
+        <colgroup>
+          <col className="w-[28%]" />
+          <col className="w-[14%]" />
+
+          {role === "batters" && (
+            <>
+              <col className="w-[8%]" />
+              <col className="w-[8%]" />
+              <col className="w-[8%]" />
+            </>
+          )}
+
+          <col className="w-[10%]" />
+          <col className="w-[10%]" />
+          <col className="w-[10%]" />
+          <col className="w-[12%]" />
+        </colgroup>
+
+        {/* HEADER */}
+        <thead className="bg-slate-900 border-b border-slate-800">
           <tr>
-            <th className="px-4 py-3 text-left">Player</th>
-            <th>Team</th>
+            <th className="px-4 py-3 text-left text-xs text-gray-400">
+              Player
+            </th>
+            <th className="px-3 py-3 text-left text-xs text-gray-400">
+              Team
+            </th>
 
             {role === "batters" && (
               <>
                 <Sortable k="runs" label="Runs" />
-                <th>Matches</th>
-                <th>SR</th>
+                <th className="px-3 py-3 text-right text-xs text-gray-400">
+                  Matches
+                </th>
+                <th className="px-3 py-3 text-right text-xs text-gray-400">
+                  SR
+                </th>
               </>
             )}
 
@@ -82,6 +115,7 @@ export default function PlayersTable({
           </tr>
         </thead>
 
+        {/* BODY */}
         <tbody>
           {sorted.map((p) => {
             const isSelected = selected.some((s) => s.name === p.name);
@@ -90,28 +124,47 @@ export default function PlayersTable({
               <tr
                 key={p.name}
                 onClick={() => toggleSelect(p)}
-                className={`border-t border-slate-800 cursor-pointer
+                className={`border-t border-slate-800 cursor-pointer transition
                   ${
                     isSelected
                       ? "bg-teal-500/10"
                       : "hover:bg-slate-900"
                   }`}
               >
-                <td className="px-4 py-3 font-medium">{p.name}</td>
-                <td>{p.team}</td>
+                <td className="px-4 py-3 text-left font-medium text-gray-200 truncate">
+                  {p.name}
+                </td>
+
+                <td className="px-3 py-3 text-left text-gray-400">
+                  {p.team}
+                </td>
 
                 {role === "batters" && (
                   <>
-                    <td>{p.stats?.runs ?? "-"}</td>
-                    <td>{p.stats?.matches ?? "-"}</td>
-                    <td>{p.stats?.strikeRate?.toFixed(1) ?? "-"}</td>
+                    <td className="px-3 py-3 text-right tabular-nums">
+                      {p.stats?.runs ?? "-"}
+                    </td>
+                    <td className="px-3 py-3 text-right tabular-nums">
+                      {p.stats?.matches ?? "-"}
+                    </td>
+                    <td className="px-3 py-3 text-right tabular-nums">
+                      {p.stats?.strikeRate?.toFixed(1) ?? "-"}
+                    </td>
                   </>
                 )}
 
-                <td className="font-semibold">{p.stats?.finalScore ?? "-"}</td>
-                <td>{p.stats?.pressureScore ?? "-"}</td>
-                <td>{p.stats?.consistencyScore ?? "-"}</td>
-                <td>{p.stats?.oppositionQualityScore ?? "-"}</td>
+                <td className="px-3 py-3 text-right font-semibold tabular-nums">
+                  {p.stats?.finalScore ?? "-"}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {p.stats?.pressureScore ?? "-"}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {p.stats?.consistencyScore ?? "-"}
+                </td>
+                <td className="px-3 py-3 text-right tabular-nums">
+                  {p.stats?.oppositionQualityScore ?? "-"}
+                </td>
               </tr>
             );
           })}
