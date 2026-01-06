@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ExploreFilters from "@/components/ExploreFilters";
 import PlayersTable from "@/components/PlayersTable";
+import CompareSection from "@/components/compare/CompareSection";
 import { getAllCachedPlayers } from "@/api/footballApi";
 import type { Player } from "@/types/player";
-import { useNavigate } from "react-router-dom";
 
 type RoleTab = "batters" | "bowlers";
 
@@ -22,11 +22,8 @@ export default function Players() {
   const [minOpposition, setMinOpposition] = useState(0);
 
   const [selected, setSelected] = useState<Player[]>([]);
-  const navigate = useNavigate();
+  const compareRef = useRef<HTMLDivElement>(null);
 
-  // --------------------------------------------------
-  // FETCH PLAYERS (ONCE)
-  // --------------------------------------------------
   useEffect(() => {
     setLoading(true);
     getAllCachedPlayers()
@@ -34,29 +31,21 @@ export default function Players() {
       .finally(() => setLoading(false));
   }, []);
 
-  // --------------------------------------------------
-  // RESET SELECTION WHEN ROLE CHANGES
-  // --------------------------------------------------
+  // Reset selection when switching roles
   useEffect(() => {
     setSelected([]);
   }, [activeRole]);
 
-  // --------------------------------------------------
-  // AUTO-REDIRECT WHEN 2 PLAYERS SELECTED
-  // --------------------------------------------------
+  // Auto-scroll to comparison
   useEffect(() => {
-    if (selected.length === 2) {
-      navigate(
-        `/comparison?mode=${activeRole}&player1=${encodeURIComponent(
-          selected[0].name
-        )}&player2=${encodeURIComponent(selected[1].name)}`
-      );
+    if (selected.length === 2 && compareRef.current) {
+      compareRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
-  }, [selected, activeRole, navigate]);
+  }, [selected]);
 
-  // --------------------------------------------------
-  // FILTERED VIEW
-  // --------------------------------------------------
   const filteredPlayers = useMemo(() => {
     return players.filter((p) => {
       if (team !== "all" && p.team !== team) return false;
@@ -86,23 +75,21 @@ export default function Players() {
     minOpposition,
   ]);
 
-  // --------------------------------------------------
-  // UI
-  // --------------------------------------------------
   return (
     <div className="bg-black min-h-screen text-white">
+      {/* HEADER */}
       <div className="py-14 text-center border-b border-slate-800">
         <h1 className="text-4xl font-semibold">Player Database</h1>
         <p className="mt-2 text-gray-400">
-          Shortlist domestic players before comparison
+          Shortlist domestic players, then deep-dive into comparison
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-10">
+      <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+        {/* ROLE TABS */}
         <Tabs
           value={activeRole}
           onValueChange={(v) => setActiveRole(v as RoleTab)}
-          className="mb-6"
         >
           <TabsList>
             <TabsTrigger value="batters">Batters</TabsTrigger>
@@ -110,6 +97,7 @@ export default function Players() {
           </TabsList>
         </Tabs>
 
+        {/* FILTERS */}
         <ExploreFilters
           team={team}
           setTeam={setTeam}
@@ -126,6 +114,7 @@ export default function Players() {
           players={players}
         />
 
+        {/* TABLE */}
         <PlayersTable
           players={filteredPlayers}
           role={activeRole}
@@ -133,6 +122,41 @@ export default function Players() {
           selected={selected}
           setSelected={setSelected}
         />
+
+        {/* MANUAL CONTROL + COMPARE */}
+        {selected.length === 2 && (
+          <div
+            ref={compareRef}
+            className="pt-20 mt-20 border-t border-slate-800 space-y-6"
+          >
+            {/* MANUAL REPLACE CONTROLS */}
+            <div className="flex justify-between items-center text-sm text-gray-400">
+              <div>
+                Comparing:
+                <span className="ml-2 text-teal-400">
+                  {selected[0].name}
+                </span>
+                {" vs "}
+                <span className="text-teal-400">
+                  {selected[1].name}
+                </span>
+              </div>
+
+              <button
+                onClick={() => setSelected([])}
+                className="hover:text-red-400 transition"
+              >
+                Reset comparison
+              </button>
+            </div>
+
+            <CompareSection
+              player1={selected[0]}
+              player2={selected[1]}
+              mode={activeRole === "batters" ? "batting" : "bowling"}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
