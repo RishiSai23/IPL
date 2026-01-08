@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { supabase } from "../lib/SupabaseClient"; // Ensure this path is correct
+import { supabase } from "../lib/SupabaseClient";
 import type { Session } from "@supabase/supabase-js";
 import { useNavigate, Outlet } from "react-router-dom";
-import AuthenticatedLayout from "./AuthenticatedLayout";
 
 const ProtectedRoute: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -10,7 +9,7 @@ const ProtectedRoute: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Initial session check on mount
+    // Initial session check
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
@@ -19,15 +18,12 @@ const ProtectedRoute: React.FC = () => {
       }
     });
 
-    // Listen for real-time auth changes (e.g., successful login/logout)
+    // Listen for auth state changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session) {
-        // Future step: Role check logic will be added here
-        console.log("Session updated. User ID:", session.user.id);
-      } else {
+      if (!session) {
         navigate("/login", { replace: true });
       }
     });
@@ -36,25 +32,19 @@ const ProtectedRoute: React.FC = () => {
   }, [navigate]);
 
   if (loading) {
-    // Show a loading screen while checking the session cookie
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center text-xl text-yellow-500">
-        Authenticating...
+      <div className="min-h-screen bg-black flex items-center justify-center text-lg text-cyan-400">
+        Authenticating…
       </div>
     );
   }
 
-  if (session && session.user) {
-    // If logged in, wrap the nested route content (Outlet) in the Layout
-    return (
-      <AuthenticatedLayout user={session.user}>
-        <Outlet />{" "}
-        {/* Renders the specific page component (e.g., <Players />) */}
-      </AuthenticatedLayout>
-    );
+  if (!session) {
+    return null; // Redirect already triggered
   }
 
-  return null; // Should redirect immediately if no session
+  // ✅ IMPORTANT: no layout, no navbar, no wrapper
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

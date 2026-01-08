@@ -1,124 +1,133 @@
 import { motion } from "framer-motion";
-import gsap from "gsap";
-import { useEffect, useRef } from "react";
-import StatCard from "@/components/StatCard";
-import PlayerCard from "@/components/PlayerCard";
-import kohli from "@/assets/players/kohli.png";
-//import messi from "@/assets/players/lionel-messi.png";
-import rohit from "@/assets/players/rohit.png";
-import hardik from "@/assets/players/Hardik-pandya.png";
+import stadiumVideo from "@/assets/cricket-stadium-video.mp4";
 
 const Homepage = () => {
-  const heroRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".hero-title",
-        { y: 80, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2 }
-      );
-      gsap.fromTo(
-        ".hero-subtitle",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, delay: 0.4, duration: 1.2 }
-      );
-      gsap.fromTo(
-        ".hero-img",
-        { scale: 1.4, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.8 }
-      );
-    }, heroRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <div className="relative overflow-hidden min-h-screen bg-gradient-to-b from-black via-slate-950 to-black text-white">
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="relative h-[90vh] flex flex-col justify-center items-center text-center z-10 pt-16"
-      >
-        <motion.h1 className="hero-title text-6xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 drop-shadow-[0_0_20px_rgba(0,255,255,0.5)]">
-          PULSE
-        </motion.h1>
-        <motion.p className="hero-subtitle mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-          Enter the next era of cricket analytics — real-time performance,
-          predictive AI insights, and player holograms.
-        </motion.p>
-        <motion.img
-          //src={messi}
-          //alt="Lionel Messi"
-          //className="hero-img absolute bottom-0 left-9 w-[400px] md:w-[500px] object-cover object-left opacity-50 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
-        />
-        <motion.img
-          src={kohli}
-          alt="Virat Kohli"
-          className="hero-img absolute bottom-0 right-0 md:right-20 w-[400px] md:w-[600px] object-contain opacity-90 drop-shadow-[0_0_60px_rgba(0,255,255,0.4)]"
-        />
+    <div className="bg-black text-white">
+
+      {/* ================= HERO ================= */}
+      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto overflow-hidden">
+
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src={stadiumVideo} type="video/mp4" />
+        </video>
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20">
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="text-5xl md:text-6xl font-semibold tracking-tight"
+          >
+            PULSE
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.9 }}
+            className="mt-6 max-w-2xl text-xl text-gray-300 leading-relaxed"
+          >
+            A context-aware cricket scouting and decision-support platform
+            designed for domestic selectors and performance teams.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.45, duration: 0.9 }}
+            className="mt-8 text-sm text-gray-400 tracking-wide"
+          >
+            Syed Mushtaq Ali Trophy · Real match data · Explainable logic
+          </motion.div>
+        </div>
+
+        {/* Subtle scroll cue */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{
+            delay: 1.2,
+            duration: 1,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs text-gray-500 tracking-widest z-20"
+        >
+          SCROLL ↓
+        </motion.div>
       </section>
 
-      {/* Stats Section
-      <section className="relative z-20 px-6 md:px-20 py-16 backdrop-blur-sm bg-white/5 rounded-t-3xl shadow-inner">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-          Performance Highlights
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          <StatCard
-            title="Win Rate"
-            value="82%"
-            trend={{ value: 12, isPositive: true }}
-          />
-          <StatCard
-            title="Avg Run Rate"
-            value={9.2}
-            trend={{ value: 0.8, isPositive: true }}
-          />
-          <StatCard title="Top Player" value="Virat Kohli" trend="🔥" />
-          <StatCard title="Next Match" value="MI vs RCB" trend="Tomorrow" />
+      {/* ================= INTELLIGENCE PILLARS ================= */}
+      <section className="px-6 md:px-20 py-20 max-w-7xl mx-auto border-t border-gray-800">
+        <div className="mb-12 text-gray-400 tracking-wide text-sm">
+          CORE INTELLIGENCE
         </div>
-      </section> */}
 
-      {/* Players Section
-      <section className="px-6 md:px-20 py-24 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-          Star Players
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 justify-items-center">
-          <PlayerCard
-            player={{
-              name: "Virat Kohli",
-              team: "RCB",
-              position: "Batsman",
-              image: kohli,
-              id: "kohli",
-            }}
-          />
-          <PlayerCard
-            player={{
-              name: "Rohit Sharma",
-              team: "MI",
-              position: "Batsman",
-              image: rohit,
-              id: "sharma",
-            }}
-          />
-          <PlayerCard
-            player={{
-              name: "Hardik Pandya",
-              team: "MI",
-              position: "All-Rounder",
-              image: hardik,
-              id: "pandya",
-            }}
-          />
+        <div className="grid md:grid-cols-3 gap-14">
+          <div>
+            <h3 className="text-lg font-medium text-teal-400 tracking-wide">
+              Pressure-aware evaluation
+            </h3>
+            <p className="mt-3 text-gray-400 leading-relaxed">
+              Performances are scored based on match situation — not raw
+              aggregates. Knockouts, chases, collapses, and context matter.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-teal-400 tracking-wide">
+              Opposition-adjusted context
+            </h3>
+            <p className="mt-3 text-gray-400 leading-relaxed">
+              Runs and spells are weighted by opposition quality to avoid
+              stat-padding and surface true readiness.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-teal-400 tracking-wide">
+              Explainable selection logic
+            </h3>
+            <p className="mt-3 text-gray-400 leading-relaxed">
+              Every score can be broken down, justified, and defended — no
+              black-box intelligence.
+            </p>
+          </div>
         </div>
-      </section> }
+      </section>
 
-      {/* Footer */}
-        {/* <footer className="text-center text-gray-500 py-8 border-t border-gray-800">
-          © 2025 CricScout — Powered by AI Analytics
-        </footer> */}
+      {/* ================= DATA STRIP ================= */}
+      <section className="px-6 md:px-20 py-6 max-w-7xl mx-auto border-t border-gray-800 text-xs text-gray-500 tracking-wide">
+        Data source: Official domestic scorecards · Seasons: 2025–26 · Teams:
+        Tamil Nadu, Kerala
+      </section>
+
+      {/* ================= SYSTEM FLOW ================= */}
+      <section className="px-6 md:px-20 py-20 max-w-7xl mx-auto border-t border-gray-800">
+        <h2 className="text-lg font-medium mb-10 tracking-wide">
+          HOW THE SYSTEM WORKS
+        </h2>
+
+        <div className="space-y-4 text-gray-400 text-sm">
+          <div>Scorecard-level match data</div>
+          <div className="ml-4">↓ Context tagging</div>
+          <div className="ml-8">↓ Explainable scoring engine</div>
+          <div className="ml-12">↓ Selection-ready intelligence</div>
+        </div>
+      </section>
+
     </div>
   );
 };

@@ -1,81 +1,74 @@
 import React from "react";
 import type { User } from "@supabase/supabase-js";
 import { Link, useLocation } from "react-router-dom";
-// FIX: Using a common relative path (assuming LoginPage is one directory up from Navigation.tsx's directory)
 import { AuthenticatedDropdown } from "./LoginPage";
-import { LogIn } from "lucide-react"; // Icon for login button
-import PhysicalAnalysis from "@/pages/PhysicalAnalysis";
+import { LogIn } from "lucide-react";
+
 interface NavigationProps {
   user?: User;
 }
 
+/**
+ * Minimal, console-style navigation.
+ * Home ("/") intentionally has NO navbar.
+ */
 const navLinks = [
-  { to: "/", label: "Dashboard" },
   { to: "/players", label: "Players" },
-  //{ to: "/matches", label: "Matches" },
-  //{ to: "/pfAnalysis", label: "Player Analysis" },
-  //{ to: "/physicalanalysis", label: "Physical Analysis" },
-  { to: "/comparison", label: "Compare" },
-  // { to: "/analysis", label: "Pf Analysis" },
 ];
 
 const Navigation: React.FC<NavigationProps> = ({ user }) => {
   const location = useLocation();
 
-  const getLinkClasses = (path: string) => {
-    // Determine if the current path starts with the link's path for active state
-    const isActive =
-      location.pathname === path ||
-      (path !== "/" && location.pathname.startsWith(path));
+  // 🔒 CRITICAL RULE:
+  // Hide navbar completely on Home (editorial entry page)
+  if (location.pathname === "/") {
+    return null;
+  }
 
-    // Using green and emerald for the active state
-    return `text-sm font-large px-4 py-2 rounded-lg transition duration-200 
-            ${
-              isActive
-                ? "bg-emerald-600/20 text-emerald-400 border border-emerald-500/50"
-                : "text-gray-300 hover:text-emerald-300 hover:bg-gray-700/50"
-            }`;
-  };
+  const isActive = (path: string) =>
+    location.pathname === path ||
+    location.pathname.startsWith(path + "/");
 
   return (
-    // FIX 1: Set a high Z-index on the NAV element itself to ensure the whole bar is on top.
-    <nav className="sticky top-0 bg-black/80 backdrop-blur-lg shadow-md py-3 px-8 z-[100] border-b border-emerald-900/50">
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
-        {/* LEFT SECTION: Logo/App Name */}
+    <nav className="sticky top-0 z-[100] bg-black/80 backdrop-blur-lg border-b border-gray-800">
+      <div className="flex items-center justify-between max-w-7xl mx-auto px-8 py-3">
+        {/* LEFT — Wordmark (only global navigation affordance) */}
         <Link
           to="/"
-          className="text-2xl font-extrabold text-yellow-500 tracking-wider uppercase transition"
+          className="text-lg font-semibold tracking-wide text-gray-200 hover:text-white transition"
         >
           PULSE
         </Link>
 
-        {/* CENTER SECTION: Navigation Links (Pill-shaped, rounded container) */}
-        <div className="flex space-x-2 p-1 bg-gray-900/50 rounded-full shadow-inner shadow-black/30">
+        {/* CENTER — Minimal console navigation */}
+        <div className="flex items-center gap-1 bg-gray-900/60 rounded-full p-1">
           {navLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={getLinkClasses(link.to)}
+              className={`px-4 py-2 text-sm rounded-full transition
+                ${
+                  isActive(link.to)
+                    ? "bg-teal-500/15 text-teal-400"
+                    : "text-gray-400 hover:text-gray-200"
+                }`}
             >
               {link.label}
             </Link>
           ))}
         </div>
 
-        {/* RIGHT SECTION: User Authentication */}
-        {/* FIX 2: Added 'relative' to create a stacking context for the dropdown to render correctly. */}
-        <div className="flex items-center relative">
+        {/* RIGHT — Authentication */}
+        <div className="relative">
           {user ? (
-            // FIX 3: Renders the AuthenticatedDropdown
             <AuthenticatedDropdown user={user} />
           ) : (
-            // Standalone Login Button
             <Link
               to="/login"
-              className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-full transition duration-300 shadow-lg shadow-emerald-500/30"
+              className="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition"
             >
-              <LogIn className="w-5 h-5" />
-              <span>Login</span>
+              <LogIn className="w-4 h-4" />
+              Login
             </Link>
           )}
         </div>
