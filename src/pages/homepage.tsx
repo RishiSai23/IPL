@@ -1,38 +1,57 @@
 import { motion } from "framer-motion";
+import stadiumVideo from "@/assets/cricket-stadium-video.mp4";
 
 const Homepage = () => {
   return (
     <div className="bg-black text-white">
 
       {/* ================= HERO ================= */}
-      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto">
-        <motion.h1
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-          className="text-5xl md:text-6xl font-semibold tracking-tight"
-        >
-          PULSE
-        </motion.h1>
+      <section className="relative min-h-screen flex flex-col justify-center px-6 md:px-20 max-w-7xl mx-auto overflow-hidden">
 
-        <motion.p
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.9 }}
-          className="mt-6 max-w-2xl text-xl text-gray-300 leading-relaxed"
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          A context-aware cricket scouting and decision-support platform
-          designed for domestic selectors and performance teams.
-        </motion.p>
+          <source src={stadiumVideo} type="video/mp4" />
+        </video>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.45, duration: 0.9 }}
-          className="mt-8 text-sm text-gray-400 tracking-wide"
-        >
-          Syed Mushtaq Ali Trophy · Real match data · Explainable logic
-        </motion.div>
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black/60 z-10" />
+
+        {/* Content */}
+        <div className="relative z-20">
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            className="text-5xl md:text-6xl font-semibold tracking-tight"
+          >
+            PULSE
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.9 }}
+            className="mt-6 max-w-2xl text-xl text-gray-300 leading-relaxed"
+          >
+            A context-aware cricket scouting and decision-support platform
+            designed for domestic selectors and performance teams.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.45, duration: 0.9 }}
+            className="mt-8 text-sm text-gray-400 tracking-wide"
+          >
+            Syed Mushtaq Ali Trophy · Real match data · Explainable logic
+          </motion.div>
+        </div>
 
         {/* Subtle scroll cue */}
         <motion.div
@@ -44,7 +63,7 @@ const Homepage = () => {
             repeat: Infinity,
             repeatType: "reverse",
           }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs text-gray-500 tracking-widest"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-xs text-gray-500 tracking-widest z-20"
         >
           SCROLL ↓
         </motion.div>
